@@ -45,7 +45,21 @@ def fetch_all_news():
         answer = fetch_news(recipe_path, epub_path, username, password)
         if answer:
             epub_to_merge.append(epub_path)
-    print(epub_to_merge)
+    merged_epub_path = os.path.join(APP_FOLDER, 'news.epub')
+    merge_epub(epub_paths, merged_epub_path)
+
+
+def merge_epub(epub_paths, output_file):
+    cmd = [
+            'calibre-debug',
+            '--run-plugin',
+            'EpubMerge',
+            '--',
+            '--title=news',
+            f'--output={output_file}',
+            ]
+    cmd += epub_paths
+    subprocess.run(cmd)
 
 
 def get_paths(folder):
