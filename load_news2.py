@@ -37,20 +37,42 @@ signal.signal(signal.SIGUSR1, run_script)
 
 
 def fetch_all_news():
-    recipe_names = ['rts_info', 'reveil', 'comics' ]
-    recipe_paths, epub_paths = get_paths(recipe_names)
+    recipe_paths, epub_paths, usernames, passwords = get_paths(folder)
 
-    passwords = [None, None, None]
-    usernames = [None, 'imam.usmani@sfr.fr', None]
-
-    epub_names = [f'{i}.epub' for i in range(len(recipe_names))]
     for recipe_path, epub_path, username, password in zip(recipe_paths, epub_paths, usernames, passwords):
         fetch_news(recipe_path, epub_path)
 
-def get_paths(epub_names):
-    recipe_paths = [os.path.join(RECIPE_FOLDER, recipe_name) for recipe_name in recipe_names]
-    epub_paths = [os.path.join(EPUB_FOLDER, epub_name) for epub_name in epub_names]
-    return recipe_paths, epub_paths
+def get_paths(folder):
+    files = os.listdir(folder)
+
+    recipe_names = [filename for filename in files if filename.split('.')[-1]=='recipe']
+    names = [''.join(name.split('.')[:-1]) for name in recipe_names]
+
+    recipe_paths = [os.path.join(folder, recipe_name) for recipe_name in recipe_names]
+
+    epub_names = [f'{name}.epub' for name in names]
+    epub_paths = [os.path.join(folder, epub_name) for epub_name in epub_names]
+
+    passwords = list()
+    usernames = list()
+    for name in names:
+        filename = f'{name}.credentials'
+        if filename in files:
+            path = os.path.join(folder, filename)
+            with open(path, 'r') as myfile:
+                # text = myfile.read()
+            # lines = text.split('\n')
+                for line in myfile:
+                    key, value = line.split('=')
+                    if key == 'password':
+                        passwords.append(value)
+                    if key == 'username':
+                        usernames.append(value)
+        else:
+            passwords.append(None)
+            usernames.append(None)
+
+    return recipe_paths, epub_paths, usernames, passwords
 
 
 def fetch_news(recipe_path, epub_path, username=None, password=None):
@@ -63,7 +85,12 @@ def fetch_news(recipe_path, epub_path, username=None, password=None):
 
 
 if __name__ == '__main__':
-    fetch_all_news()
+    recipe_paths, epub_paths, usernames, passwords = get_paths(APP_FOLDER)
+    print(recipe_paths)
+    print(epub_paths)
+    print(usernames)
+    print(passwords)
+    # fetch_all_news()
     # while True:
         # continue
 
