@@ -9,10 +9,11 @@ import tempfile
 
 MIN_DELAY = 10 # minimum time between two requests to fetch news. used to avoid multiple udev event
 WAIT_TIME = 10
-RECIPE_FOLDER = os.path.join(os.environ['HOME'], '.config', 'calibre', 'custom_recipes')
-EPUB_FOLDER = os.path.join(os.environ['HOME'], '.config', 'calibre', 'to_transfer')
-if not os.path.exists(EPUB_FOLDER):
-    os.makedirs(EPUB_FOLDER)
+# RECIPE_FOLDER = os.path.join(os.environ['HOME'], '.config', 'calibre', 'custom_recipes')
+# EPUB_FOLDER = os.path.join(os.environ['HOME'], '.config', 'calibre', 'to_transfer')
+APP_FOLDER = os.path.join(os.environ['HOME'], '.config', 'calibre', 'news_loader')
+if not os.path.exists(APP_FOLDER):
+    os.makedirs(APP_FOLDER)
 
 global t1
 t1 = time.time()
