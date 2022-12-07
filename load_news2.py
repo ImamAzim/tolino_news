@@ -40,8 +40,13 @@ def fetch_all_news():
     folder = APP_FOLDER
     recipe_paths, epub_paths, usernames, passwords = get_paths(folder)
 
+    epub_to_merge = list()
     for recipe_path, epub_path, username, password in zip(recipe_paths, epub_paths, usernames, passwords):
-        answer = fetch_news(recipe_path, epub_path)
+        answer = fetch_news(recipe_path, epub_path, username, password)
+        if answer:
+            epub_to_merge.append(epub_path)
+    print(epub_to_merge)
+
 
 def get_paths(folder):
     files = os.listdir(folder)
