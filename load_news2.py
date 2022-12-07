@@ -37,10 +37,11 @@ signal.signal(signal.SIGUSR1, run_script)
 
 
 def fetch_all_news():
+    folder = APP_FOLDER
     recipe_paths, epub_paths, usernames, passwords = get_paths(folder)
 
     for recipe_path, epub_path, username, password in zip(recipe_paths, epub_paths, usernames, passwords):
-        fetch_news(recipe_path, epub_path)
+        answer = fetch_news(recipe_path, epub_path)
 
 def get_paths(folder):
     files = os.listdir(folder)
@@ -81,16 +82,17 @@ def fetch_news(recipe_path, epub_path, username=None, password=None):
         cmd += [f'--username={username}']
     if password is not None:
         cmd += [f'--password={password}']
-    subprocess.run(cmd)
+    try:
+        subprocess.run(cmd, check=True)
+        return True
+    except subprocess.CalledProcessError:
+        print(f'could not fetch news from {recipe_path} ')
+        return False
+
 
 
 if __name__ == '__main__':
-    recipe_paths, epub_paths, usernames, passwords = get_paths(APP_FOLDER)
-    print(recipe_paths)
-    print(epub_paths)
-    print(usernames)
-    print(passwords)
-    # fetch_all_news()
+    fetch_all_news()
     # while True:
         # continue
 
