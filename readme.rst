@@ -2,6 +2,10 @@ News Loader
 ============
 a daemon to install on a raspberry pi. Once you connect your ereader, it will automatically fetch news and transfer them to ereader
 
+Status
+======
+on developpement.
+
 Installlation
 ==============
 #. clone project
