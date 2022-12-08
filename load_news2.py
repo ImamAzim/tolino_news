@@ -9,8 +9,6 @@ import tempfile
 
 MIN_DELAY = 10 # minimum time between two requests to fetch news. used to avoid multiple udev event
 WAIT_TIME = 10
-# RECIPE_FOLDER = os.path.join(os.environ['HOME'], '.config', 'calibre', 'custom_recipes')
-# EPUB_FOLDER = os.path.join(os.environ['HOME'], '.config', 'calibre', 'to_transfer')
 APP_FOLDER = os.path.join(os.environ['HOME'], '.config', 'calibre', 'news_loader')
 if not os.path.exists(APP_FOLDER):
     os.makedirs(APP_FOLDER)
@@ -28,12 +26,10 @@ def run_script(signal, frame):
     if dt > MIN_DELAY:
         print('fetch news and copy to kobo')
         time.sleep(WAIT_TIME)
+        fetch_all_news()
         subprocess.call('/root/bin/load_news.sh')
     else:
         print('delay to short. do nothing')
-
-signal.signal(signal.SIGUSR1, run_script)
-
 
 
 def fetch_all_news():
@@ -109,16 +105,8 @@ def fetch_news(recipe_path, epub_path, username=None, password=None):
         return False
 
 
-
 if __name__ == '__main__':
+    signal.signal(signal.SIGUSR1, run_script)
     fetch_all_news()
     # while True:
         # continue
-
-
-
-
-# epub_folder=$(mktemp -d)/
-# epub_path=$epub_folder$epub_name
-# epub_path_2=$epub_folder$epub_name_2
-# subprocess.run(['ebook-convert', $recipe_path $epub_path --username=$user --password=$pwd --output-profile=kobo
