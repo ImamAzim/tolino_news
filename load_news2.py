@@ -27,7 +27,6 @@ def run_script(signal, frame):
         print('fetch news and copy to kobo')
         time.sleep(WAIT_TIME)
         fetch_all_news()
-        subprocess.call('/root/bin/load_news.sh')
     else:
         print('delay to short. do nothing')
 
@@ -41,8 +40,11 @@ def fetch_all_news():
         answer = fetch_news(recipe_path, epub_path, username, password)
         if answer:
             epub_to_merge.append(epub_path)
-    merged_epub_path = os.path.join(APP_FOLDER, 'news.epub')
-    merge_epub(epub_paths, merged_epub_path)
+    if epub_to_merge:
+        merged_epub_path = os.path.join(APP_FOLDER, 'news.epub')
+        merge_epub(epub_to_merge, merged_epub_path)
+    else:
+        print('fail to fetch for every news. I do not merge nor transfer')
 
 
 def merge_epub(epub_paths, output_file):
