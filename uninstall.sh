@@ -11,6 +11,7 @@ then
 	systemctl daemon-reload
 	rm /etc/udev/rules.d/50-automountusb.rules
 	udevadm control --reload
+	rm /usr/local/bin/load_news.py
 	echo " you can now remove the source files in `dirname $0`"
 	echo "you can remove calibre if you want"
 else
