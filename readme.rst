@@ -10,6 +10,7 @@ Installlation
 ==============
 #. clone project
 #. run install.sh
+#. uuid in mnt-ereader.mount
 #. set device id and manuf id in udev rules
 #. change password and username in reveil.recipe
 
