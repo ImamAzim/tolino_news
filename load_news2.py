@@ -56,10 +56,15 @@ def transfer_epub(epub_path):
             epub_path,
             ':'
             ]
+    subprocess.run(cmd)
 
 
 def eject_ereader():
-    pass
+    cmd = [
+            'ebook-device',
+            'eject',
+            ]
+    subprocess.run(cmd)
 
 
 def merge_epub(epub_paths, output_file):
