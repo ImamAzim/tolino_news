@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import shutil
 import subprocess
 import signal
 import time
@@ -56,7 +57,11 @@ def fetch_all_news():
 
 
 def transfer_epub(epub_path):
-    import shutil
+    cmd = [
+            'ebook-device',
+            'info',
+            ]
+    subprocess.run(cmd)
     src = epub_path
     dst = '/media/root/KOBOeReader/'
     shutil.copy(src, dst)
