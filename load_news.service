@@ -1,0 +1,11 @@
+[Unit]
+Description=load daily news on ereader
+After=mnt-ereader.mount
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/load_news.py
+RemainAfterExit=false
+
+[Install]
+WantedBy=multi-user.target

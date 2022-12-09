@@ -11,13 +11,13 @@ then
 	wget https://www.mobileread.com/forums/attachment.php?attachmentid=128768&d=1663081894
 	calibre-customize -a EpubMerge.zip
 
-	mkdir -p /mnt/ereader
-	cp "`dirname $0`/mnt-ereader.mount" /etc/systemd/system/
-	chmod 755 /etc/systemd/system/mnt-ereader.mount
-	systemctl daemon-reload
+	#mkdir -p /mnt/ereader
+	#cp "`dirname $0`/mnt-ereader.mount" /etc/systemd/system/
+	#chmod 755 /etc/systemd/system/mnt-ereader.mount
+	#systemctl daemon-reload
 
-	cp "`dirname $0`/50-automountusb.rules" /etc/udev/rules.d/
-	udevadm control --reload
+	#cp "`dirname $0`/50-automountusb.rules" /etc/udev/rules.d/
+	#udevadm control --reload
 
 	cp "`dirname $0`/load_news.service" /etc/systemd/system/
 	chmod 755 /etc/systemd/system/load_news.service
