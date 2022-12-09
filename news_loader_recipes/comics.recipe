@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+# vim:fileencoding=utf-8
+from calibre.web.feeds.news import BasicNewsRecipe
+
+class AdvancedUserRecipe1669989705(BasicNewsRecipe):
+    title          = 'comics'
+    oldest_article = 7
+    max_articles_per_feed = 1
+
+    feeds          = [
+        ('smbc', 'https://www.smbc-comics.com/comic/rss'),
+        ('xkcd', 'https://xkcd.com/rss.xml'),
+    ]
+    no_stylesheets = True
+    
+    keep_only_tags = [
+        dict(name='div', attrs={'id': 'cc-comicbody'}),
+        dict(name='div', attrs={'id': 'aftercomic'}),
+        dict(name='div', attrs={'id': 'comic'}),
+    ]
+    
+    remove_attributes = ['onclick', 'style']
