@@ -8,7 +8,7 @@ then
 	cp -r "`dirname $0`/news_loader_recipes" $HOME/.config/calibre/
 	cp "`dirname $0`/load_news.py" /usr/local/bin
 	chmod +x /usr/local/bin/load_news.py
-	wget https://www.mobileread.com/forums/attachment.php?attachmentid=128768&d=1663081894 -O EpubMerge.zip
+	wget --output-file=EpubMerge.zip https://www.mobileread.com/forums/attachment.php?attachmentid=128768&d=1663081894
 	calibre-customize -a EpubMerge.zip
 	rm EpubMerge.zip
 
