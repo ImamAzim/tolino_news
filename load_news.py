@@ -82,12 +82,11 @@ def merge_epub(epub_paths, output_file):
             'EpubMerge',
             '--',
             '--title=news',
-            f'--output={output_file}.temp',
             ]
     cmd += epub_paths
     subprocess.run(cmd)
 
-    src = f'{output_file}.temp'
+    src = 'merge.epub'
     dst = f'{output_file}'
     import shutil
     shutil.copy(src, dst)
