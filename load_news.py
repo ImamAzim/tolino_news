@@ -41,11 +41,10 @@ def fetch_all_news():
         if answer:
             epub_to_merge.append(epub_path)
     if epub_to_merge:
-        merged_epub_path = os.path.join(APP_FOLDER, 'news.epub')
+        merged_epub_path = os.path.join(APP_FOLDER, 'daily_news.epub')
         print('merge epub...')
         merge_epub(epub_to_merge, merged_epub_path)
-        print('epub merged. wait 10s to be sure it is done')
-        time.sleep(10)
+        print('epub merged.')
         print('transfer epub...')
         transfer_epub(merged_epub_path)
         print('transfer done')
@@ -62,7 +61,7 @@ def transfer_epub(epub_path):
             'cp',
             '-f',
             epub_path,
-            'dev:/',
+            'dev:/News/',
             ]
     subprocess.run(cmd)
 
@@ -81,15 +80,11 @@ def merge_epub(epub_paths, output_file):
             '--run-plugin',
             'EpubMerge',
             '--',
-            '--title=news',
+            '--title=daily_news',
+            f'--output={output_file}',
             ]
     cmd += epub_paths
     subprocess.run(cmd)
-
-    src = 'merge.epub'
-    dst = f'{output_file}'
-    import shutil
-    shutil.copy(src, dst)
 
 
 def get_paths(folder):
