@@ -10,7 +10,7 @@ import tempfile
 
 MIN_DELAY = 10 # minimum time between two requests to fetch news. used to avoid multiple udev event
 WAIT_TIME = 10
-APP_FOLDER = os.path.join(os.environ['HOME'], '.config', 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
+APP_FOLDER = os.path.join('/root', '.config', 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
 if not os.path.exists(APP_FOLDER):
     os.makedirs(APP_FOLDER)
 
