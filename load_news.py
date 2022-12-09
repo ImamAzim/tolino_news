@@ -42,9 +42,16 @@ def fetch_all_news():
             epub_to_merge.append(epub_path)
     if epub_to_merge:
         merged_epub_path = os.path.join(APP_FOLDER, 'news.epub')
+        print('merge epub...')
         merge_epub(epub_to_merge, merged_epub_path)
+        print('epub merged. wait 10s to be sure it is done')
+        time.sleep(10)
+        print('transfer epub...')
         transfer_epub(merged_epub_path)
+        print('transfer done')
+        print('eject ereader')
         eject_ereader()
+        print('done!')
     else:
         print('fail to fetch for every news. I do not merge nor transfer')
 
