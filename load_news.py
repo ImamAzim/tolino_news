@@ -61,7 +61,7 @@ def transfer_epub(epub_path):
             'cp',
             '-f',
             epub_path,
-            'dev:/News/',
+            'dev:/',
             ]
     subprocess.run(cmd)
 
