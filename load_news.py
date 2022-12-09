@@ -85,11 +85,12 @@ def merge_epub(epub_paths, output_file):
             f'--output={output_file}.temp',
             ]
     cmd += epub_paths
+    subprocess.run(cmd)
+
     src = f'{output_file}.temp'
     dst = f'{output_file}'
     import shutil
     shutil.copy(src, dst)
-    subprocess.run(cmd)
 
 
 def get_paths(folder):
