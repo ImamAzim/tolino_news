@@ -56,14 +56,18 @@ def fetch_all_news():
 
 
 def transfer_epub(epub_path):
-    cmd = [
-            'ebook-device',
-            'cp',
-            '-f',
-            epub_path,
-            'dev:/',
-            ]
-    subprocess.run(cmd)
+    import shutil
+    src = epub_path
+    dst = '/media/root/KOBOeReader/'
+    shutil.copy(src, dst)
+    # cmd = [
+            # 'ebook-device',
+            # 'cp',
+            # '-f',
+            # epub_path,
+            # 'dev:/',
+            # ]
+    # subprocess.run(cmd)
 
 
 def eject_ereader():
