@@ -5,6 +5,7 @@ After=mnt-ereader.mount
 [Service]
 Type=oneshot
 ExecStart=/usr/local/bin/load_news.py
+ExecStartPre=systemctl start mnt-ereader.mount
 RemainAfterExit=true
 
 [Install]
