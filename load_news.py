@@ -6,6 +6,7 @@ import signal
 import time
 import os
 import tempfile
+import json
 
 
 MIN_DELAY = 10 # minimum time between two requests to fetch news. used to avoid multiple udev event
@@ -13,6 +14,7 @@ WAIT_TIME = 10
 APP_FOLDER = os.path.join('/root', '.config', 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
 if not os.path.exists(APP_FOLDER):
     os.makedirs(APP_FOLDER)
+EREADER_NAME_FILENAME = 'ereader_name.json'
 
 global t1
 t1 = time.time()
@@ -63,16 +65,11 @@ def transfer_epub(epub_path):
             ]
     subprocess.run(cmd)
     src = epub_path
-    dst = '/media/root/KOBOeReader/'
+    path = os.path.join(APP_FOLDER, EREADER_NAME_FILENAME)
+    with open(path, 'r') as myfile:
+        ereader_name = json.load(myfile)
+    dst = os.path.join('/media', 'root', ereader_name)
     shutil.copy(src, dst)
-    # cmd = [
-            # 'ebook-device',
-            # 'cp',
-            # '-f',
-            # epub_path,
-            # 'dev:/',
-            # ]
-    # subprocess.run(cmd)
 
 
 def eject_ereader():
