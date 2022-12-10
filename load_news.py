@@ -69,6 +69,7 @@ def transfer_epub(epub_path):
     with open(path, 'r') as myfile:
         ereader_name = json.load(myfile)
     dst = os.path.join('/media', 'root', ereader_name)
+    print(src, dst)
     shutil.copy(src, dst)
 
 
