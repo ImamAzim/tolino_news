@@ -51,8 +51,6 @@ def fetch_all_news():
         print('transfer epub...')
         transfer_epub(merged_epub_path)
         print('transfer done')
-        print('eject ereader')
-        eject_ereader()
         print('done!')
     else:
         print('fail to fetch for every news. I do not merge nor transfer')
