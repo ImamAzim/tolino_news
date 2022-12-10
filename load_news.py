@@ -14,7 +14,7 @@ WAIT_TIME = 10
 APP_FOLDER = os.path.join('/root', '.config', 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
 if not os.path.exists(APP_FOLDER):
     os.makedirs(APP_FOLDER)
-EREADER_NAME_FILENAME = 'ereader_name.json'
+EREADER_MOUNT_POINT = '/mnt/ereader'
 
 global t1
 t1 = time.time()
@@ -59,17 +59,8 @@ def fetch_all_news():
 
 
 def transfer_epub(epub_path):
-    cmd = [
-            'ebook-device',
-            'info',
-            ]
-    subprocess.run(cmd)
     src = epub_path
-    path = os.path.join(APP_FOLDER, EREADER_NAME_FILENAME)
-    with open(path, 'r') as myfile:
-        ereader_name = json.load(myfile)
-    dst = os.path.join('/media', 'root', ereader_name)
-    print(src, dst)
+    dst = EREADER_MOUNT_POINT
     shutil.copy(src, dst)
 
 
