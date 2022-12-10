@@ -12,6 +12,7 @@ Installlation
 #. run install.sh
 #. change ereader name
 #. set device id and manuf id in udev rules
+#.  udevadm control --reload
 #. change password and username in reveil.recipe
 
 customization
