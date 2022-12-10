@@ -19,6 +19,7 @@ then
 	systemctl daemon-reload
 
 	cp "`dirname $0`/50-load_news.rules" /etc/udev/rules.d/
+	cp "`dirname $0`/49-load_news.rules" /etc/udev/rules.d/
 	udevadm control --reload
 
 	cp "`dirname $0`/load_news.service" /etc/systemd/system/
