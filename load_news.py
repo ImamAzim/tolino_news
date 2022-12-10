@@ -57,6 +57,12 @@ def fetch_all_news():
 
 
 def transfer_epub(epub_path):
+    cmd = [
+            'systemctl',
+            'start',
+            'mnt-ereader.mount'
+            ]
+    subprocess.run(cmd)
     src = epub_path
     dst = EREADER_MOUNT_POINT
     shutil.copy(src, dst)
