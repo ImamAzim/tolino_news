@@ -13,6 +13,8 @@ Installlation
 #. change ereader name
 #. set device id and manuf id in udev rules
 #.  udevadm control --reload
+#. uid (blkid) in mnt-ereader.mount
+#. systemctl daemon-reload
 #. change password and username in reveil.recipe
 
 customization
