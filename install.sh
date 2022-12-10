@@ -18,8 +18,8 @@ then
 	#chmod 755 /etc/systemd/system/mnt-ereader.mount
 	#systemctl daemon-reload
 
-	#cp "`dirname $0`/50-automountusb.rules" /etc/udev/rules.d/
-	#udevadm control --reload
+	cp "`dirname $0`/50-load_news.rules" /etc/udev/rules.d/
+	udevadm control --reload
 
 	cp "`dirname $0`/load_news.service" /etc/systemd/system/
 	chmod 755 /etc/systemd/system/load_news.service
