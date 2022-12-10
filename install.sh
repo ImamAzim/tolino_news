@@ -13,10 +13,10 @@ then
 	calibre-customize -a EpubMerge.zip
 	rm EpubMerge.zip
 
-	#mkdir -p /mnt/ereader
-	#cp "`dirname $0`/mnt-ereader.mount" /etc/systemd/system/
-	#chmod 755 /etc/systemd/system/mnt-ereader.mount
-	#systemctl daemon-reload
+	mkdir -p /mnt/ereader
+	cp "`dirname $0`/mnt-ereader.mount" /etc/systemd/system/
+	chmod 755 /etc/systemd/system/mnt-ereader.mount
+	systemctl daemon-reload
 
 	cp "`dirname $0`/50-load_news.rules" /etc/udev/rules.d/
 	udevadm control --reload
