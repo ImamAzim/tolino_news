@@ -17,13 +17,12 @@ then
 	cp "`dirname $0`/send_signal.sh" /usr/local/bin
 	chmod +x /usr/local/bin/send_signal.sh
 
+	cp "`dirname $0`/50-load_news.rules" /etc/udev/rules.d/
+	udevadm control --reload
+
 	mkdir -p /mnt/ereader
 	cp "`dirname $0`/mnt-ereader.mount" /etc/systemd/system/
 	chmod 755 /etc/systemd/system/mnt-ereader.mount
-	systemctl daemon-reload
-
-	cp "`dirname $0`/50-load_news.rules" /etc/udev/rules.d/
-	udevadm control --reload
 
 	cp "`dirname $0`/load_news.service" /etc/systemd/system/
 	chmod 755 /etc/systemd/system/load_news.service

@@ -10,12 +10,12 @@ Installlation
 ==============
 #. clone project
 #. run install.sh
-#. change ereader name
-#. set device id and manuf id in udev rules
+#. set device id and manuf id in udev rules (udevadm info -d /dev/sda)
 #.  udevadm control --reload
 #. uid (blkid) in mnt-ereader.mount
 #. systemctl daemon-reload
 #. change password and username in reveil.recipe
+#. reboot
 
 customization
 ==============
