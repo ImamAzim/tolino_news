@@ -28,7 +28,6 @@ def run_script(signal, frame):
 
     if dt > MIN_DELAY:
         print('fetch news and copy to kobo')
-        time.sleep(WAIT_TIME)
         fetch_all_news()
     else:
         print('delay to short. do nothing')
@@ -48,6 +47,7 @@ def fetch_all_news():
         print('merge epub...')
         merge_epub(epub_to_merge, merged_epub_path)
         print('epub merged.')
+        mount_ereader()
         print('transfer epub...')
         transfer_epub(merged_epub_path)
         print('transfer done')
@@ -61,11 +61,21 @@ def transfer_epub(epub_path):
     dst = EREADER_MOUNT_POINT
     shutil.copy(src, dst)
 
+def mount_ereader():
+    print('mount ereader...')
+    cmd = [
+            'systemctl',
+            'start',
+            'mnt-ereader',
+            ]
+    subprocess.run(cmd)
 
 def eject_ereader():
+    print('unmount ereader...')
     cmd = [
-            'ebook-device',
-            'eject',
+            'systemctl',
+            'stop',
+            'mnt-ereader',
             ]
     subprocess.run(cmd)
 
