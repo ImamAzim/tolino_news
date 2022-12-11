@@ -5,6 +5,8 @@ Description=mount ereader
 What=/dev/disk/by-uuid/xxx
 Where=/mnt/ereader
 Options=defaults
+Type=vfat
+TimeoutSec=10
 
 [Install]
 WantedBy=multi-user.target
