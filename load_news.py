@@ -27,8 +27,9 @@ def run_script(signal, frame):
     t1 = time.time()
 
     if dt > MIN_DELAY:
-        print('fetch news and copy to kobo')
-        fetch_all_news()
+        # print('fetch news and copy to kobo')
+        # fetch_all_news()
+        mount_ereader()
     else:
         print('delay to short. do nothing')
 
@@ -142,6 +143,6 @@ def fetch_news(recipe_path, epub_path, username=None, password=None):
 
 if __name__ == '__main__':
     signal.signal(signal.SIGUSR1, run_script)
-    fetch_all_news()
-    # while True:
-        # continue
+    # fetch_all_news()
+    while True:
+        continue
