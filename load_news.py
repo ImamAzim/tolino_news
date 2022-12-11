@@ -67,7 +67,7 @@ def mount_ereader():
     cmd = [
             'systemctl',
             'start',
-            'mnt-ereader',
+            'mnt-ereader.mount',
             ]
     subprocess.run(cmd)
 
@@ -76,7 +76,7 @@ def eject_ereader():
     cmd = [
             'systemctl',
             'stop',
-            'mnt-ereader',
+            'mnt-ereader.mount',
             ]
     subprocess.run(cmd)
 
