@@ -27,9 +27,8 @@ def run_script(signal, frame):
     t1 = time.time()
 
     if dt > MIN_DELAY:
-        # print('fetch news and copy to kobo')
-        # fetch_all_news()
-        mount_ereader()
+        print('fetch news and copy to kobo')
+        fetch_all_news()
     else:
         print('delay to short. do nothing')
 
@@ -52,6 +51,7 @@ def fetch_all_news():
         print('transfer epub...')
         transfer_epub(merged_epub_path)
         print('transfer done')
+        eject_ereader()
         print('done!')
     else:
         print('fail to fetch for every news. I do not merge nor transfer')
