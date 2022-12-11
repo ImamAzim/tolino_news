@@ -25,6 +25,7 @@ then
 	cp "`dirname $0`/load_news.service" /etc/systemd/system/
 	chmod 755 /etc/systemd/system/load_news.service
 	systemctl daemon-reload
+	systemctl enable load_news.service
 
 else
 	echo "please run this script as root. create one if necessary with the command:
