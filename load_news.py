@@ -7,6 +7,17 @@ import time
 import os
 import tempfile
 import json
+import logging
+import sys
+
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+formatter = logging.Formatter(fmt="%(asctime)s %(name)s.%(levelname)s: %(message)s", datefmt="%Y.%m.%d %H:%M:%S")
+handler = logging.StreamHandler(stream=sys.stdout)
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
 
 
 MIN_DELAY = 10 # minimum time between two requests to fetch news. used to avoid multiple udev event
@@ -143,6 +154,6 @@ def fetch_news(recipe_path, epub_path, username=None, password=None):
 
 if __name__ == '__main__':
     signal.signal(signal.SIGUSR1, run_script)
-    # fetch_all_news()
+    logger.info('test')
     while True:
         continue
