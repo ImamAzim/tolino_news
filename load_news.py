@@ -154,6 +154,6 @@ def fetch_news(recipe_path, epub_path, username=None, password=None):
 
 if __name__ == '__main__':
     signal.signal(signal.SIGUSR1, run_script)
-    logger.info('test')
+    logger.info('start wait loop')
     while True:
         continue
