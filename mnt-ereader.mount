@@ -1,5 +1,6 @@
 [Unit]
 Description=mount ereader
+ExecStopPost=eject /dev/disk/by-uuid/xxx
 
 [Mount]
 What=/dev/disk/by-uuid/xxx
