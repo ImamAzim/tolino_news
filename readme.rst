@@ -12,8 +12,7 @@ Installlation
 #. run install.sh
 #. set device id and manuf id in udev rules (udevadm info -d /dev/sda)
 #.  udevadm control --reload
-#. uid (blkid) in mnt-ereader.mount
-#. systemctl daemon-reload
+#. uid (blkid) in disk-uuid.json
 #. change password and username in reveil.recipe
 #. reboot
 

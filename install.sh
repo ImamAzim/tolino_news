@@ -21,8 +21,6 @@ then
 	udevadm control --reload
 
 	mkdir -p /mnt/ereader
-	cp "`dirname $0`/mnt-ereader.mount" /etc/systemd/system/
-	chmod 755 /etc/systemd/system/mnt-ereader.mount
 
 	cp "`dirname $0`/load_news.service" /etc/systemd/system/
 	chmod 755 /etc/systemd/system/load_news.service
