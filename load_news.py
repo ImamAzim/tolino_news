@@ -23,6 +23,7 @@ logger.addHandler(handler)
 MIN_DELAY = 10 # minimum time between two requests to fetch news. used to avoid multiple udev event
 WAIT_TIME = 10
 APP_FOLDER = os.path.join('/root', '.config', 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
+DISK_UUID_FILENAME = 'disk-uuid.json'
 if not os.path.exists(APP_FOLDER):
     os.makedirs(APP_FOLDER)
 EREADER_MOUNT_POINT = '/mnt/ereader'
@@ -75,19 +76,33 @@ def transfer_epub(epub_path):
 
 def mount_ereader():
     logger.info('mount ereader...')
+    # cmd = [
+            # 'systemctl',
+            # 'start',
+            # 'mnt-ereader.mount',
+            # ]
+    path = os.path.join(APP_FOLDER, DISK_UUID_FILENAME)
+    with open(path, 'r') as myfile:
+        disk_uuid = json.load(myfile)
+    device_path = os.path.join('/dev', 'disk', 'by-uuid', disk_uuid)
     cmd = [
-            'systemctl',
-            'start',
-            'mnt-ereader.mount',
+            'mount',
+            device_path,
+            EREADER_MOUNT_POINT,
             ]
+
     subprocess.run(cmd)
 
 def eject_ereader():
     logger.info('unmount ereader...')
+    # cmd = [
+            # 'systemctl',
+            # 'stop',
+            # 'mnt-ereader.mount',
+            # ]
     cmd = [
-            'systemctl',
-            'stop',
-            'mnt-ereader.mount',
+            'eject',
+            EREADER_MOUNT_POINT,
             ]
     subprocess.run(cmd)
 
