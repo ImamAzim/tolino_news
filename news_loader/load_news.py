@@ -3,8 +3,6 @@
 import shutil
 import subprocess
 import os
-import tempfile
-import json
 import logging
 import sys
 
@@ -25,10 +23,8 @@ if not os.path.exists(APP_FOLDER):
     os.makedirs(APP_FOLDER)
 
 def fetch_daily_news():
+
     logger.info('start to fetch daily news...')
-
-
-def fetch_all_news():
     folder = APP_FOLDER
     recipe_paths, epub_paths, usernames, passwords = get_paths(folder)
 
