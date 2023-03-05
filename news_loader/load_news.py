@@ -8,6 +8,7 @@ import sys
 import json
 
 
+import requests
 import xdg
 
 
@@ -54,6 +55,9 @@ def transfer_epub(epub_path):
     src = epub_path
     dst = link
     print(webdav)
+    files = {'file': open(epub_path, 'rb')}
+    r = requests.post(link, files=files, auth=(username, password))
+    print(r.status_code)
     # shutil.copy(src, dst)
 
 
