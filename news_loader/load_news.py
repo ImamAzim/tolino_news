@@ -10,6 +10,7 @@ import json
 
 import requests
 import xdg
+import owncloud
 
 
 logger = logging.getLogger('load news')
@@ -52,13 +53,9 @@ def transfer_epub(epub_path):
     username = webdav['username']
     link = webdav['link']
     password = webdav['password']
-    src = epub_path
-    dst = link
-    print(webdav)
-    files = {'file': open(epub_path, 'rb')}
-    r = requests.post(link, files=files, auth=(username, password))
-    print(r.status_code)
-    # shutil.copy(src, dst)
+
+    oc = owncloud.Client.from_public_link(link)
+    oc.drop_file(epub_path)
 
 
 def merge_epub(epub_paths, output_file):
@@ -122,6 +119,5 @@ def fetch_news(recipe_path, epub_path, username=None, password=None):
 
 
 if __name__ == '__main__':
-    path = os.path.join(os.environ['HOME'], 'test')
-    transfer_epub(path)
+    pass
 
