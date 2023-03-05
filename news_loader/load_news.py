@@ -31,6 +31,9 @@ EREADER_MOUNT_POINT = '/mnt/ereader'
 global t1
 t1 = time.time()
 
+def fetch_daily_news():
+    print('TODO: all')
+
 def run_script(signal, frame):
     global t1
     logger.info('received usr1 signal')
