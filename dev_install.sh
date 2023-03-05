@@ -16,6 +16,8 @@ then
 	source /usr/local/bin/news_loader/bin/activate
 	pip install $path
 
+	cp  "$path/cron_daily_news" /etc/cron.d/
+
 else
 	echo "please run this script as root. create one if necessary with the command:
 	sudo passwd root"
