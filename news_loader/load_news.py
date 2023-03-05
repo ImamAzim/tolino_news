@@ -5,6 +5,7 @@ import subprocess
 import os
 import logging
 import sys
+import json
 
 
 import xdg
@@ -21,6 +22,8 @@ logger.addHandler(handler)
 APP_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
 if not os.path.exists(APP_FOLDER):
     os.makedirs(APP_FOLDER)
+WEBDAV_FILE_PATH = os.path.join(APP_FOLDER, 'webdav.json')
+
 
 def fetch_daily_news():
 
@@ -43,9 +46,15 @@ def fetch_daily_news():
 
 
 def transfer_epub(epub_path):
+    with open(WEBDAV_FILE_PATH, 'r') as myfile:
+        webdav = json.load(myfile)
+    username = webdav['username']
+    link = webdav['link']
+    password = webdav['password']
     src = epub_path
-    dst = EREADER_MOUNT_POINT
-    shutil.copy(src, dst)
+    dst = link
+    print(webdav)
+    # shutil.copy(src, dst)
 
 
 def merge_epub(epub_paths, output_file):
@@ -109,4 +118,6 @@ def fetch_news(recipe_path, epub_path, username=None, password=None):
 
 
 if __name__ == '__main__':
-    pass
+    path = os.path.join(os.environ['HOME'], 'test')
+    transfer_epub(path)
+

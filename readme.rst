@@ -11,6 +11,8 @@ Installlation
 #. clone project
 #. run install.sh
 #. change password and username in reveil.recipe
+#. create webdav shared folder
+#. put webdavlink and credential in $HOME/.config/calibre/news_loader/webdav.json
 #. reboot
 
 customization
