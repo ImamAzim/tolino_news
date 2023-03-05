@@ -43,6 +43,10 @@ def fetch_daily_news():
         logger.info('merge epub...')
         merge_epub(epub_to_merge, merged_epub_path)
         logger.info('epub merged.')
+        logger.info('upload epub to webdav')
+        transfer_epub(merged_epub_path)
+        logger.info('file dropped')
+        logger.info('all done')
     else:
         logger.info('fail to fetch for every news. I do not merge nor transfer')
 
