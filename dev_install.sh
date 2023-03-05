@@ -11,7 +11,7 @@ then
 	calibre-customize -a EpubMerge.zip
 	rm EpubMerge.zip
 
-	apt install -y python3-dev 
+	apt install -y python3-venv
 	python3 -m venv /usr/local/bin/news_loader
 	source /usr/local/bin/news_loader/bin/activate
 	pip install $path
