@@ -9,6 +9,9 @@ import logging
 import sys
 
 
+import xdg
+
+
 logger = logging.getLogger('load news')
 logger.setLevel(logging.INFO)
 formatter = logging.Formatter(fmt="%(asctime)s %(name)s.%(levelname)s: %(message)s", datefmt="%Y.%m.%d %H:%M:%S")
@@ -17,13 +20,12 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 
-APP_FOLDER = os.path.join('/root', '.config', 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
+APP_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
 if not os.path.exists(APP_FOLDER):
     os.makedirs(APP_FOLDER)
 
 def fetch_daily_news():
-    print('TODO: all')
-    logger.info('test logger')
+    logger.info('start to fetch daily news...')
 
 
 def fetch_all_news():
