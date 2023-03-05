@@ -2,8 +2,6 @@
 
 import shutil
 import subprocess
-import signal
-import time
 import os
 import tempfile
 import json
@@ -19,33 +17,13 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 
-
-MIN_DELAY = 10 # minimum time between two requests to fetch news. used to avoid multiple udev event
-WAIT_TIME = 10
 APP_FOLDER = os.path.join('/root', '.config', 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
-DISK_UUID_FILENAME = 'disk-uuid.json'
 if not os.path.exists(APP_FOLDER):
     os.makedirs(APP_FOLDER)
-EREADER_MOUNT_POINT = '/mnt/ereader'
-
-global t1
-t1 = time.time()
 
 def fetch_daily_news():
     print('TODO: all')
-
-def run_script(signal, frame):
-    global t1
-    logger.info('received usr1 signal')
-    t2 = time.time()
-    dt = t2 - t1
-    t1 = time.time()
-
-    if dt > MIN_DELAY:
-        logger.info('fetch news and copy to kobo')
-        fetch_all_news()
-    else:
-        logger.info('delay to short. do nothing')
+    logger.info('test logger')
 
 
 def fetch_all_news():
@@ -62,12 +40,6 @@ def fetch_all_news():
         logger.info('merge epub...')
         merge_epub(epub_to_merge, merged_epub_path)
         logger.info('epub merged.')
-        mount_ereader()
-        logger.info('transfer epub...')
-        transfer_epub(merged_epub_path)
-        logger.info('transfer done')
-        eject_ereader()
-        logger.info('done!')
     else:
         logger.info('fail to fetch for every news. I do not merge nor transfer')
 
@@ -76,38 +48,6 @@ def transfer_epub(epub_path):
     src = epub_path
     dst = EREADER_MOUNT_POINT
     shutil.copy(src, dst)
-
-def mount_ereader():
-    logger.info('mount ereader...')
-    # cmd = [
-            # 'systemctl',
-            # 'start',
-            # 'mnt-ereader.mount',
-            # ]
-    path = os.path.join(APP_FOLDER, DISK_UUID_FILENAME)
-    with open(path, 'r') as myfile:
-        disk_uuid = json.load(myfile)
-    device_path = os.path.join('/dev', 'disk', 'by-uuid', disk_uuid)
-    cmd = [
-            'mount',
-            device_path,
-            EREADER_MOUNT_POINT,
-            ]
-
-    subprocess.run(cmd)
-
-def eject_ereader():
-    logger.info('unmount ereader...')
-    # cmd = [
-            # 'systemctl',
-            # 'stop',
-            # 'mnt-ereader.mount',
-            # ]
-    cmd = [
-            'eject',
-            EREADER_MOUNT_POINT,
-            ]
-    subprocess.run(cmd)
 
 
 def merge_epub(epub_paths, output_file):
@@ -171,7 +111,4 @@ def fetch_news(recipe_path, epub_path, username=None, password=None):
 
 
 if __name__ == '__main__':
-    signal.signal(signal.SIGUSR1, run_script)
-    logger.info('start wait loop')
-    while True:
-        continue
+    pass
