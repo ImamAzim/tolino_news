@@ -51,7 +51,9 @@ def fetch_daily_news():
         logger.info('file dropped')
     else:
         logger.info('fail to fetch for every news. I do not merge nor transfer')
+    logger.info('create comics')
     create_comics()
+    logger.info('transfer comics')
     transfer_epub(DAILY_COMIC_PATH)
 
     logger.info('all done')
