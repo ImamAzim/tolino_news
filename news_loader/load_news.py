@@ -49,10 +49,12 @@ def fetch_daily_news():
         logger.info('upload epub to webdav')
         transfer_epub(MERGED_EPUB_PATH)
         logger.info('file dropped')
-        logger.info('all done')
     else:
         logger.info('fail to fetch for every news. I do not merge nor transfer')
+    create_comics()
+    transfer_epub(DAILY_COMIC_PATH)
 
+    logger.info('all done')
 
 def transfer_epub(epub_path):
     with open(WEBDAV_FILE_PATH, 'r') as myfile:
@@ -156,5 +158,5 @@ def create_comics():
 
 
 if __name__ == '__main__':
-    create_comics()
+    pass
 
