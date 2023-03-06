@@ -6,6 +6,7 @@ import os
 import logging
 import sys
 import json
+from html.parser import HTMLParser
 
 
 import requests
@@ -122,12 +123,19 @@ def fetch_news(recipe_path, epub_path, username=None, password=None):
         logger.info(f'could not fetch news from {recipe_path} ')
         return False
 
+class SMBCParser(HTMLParser):
+    def handle_starttag(self, tag, attrs):
+        if tag == 'img':
+            self.image_link=dict(attrs).get('src')
 
 def create_comics():
     smbc_link = 'https://www.smbc-comics.com/comic/rss'
     feed = feedparser.parse(smbc_link)
     comic_summary = feed.entries[0].summary
-    print(comic_summary)
+    smbc_parser = SMBCParser()
+    smbc_parser.feed(comic_summary)
+    image_link = smbc_parser.image_link
+    print(image_link)
 
 
 if __name__ == '__main__':
