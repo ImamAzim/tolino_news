@@ -11,6 +11,7 @@ import json
 import requests
 import xdg
 import owncloud
+import feedparser
 
 
 logger = logging.getLogger('load news')
@@ -122,6 +123,13 @@ def fetch_news(recipe_path, epub_path, username=None, password=None):
         return False
 
 
+def create_comics():
+    smbc_link = 'https://www.smbc-comics.com/comic/rss'
+    feed = feedparser.parse(smbc_link)
+    comic_summary = feed.entries[0].summary
+    print(comic_summary)
+
+
 if __name__ == '__main__':
-    pass
+    create_comics()
 
