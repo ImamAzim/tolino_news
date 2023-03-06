@@ -123,20 +123,31 @@ def fetch_news(recipe_path, epub_path, username=None, password=None):
         logger.info(f'could not fetch news from {recipe_path} ')
         return False
 
-class SMBCParser(HTMLParser):
+class RSSParser(HTMLParser):
     def handle_starttag(self, tag, attrs):
         if tag == 'img':
             self.image_link=dict(attrs).get('src')
 
 def create_comics():
-    smbc_link = 'https://www.smbc-comics.com/comic/rss'
-    feed = feedparser.parse(smbc_link)
+    rss_link = 'https://www.smbc-comics.com/comic/rss'
+    feed = feedparser.parse(rss_link)
     comic_summary = feed.entries[0].summary
-    smbc_parser = SMBCParser()
+    smbc_parser = RSSParser()
     smbc_parser.feed(comic_summary)
     image_link = smbc_parser.image_link
     rsp = requests.get(image_link)
     path = os.path.join(APP_FOLDER, 'smbc.png')
+    with open(path, 'wb') as myfile:
+        myfile.write(rsp.content)
+
+    rss_link = 'https://xkcd.com/rss.xml'
+    feed = feedparser.parse(rss_link)
+    comic_summary = feed.entries[0].summary
+    xkcd_parser = RSSParser()
+    xkcd_parser.feed(comic_summary)
+    image_link = xkcd_parser.image_link
+    rsp = requests.get(image_link)
+    path = os.path.join(APP_FOLDER, 'xkcd.png')
     with open(path, 'wb') as myfile:
         myfile.write(rsp.content)
 
