@@ -24,6 +24,8 @@ logger.addHandler(handler)
 
 
 APP_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
+DAILY_COMIC_PATH = os.path.join(APP_FOLDER, 'daily_comics.cbz')
+MERGED_EPUB_PATH = os.path.join(APP_FOLDER, 'daily_news.epub')
 if not os.path.exists(APP_FOLDER):
     os.makedirs(APP_FOLDER)
 WEBDAV_FILE_PATH = os.path.join(APP_FOLDER, 'webdav.json')
@@ -41,12 +43,11 @@ def fetch_daily_news():
         if answer:
             epub_to_merge.append(epub_path)
     if epub_to_merge:
-        merged_epub_path = os.path.join(APP_FOLDER, 'daily_news.epub')
         logger.info('merge epub...')
-        merge_epub(epub_to_merge, merged_epub_path)
+        merge_epub(epub_to_merge, MERGED_EPUB_PATH)
         logger.info('epub merged.')
         logger.info('upload epub to webdav')
-        transfer_epub(merged_epub_path)
+        transfer_epub(MERGED_EPUB_PATH)
         logger.info('file dropped')
         logger.info('all done')
     else:
@@ -149,7 +150,7 @@ def create_comics():
         path = os.path.join(comic_folder, f'{name}.png')
         with open(path, 'wb') as myfile:
             myfile.write(rsp.content)
-    output_path = os.path.join(APP_FOLDER, 'daily_comics.cbz')
+    output_path = DAILY_COMIC_PATH
     shutil.make_archive(output_path, 'zip', comic_folder)
     shutil.move(f'{output_path}.zip', output_path)
 
