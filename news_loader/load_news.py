@@ -135,7 +135,10 @@ def create_comics():
     smbc_parser = SMBCParser()
     smbc_parser.feed(comic_summary)
     image_link = smbc_parser.image_link
-    print(image_link)
+    rsp = requests.get(image_link)
+    path = os.path.join(APP_FOLDER, 'smbc.png')
+    with open(path, 'wb') as myfile:
+        myfile.write(rsp.content)
 
 
 if __name__ == '__main__':
