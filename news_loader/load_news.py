@@ -129,27 +129,29 @@ class RSSParser(HTMLParser):
             self.image_link=dict(attrs).get('src')
 
 def create_comics():
-    rss_link = 'https://www.smbc-comics.com/comic/rss'
-    feed = feedparser.parse(rss_link)
-    comic_summary = feed.entries[0].summary
-    smbc_parser = RSSParser()
-    smbc_parser.feed(comic_summary)
-    image_link = smbc_parser.image_link
-    rsp = requests.get(image_link)
-    path = os.path.join(APP_FOLDER, 'smbc.png')
-    with open(path, 'wb') as myfile:
-        myfile.write(rsp.content)
 
-    rss_link = 'https://xkcd.com/rss.xml'
-    feed = feedparser.parse(rss_link)
-    comic_summary = feed.entries[0].summary
-    xkcd_parser = RSSParser()
-    xkcd_parser.feed(comic_summary)
-    image_link = xkcd_parser.image_link
-    rsp = requests.get(image_link)
-    path = os.path.join(APP_FOLDER, 'xkcd.png')
-    with open(path, 'wb') as myfile:
-        myfile.write(rsp.content)
+    rss_links = dict(
+            xkcd='https://xkcd.com/rss.xml',
+            smbc='https://www.smbc-comics.com/comic/rss',
+            )
+
+    comic_folder = os.path.join(APP_FOLDER, 'comics')
+    if not os.path.exists(comic_folder):
+        os.makedirs(comic_folder)
+
+    for name, rss_link in rss_links.items():
+        feed = feedparser.parse(rss_link)
+        comic_summary = feed.entries[0].summary
+        parser = RSSParser()
+        parser.feed(comic_summary)
+        image_link = parser.image_link
+        rsp = requests.get(image_link)
+        path = os.path.join(comic_folder, f'{name}.png')
+        with open(path, 'wb') as myfile:
+            myfile.write(rsp.content)
+    output_path = os.path.join(APP_FOLDER, 'daily_comics.cbz')
+    shutil.make_archive(output_path, 'zip', comic_folder)
+    shutil.move(f'{output_path}.zip', output_path)
 
 
 if __name__ == '__main__':
