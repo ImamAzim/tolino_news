@@ -11,8 +11,10 @@ Installlation
 #. clone project
 #. run install.sh
 #. change password and username in reveil.recipe
+#. customize or add recipees.
+#. customize links in comics_rss_links.json
 #. create webdav shared folder
-#. put webdavlink and credential in $HOME/.config/calibre/news_loader/webdav.json
+#. put webdavlink in $HOME/.config/calibre/news_loader/webdav.json
 #. reboot
 
 customization
