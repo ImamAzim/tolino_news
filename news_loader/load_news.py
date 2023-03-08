@@ -104,8 +104,8 @@ def merge_epub(epub_paths, output_file):
             '--run-plugin',
             'EpubMerge',
             '--',
-            '--title=daily_news',
-            f'--output={title}',
+            f'--title={title}',
+            f'--output={output_file}',
             ]
     cmd += epub_paths
     subprocess.run(cmd)
