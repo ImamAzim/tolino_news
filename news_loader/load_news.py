@@ -48,18 +48,18 @@ def fetch_daily_news():
         merge_epub(epub_to_merge, merged_epub_path)
         logger.info('epub merged.')
         logger.info('upload epub to webdav')
-        transfer_epub(merged_epub_path)
+        upload_file(merged_epub_path)
         logger.info('file dropped')
     else:
         logger.info('fail to fetch for every news. I do not merge nor transfer')
     logger.info('create comics')
     create_comics(comic_filepath)
     logger.info('transfer comics')
-    transfer_epub(comic_filepath)
+    upload_file(comic_filepath)
 
     logger.info('all done')
 
-def transfer_epub(epub_path):
+def upload_file(file_path):
     with open(WEBDAV_FILE_PATH, 'r') as myfile:
         webdav = json.load(myfile)
     username = webdav['username']
@@ -67,7 +67,7 @@ def transfer_epub(epub_path):
     password = webdav['password']
 
     oc = owncloud.Client.from_public_link(link)
-    oc.drop_file(epub_path)
+    oc.drop_file(file_path)
 
 
 def merge_epub(epub_paths, output_file):
