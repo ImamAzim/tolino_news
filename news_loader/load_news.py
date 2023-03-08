@@ -65,6 +65,11 @@ def fetch_daily_news():
 
     logger.info('all done')
 
+def configure_daily_news():
+    print('welcome. this script will configure the daily news daemon for this user.')
+    print('TODO: create crontab job')
+    print('you can now customize the configuration files in ')
+
 def clean_folder(folder):
     #remove old epub and cbz files
     filetypes_to_remove = ('cbz', 'epub')
