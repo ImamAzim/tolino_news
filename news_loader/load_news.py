@@ -14,6 +14,7 @@ import requests
 import xdg
 import owncloud
 import feedparser
+import tomli
 
 
 logger = logging.getLogger('load news')
@@ -26,6 +27,7 @@ logger.addHandler(handler)
 CONFIG_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'news_loader')
 if not os.path.exists(CONFIG_FOLDER):
     os.makedirs(CONFIG_FOLDER)
+CONFIG_FILE_PATH = os.path.join(CONFIG_FOLDER, 'config.toml')
 APP_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
 if not os.path.exists(APP_FOLDER):
     os.makedirs(APP_FOLDER)
@@ -34,6 +36,11 @@ COMICS_RSS_LINKS_PATH = os.path.join(APP_FOLDER, 'comics_rss_links.json')
 
 
 def fetch_daily_news():
+
+    with open(CONFIG_FILE_PATH, 'rb') as myfile:
+        toml_dict = tomli.load(myfile)
+    webdav_link = toml_dict['webdav']['link']
+
 
     folder = APP_FOLDER
     recipe_paths, epub_paths, usernames, passwords = get_paths(folder)
@@ -45,7 +52,7 @@ def fetch_daily_news():
     logger.info('clean local folder...')
     clean_folder(folder)
     logger.info('clean webdav folder...')
-    clean_webdav_folder()
+    clean_webdav_folder(webdav_link)
 
     logger.info('start to fetch daily news...')
     epub_to_merge = list()
@@ -63,14 +70,14 @@ def fetch_daily_news():
     logger.info('create comics')
     create_comics(comic_filepath)
     logger.info('transfer comics')
-    upload_file(comic_filepath)
+    upload_file(comic_filepath, webdav_link)
 
     logger.info('all done')
 
 def configure_daily_news():
     print('welcome. this script will configure the daily news daemon for this user.')
     print('TODO: create crontab job')
-    dst = os.path.join(CONFIG_FOLDER, 'config.toml')
+    dst = CONFIG_FILE_PATH
     src = os.path.join('/etc', 'news_loader', 'config.toml')
     shutil.copy(src, dst)
     print(f'the configuration file has been created in {dst}. you can now customize it.')
@@ -84,10 +91,7 @@ def clean_folder(folder):
     for filepath in filepaths_to_remove:
         os.remove(filepath)
 
-def clean_webdav_folder():
-    with open(WEBDAV_FILE_PATH, 'r') as myfile:
-        webdav = json.load(myfile)
-    link = webdav['link']
+def clean_webdav_folder(link):
     oc = owncloud.Client.from_public_link(link)
 
     files = oc.list('/')
@@ -96,13 +100,7 @@ def clean_webdav_folder():
         if 'comics_' in filename or 'news_' in filename:
             oc.delete(filename)
 
-def upload_file(file_path):
-    with open(WEBDAV_FILE_PATH, 'r') as myfile:
-        webdav = json.load(myfile)
-    username = webdav['username']
-    link = webdav['link']
-    password = webdav['password']
-
+def upload_file(file_path, link):
     oc = owncloud.Client.from_public_link(link)
     oc.drop_file(file_path)
 
@@ -196,5 +194,6 @@ def create_comics(output_path):
 
 
 if __name__ == '__main__':
-    pass
+    with open(CONFIG_FILE_PATH, 'rb') as myfile:
+        toml_dict = tomli.load(myfile)
 

@@ -18,4 +18,4 @@ rss_links = []
 
 [webdav]
 #create a webdav shared folder and paste the link here
-link = "https://example.com/abc""
+link = "https://example.com/abc"
