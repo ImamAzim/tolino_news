@@ -28,6 +28,7 @@ APP_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'news_loader_recipes')
 if not os.path.exists(APP_FOLDER):
     os.makedirs(APP_FOLDER)
 WEBDAV_FILE_PATH = os.path.join(APP_FOLDER, 'webdav.json')
+COMICS_RSS_LINKS_PATH = os.path.join(APP_FOLDER, 'comics_rss_links.json')
 
 
 def fetch_daily_news():
@@ -149,10 +150,8 @@ class RSSParser(HTMLParser):
 
 def create_comics(output_path):
 
-    rss_links = dict(
-            xkcd='https://xkcd.com/rss.xml',
-            smbc='https://www.smbc-comics.com/comic/rss',
-            )
+    with open(COMICS_RSS_LINKS_PATH, 'r') as myfile:
+        rss_links = json.load(myfile)
 
     comic_folder = os.path.join(APP_FOLDER, 'comics')
     if not os.path.exists(comic_folder):
