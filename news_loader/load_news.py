@@ -98,13 +98,14 @@ def upload_file(file_path):
 
 
 def merge_epub(epub_paths, output_file):
+    title = os.path.basename(output_file)
     cmd = [
             'calibre-debug',
             '--run-plugin',
             'EpubMerge',
             '--',
             '--title=daily_news',
-            f'--output={output_file}',
+            f'--output={title}',
             ]
     cmd += epub_paths
     subprocess.run(cmd)
