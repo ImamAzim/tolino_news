@@ -24,7 +24,6 @@ logger.addHandler(handler)
 
 
 APP_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
-DAILY_COMIC_PATH = os.path.join(APP_FOLDER, 'daily_comics.cbz')
 MERGED_EPUB_PATH = os.path.join(APP_FOLDER, 'daily_news.epub')
 if not os.path.exists(APP_FOLDER):
     os.makedirs(APP_FOLDER)
@@ -32,6 +31,8 @@ WEBDAV_FILE_PATH = os.path.join(APP_FOLDER, 'webdav.json')
 
 
 def fetch_daily_news():
+
+    comic_filepath = os.path.join(APP_FOLDER, 'daily_comics.cbz')
 
     logger.info('start to fetch daily news...')
     folder = APP_FOLDER
@@ -52,9 +53,9 @@ def fetch_daily_news():
     else:
         logger.info('fail to fetch for every news. I do not merge nor transfer')
     logger.info('create comics')
-    create_comics()
+    create_comics(comic_filepath)
     logger.info('transfer comics')
-    transfer_epub(DAILY_COMIC_PATH)
+    transfer_epub(comic_filepath)
 
     logger.info('all done')
 
@@ -133,7 +134,7 @@ class RSSParser(HTMLParser):
         if tag == 'img':
             self.image_link=dict(attrs).get('src')
 
-def create_comics():
+def create_comics(output_path):
 
     rss_links = dict(
             xkcd='https://xkcd.com/rss.xml',
@@ -154,7 +155,6 @@ def create_comics():
         path = os.path.join(comic_folder, f'{name}.png')
         with open(path, 'wb') as myfile:
             myfile.write(rsp.content)
-    output_path = DAILY_COMIC_PATH
     shutil.make_archive(output_path, 'zip', comic_folder)
     shutil.move(f'{output_path}.zip', output_path)
 
