@@ -71,7 +71,7 @@ def configure_daily_news():
     print('welcome. this script will configure the daily news daemon for this user.')
     print('TODO: create crontab job')
     dst = CONFIG_FOLDER
-    src = os.path.join('/usr','local','src','news_loader', 'news_loader', 'config.toml')
+    src = os.path.join('/etc', 'news_loader', 'config.toml')
     shutil.copy(src, dst)
     print(f'the configuration file has been created in {}. you can now customize it.')
 
