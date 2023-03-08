@@ -23,7 +23,9 @@ handler = logging.StreamHandler(stream=sys.stdout)
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-
+CONFIG_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'news_loader')
+if not os.path.exists(CONFIG_FOLDER):
+    os.makedirs(CONFIG_FOLDER)
 APP_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
 if not os.path.exists(APP_FOLDER):
     os.makedirs(APP_FOLDER)
@@ -68,7 +70,10 @@ def fetch_daily_news():
 def configure_daily_news():
     print('welcome. this script will configure the daily news daemon for this user.')
     print('TODO: create crontab job')
-    print('you can now customize the configuration files in ')
+    dst = CONFIG_FOLDER
+    src = os.path.join('/usr','local','src','news_loader', 'news_loader', 'config.toml')
+    shutil.copy(src, dst)
+    print(f'the configuration file has been created in {}. you can now customize it.')
 
 def clean_folder(folder):
     #remove old epub and cbz files
