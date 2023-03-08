@@ -8,6 +8,7 @@ import sys
 import json
 from html.parser import HTMLParser
 import datetime
+import tempfile
 
 
 import requests
@@ -46,11 +47,11 @@ def fetch_daily_news():
     recipe_paths, epub_paths, usernames, passwords = get_paths(folder)
 
     suffix = datetime.date.today().isoformat()
-    comic_filepath = os.path.join(folder,  f'comics_{suffix}.cbz')
-    merged_epub_path = os.path.join(folder, f'news_{suffix}.epub')
+    comic_filepath = os.path.join(CONFIG_FOLDER,  f'comics_{suffix}.cbz')
+    merged_epub_path = os.path.join(CONFIG_FOLDER, f'news_{suffix}.epub')
 
     logger.info('clean local folder...')
-    clean_folder(folder)
+    clean_folder(CONFIG_FOLDER)
     logger.info('clean webdav folder...')
     clean_webdav_folder(webdav_link)
 
@@ -175,21 +176,20 @@ def create_comics(output_path):
     with open(COMICS_RSS_LINKS_PATH, 'r') as myfile:
         rss_links = json.load(myfile)
 
-    comic_folder = os.path.join(APP_FOLDER, 'comics')
-    if not os.path.exists(comic_folder):
-        os.makedirs(comic_folder)
+    with tempfile.TemporaryDirectory() as comic_folder:
 
-    for name, rss_link in rss_links.items():
-        feed = feedparser.parse(rss_link)
-        comic_summary = feed.entries[0].summary
-        parser = RSSParser()
-        parser.feed(comic_summary)
-        image_link = parser.image_link
-        rsp = requests.get(image_link)
-        path = os.path.join(comic_folder, f'{name}.png')
-        with open(path, 'wb') as myfile:
-            myfile.write(rsp.content)
-    shutil.make_archive(output_path, 'zip', comic_folder)
+        for name, rss_link in rss_links.items():
+            feed = feedparser.parse(rss_link)
+            comic_summary = feed.entries[0].summary
+            parser = RSSParser()
+            parser.feed(comic_summary)
+            image_link = parser.image_link
+            rsp = requests.get(image_link)
+            path = os.path.join(comic_folder, f'{name}.png')
+            with open(path, 'wb') as myfile:
+                myfile.write(rsp.content)
+        shutil.make_archive(output_path, 'zip', comic_folder)
+
     shutil.move(f'{output_path}.zip', output_path)
 
 
