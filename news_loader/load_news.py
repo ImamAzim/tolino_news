@@ -24,7 +24,6 @@ logger.addHandler(handler)
 
 
 APP_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
-MERGED_EPUB_PATH = os.path.join(APP_FOLDER, 'daily_news.epub')
 if not os.path.exists(APP_FOLDER):
     os.makedirs(APP_FOLDER)
 WEBDAV_FILE_PATH = os.path.join(APP_FOLDER, 'webdav.json')
@@ -33,6 +32,7 @@ WEBDAV_FILE_PATH = os.path.join(APP_FOLDER, 'webdav.json')
 def fetch_daily_news():
 
     comic_filepath = os.path.join(APP_FOLDER, 'daily_comics.cbz')
+    merged_epub_path = os.path.join(APP_FOLDER, 'daily_news.epub')
 
     logger.info('start to fetch daily news...')
     folder = APP_FOLDER
@@ -45,10 +45,10 @@ def fetch_daily_news():
             epub_to_merge.append(epub_path)
     if epub_to_merge:
         logger.info('merge epub...')
-        merge_epub(epub_to_merge, MERGED_EPUB_PATH)
+        merge_epub(epub_to_merge, merged_epub_path)
         logger.info('epub merged.')
         logger.info('upload epub to webdav')
-        transfer_epub(MERGED_EPUB_PATH)
+        transfer_epub(merged_epub_path)
         logger.info('file dropped')
     else:
         logger.info('fail to fetch for every news. I do not merge nor transfer')
