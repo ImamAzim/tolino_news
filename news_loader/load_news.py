@@ -33,7 +33,6 @@ COMICS_RSS_LINKS_PATH = os.path.join(APP_FOLDER, 'comics_rss_links.json')
 
 def fetch_daily_news():
 
-    logger.info('start to fetch daily news...')
     folder = APP_FOLDER
     recipe_paths, epub_paths, usernames, passwords = get_paths(folder)
 
@@ -41,8 +40,12 @@ def fetch_daily_news():
     comic_filepath = os.path.join(folder,  f'comics_{suffix}.cbz')
     merged_epub_path = os.path.join(folder, f'news_{suffix}.epub')
 
+    logger.info('clean local folder...')
     clean_folder(folder)
+    logger.info('clean webdav folder...')
+    clean_webdav_folder()
 
+    logger.info('start to fetch daily news...')
     epub_to_merge = list()
     for recipe_path, epub_path, username, password in zip(recipe_paths, epub_paths, usernames, passwords):
         answer = fetch_news(recipe_path, epub_path, username, password)
@@ -51,10 +54,8 @@ def fetch_daily_news():
     if epub_to_merge:
         logger.info('merge epub...')
         merge_epub(epub_to_merge, merged_epub_path)
-        logger.info('epub merged.')
         logger.info('upload epub to webdav')
         upload_file(merged_epub_path)
-        logger.info('file dropped')
     else:
         logger.info('fail to fetch for every news. I do not merge nor transfer')
     logger.info('create comics')
@@ -72,6 +73,18 @@ def clean_folder(folder):
     filepaths_to_remove = [os.path.join(folder, filename) for filename in filenames_to_remove]
     for filepath in filepaths_to_remove:
         os.remove(filepath)
+
+def clean_webdav_folder():
+    with open(WEBDAV_FILE_PATH, 'r') as myfile:
+        webdav = json.load(myfile)
+    link = webdav['link']
+    oc = owncloud.Client.from_public_link(link)
+
+    files = oc.list('/')
+    for remote_file in files:
+        filename = remote_file.path
+        if 'comics_' in filename or 'news_' in filename:
+            oc.delete(filename)
 
 def upload_file(file_path):
     with open(WEBDAV_FILE_PATH, 'r') as myfile:
