@@ -7,6 +7,7 @@ import logging
 import sys
 import json
 from html.parser import HTMLParser
+import datetime
 
 
 import requests
@@ -34,8 +35,11 @@ def fetch_daily_news():
     logger.info('start to fetch daily news...')
     folder = APP_FOLDER
     recipe_paths, epub_paths, usernames, passwords = get_paths(folder)
-    comic_filepath = os.path.join(folder, 'daily_comics.cbz')
-    merged_epub_path = os.path.join(folder, 'daily_news.epub')
+
+    suffix = datetime.date.today().isoformat()
+    comic_filepath = os.path.join(folder,  f'comics_{suffix}.cbz')
+    merged_epub_path = os.path.join(folder, f'news_{suffix}.epub')
+
     clean_folder(folder)
 
     epub_to_merge = list()
