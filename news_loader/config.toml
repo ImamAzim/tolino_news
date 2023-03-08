@@ -1,0 +1,21 @@
+[comics]
+#to include a list of comics, paste a list of rss links:
+#rss_links = [
+		#"https://example1/rss.xml",
+		#"https://example2/rss.xml",
+	#]
+rss_links = []
+
+[credentials]
+#if some recipe requires credentials, create a section with the credentials for each recipe. the section name must match a recipe
+	#[recipe_name1]
+	#user = "user1"
+	#password = "password1"
+
+	#[recipe_name2]
+	#user = "user2"
+	#password = "password2"
+
+[webdav]
+#create a webdav shared folder and paste the link here
+link = "https://example.com/abc""
