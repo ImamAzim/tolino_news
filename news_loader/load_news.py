@@ -70,10 +70,10 @@ def fetch_daily_news():
 def configure_daily_news():
     print('welcome. this script will configure the daily news daemon for this user.')
     print('TODO: create crontab job')
-    dst = CONFIG_FOLDER
+    dst = os.path.join(CONFIG_FOLDER, 'config.toml')
     src = os.path.join('/etc', 'news_loader', 'config.toml')
     shutil.copy(src, dst)
-    print(f'the configuration file has been created in {}. you can now customize it.')
+    print(f'the configuration file has been created in {dst}. you can now customize it.')
 
 def clean_folder(folder):
     #remove old epub and cbz files
