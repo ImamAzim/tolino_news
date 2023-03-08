@@ -31,12 +31,12 @@ WEBDAV_FILE_PATH = os.path.join(APP_FOLDER, 'webdav.json')
 
 def fetch_daily_news():
 
-    comic_filepath = os.path.join(APP_FOLDER, 'daily_comics.cbz')
-    merged_epub_path = os.path.join(APP_FOLDER, 'daily_news.epub')
-
     logger.info('start to fetch daily news...')
     folder = APP_FOLDER
     recipe_paths, epub_paths, usernames, passwords = get_paths(folder)
+    comic_filepath = os.path.join(folder, 'daily_comics.cbz')
+    merged_epub_path = os.path.join(folder, 'daily_news.epub')
+    clean_folder(folder)
 
     epub_to_merge = list()
     for recipe_path, epub_path, username, password in zip(recipe_paths, epub_paths, usernames, passwords):
@@ -58,6 +58,15 @@ def fetch_daily_news():
     upload_file(comic_filepath)
 
     logger.info('all done')
+
+def clean_folder(folder):
+    #remove old epub and cbz files
+    filetypes_to_remove = ('cbz', 'epub')
+    files = os.listdir(folder)
+    filenames_to_remove = [fn for fn in files if fn.split('.')[-1] in filetypes_to_remove]
+    filepaths_to_remove = [os.path.join(folder, filename) for filename in filenames_to_remove]
+    for filepath in filepaths_to_remove:
+        os.remove(filepath)
 
 def upload_file(file_path):
     with open(WEBDAV_FILE_PATH, 'r') as myfile:
