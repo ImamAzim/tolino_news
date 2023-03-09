@@ -7,14 +7,12 @@
 rss_links = []
 
 [credentials]
-#if some recipe requires credentials, create a section with the credentials for each recipe. the section name must match a recipe
+#for each recipe you want to use, create a section. The must be a recipe created by calibre with exactly the same name. Optionnaly, you can add a user and password if the recipe requires credentials
 	#[recipe_name1]
 	#user = "user1"
 	#password = "password1"
 
 	#[recipe_name2]
-	#user = "user2"
-	#password = "password2"
 
 [webdav]
 #create a webdav shared folder and paste the link here
