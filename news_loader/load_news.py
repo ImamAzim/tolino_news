@@ -41,6 +41,7 @@ def fetch_daily_news():
     with open(CONFIG_FILE_PATH, 'rb') as myfile:
         toml_dict = tomli.load(myfile)
     webdav_link = toml_dict['webdav']['link']
+    comics_rss_links = toml_dict['comics']['rss_links']
 
 
     folder = APP_FOLDER
@@ -69,7 +70,7 @@ def fetch_daily_news():
     else:
         logger.info('fail to fetch for every news. I do not merge nor transfer')
     logger.info('create comics')
-    create_comics(comic_filepath)
+    create_comics(comics_rss_links, comic_filepath)
     logger.info('transfer comics')
     upload_file(comic_filepath, webdav_link)
 
@@ -171,10 +172,7 @@ class RSSParser(HTMLParser):
         if tag == 'img':
             self.image_link=dict(attrs).get('src')
 
-def create_comics(output_path):
-
-    with open(COMICS_RSS_LINKS_PATH, 'r') as myfile:
-        rss_links = json.load(myfile)
+def create_comics(rss_links, output_path):
 
     with tempfile.TemporaryDirectory() as comic_folder:
 
