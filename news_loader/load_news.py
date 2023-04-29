@@ -71,7 +71,7 @@ def fetch_daily_news():
         logger.info('merge epub...')
         merge_epub(epub_to_merge, merged_epub_path)
         logger.info('upload epub to webdav')
-        upload_file(merged_epub_path)
+        upload_file(merged_epub_path, webdav_link)
     else:
         logger.info('fail to fetch for every news. I do not merge nor transfer')
     logger.info('create comics')
