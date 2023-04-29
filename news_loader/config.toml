@@ -7,7 +7,7 @@
 rss_links = []
 
 #for each recipe you want to use, create a table entry. The must be a recipe created by calibre with exactly the same name. Optionnaly, you can add a user and password if the recipe requires credentials
-[[recipees]]
+[[recipes]]
 name = your_recipe_name
 
 [[recipees]]

@@ -48,6 +48,9 @@ def fetch_daily_news():
     epub_paths = []
     usernames = []
     passwords = []
+    for recipe_dict in toml_dict['recipes']
+
+    
 
 
     suffix = datetime.date.today().isoformat()
