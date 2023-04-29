@@ -29,9 +29,6 @@ CONFIG_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'news_loader')
 if not os.path.exists(CONFIG_FOLDER):
     os.makedirs(CONFIG_FOLDER)
 CONFIG_FILE_PATH = os.path.join(CONFIG_FOLDER, 'config.toml')
-# APP_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
-# if not os.path.exists(APP_FOLDER):
-    # os.makedirs(APP_FOLDER)
 CUSTOM_RECIPES_PATH = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'custom_recipes')
 
 
@@ -42,16 +39,18 @@ def fetch_daily_news():
     webdav_link = toml_dict['webdav']['link']
     comics_rss_links = toml_dict['comics']['rss_links']
 
-
-    folder = APP_FOLDER
     recipe_paths = list()
     epub_paths = []
     usernames = []
     passwords = []
-    for recipe_dict in toml_dict['recipes']
-
-    
-
+    for recipe_dict in toml_dict['recipes']:
+        usernames.append(recipe_dict.get('user'))
+        passwords.append(recipe_dict.get('password'))
+        name = recipe_dict['name']
+        recipe_path = os.path.join(CUSTOM_RECIPES_PATH, f'{name}.recipe')
+        epub_path = os.path.join(CONFIG_FOLDER, f'{name}.epub')
+        recipe_paths.append(recipe_path)
+        epub_paths.append(epub_path)
 
     suffix = datetime.date.today().isoformat()
     comic_filepath = os.path.join(CONFIG_FOLDER,  f'comics_{suffix}.cbz')
@@ -198,6 +197,5 @@ def create_comics(rss_links, output_path):
 
 
 if __name__ == '__main__':
-    with open(CONFIG_FILE_PATH, 'rb') as myfile:
-        toml_dict = tomli.load(myfile)
+    fetch_daily_news()
 
