@@ -26,8 +26,6 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 CONFIG_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'news_loader')
-if not os.path.exists(CONFIG_FOLDER):
-    os.makedirs(CONFIG_FOLDER)
 CONFIG_FILE_PATH = os.path.join(CONFIG_FOLDER, 'config.toml')
 CUSTOM_RECIPES_PATH = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'custom_recipes')
 
@@ -39,45 +37,44 @@ def fetch_daily_news():
     webdav_link = toml_dict['webdav']['link']
     comics_rss_links = toml_dict['comics']['rss_links']
 
-    recipe_paths = list()
-    epub_paths = []
-    usernames = []
-    passwords = []
-    for recipe_dict in toml_dict['recipes']:
-        usernames.append(recipe_dict.get('user'))
-        passwords.append(recipe_dict.get('password'))
-        name = recipe_dict['name']
-        recipe_path = os.path.join(CUSTOM_RECIPES_PATH, f'{name}.recipe')
-        epub_path = os.path.join(CONFIG_FOLDER, f'{name}.epub').replace(" ", "_")
-        recipe_paths.append(recipe_path)
-        epub_paths.append(epub_path)
+    with tempfile.TemporaryDirectory() as temp_folder:
+        recipe_paths = list()
+        epub_paths = []
+        usernames = []
+        passwords = []
+        for recipe_dict in toml_dict['recipes']:
+            usernames.append(recipe_dict.get('user'))
+            passwords.append(recipe_dict.get('password'))
+            name = recipe_dict['name']
+            recipe_path = os.path.join(CUSTOM_RECIPES_PATH, f'{name}.recipe')
+            epub_path = os.path.join(temp_folder, f'{name}.epub').replace(" ", "_")
+            recipe_paths.append(recipe_path)
+            epub_paths.append(epub_path)
 
-    suffix = datetime.date.today().isoformat()
-    comic_filepath = os.path.join(CONFIG_FOLDER,  f'comics_{suffix}.cbz')
-    merged_epub_path = os.path.join(CONFIG_FOLDER, f'news_{suffix}.epub')
+        suffix = datetime.date.today().isoformat()
+        comic_filepath = os.path.join(temp_folder,  f'comics_{suffix}.cbz')
+        merged_epub_path = os.path.join(temp_folder, f'news_{suffix}.epub')
 
-    logger.info('clean local folder...')
-    clean_folder(CONFIG_FOLDER)
-    logger.info('clean webdav folder...')
-    clean_webdav_folder(webdav_link)
+        logger.info('clean webdav folder...')
+        clean_webdav_folder(webdav_link)
 
-    logger.info('start to fetch daily news...')
-    epub_to_merge = list()
-    for recipe_path, epub_path, username, password in zip(recipe_paths, epub_paths, usernames, passwords):
-        answer = fetch_news(recipe_path, epub_path, username, password)
-        if answer:
-            epub_to_merge.append(epub_path)
-    if epub_to_merge:
-        logger.info('merge epub...')
-        merge_epub(epub_to_merge, merged_epub_path)
-        logger.info('upload epub to webdav')
-        upload_file(merged_epub_path, webdav_link)
-    else:
-        logger.info('fail to fetch for every news. I do not merge nor transfer')
-    logger.info('create comics')
-    create_comics(comics_rss_links, comic_filepath)
-    logger.info('transfer comics')
-    upload_file(comic_filepath, webdav_link)
+        logger.info('start to fetch daily news...')
+        epub_to_merge = list()
+        for recipe_path, epub_path, username, password in zip(recipe_paths, epub_paths, usernames, passwords):
+            answer = fetch_news(recipe_path, epub_path, username, password)
+            if answer:
+                epub_to_merge.append(epub_path)
+        if epub_to_merge:
+            logger.info('merge epub...')
+            merge_epub(epub_to_merge, merged_epub_path)
+            logger.info('upload epub to webdav')
+            upload_file(merged_epub_path, webdav_link)
+        else:
+            logger.info('fail to fetch for every news. I do not merge nor transfer')
+        logger.info('create comics')
+        create_comics(comics_rss_links, comic_filepath)
+        logger.info('transfer comics')
+        upload_file(comic_filepath, webdav_link)
 
     logger.info('all done')
 
