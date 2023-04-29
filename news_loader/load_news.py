@@ -25,8 +25,7 @@ handler = logging.StreamHandler(stream=sys.stdout)
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-CONFIG_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'news_loader')
-CONFIG_FILE_PATH = os.path.join(CONFIG_FOLDER, 'config.toml')
+CONFIG_FILE_PATH = os.path.join('/etc', 'news_loader', 'config.toml') #must be created during install
 CUSTOM_RECIPES_PATH = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'custom_recipes')
 
 
