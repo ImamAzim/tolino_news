@@ -29,9 +29,9 @@ CONFIG_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'news_loader')
 if not os.path.exists(CONFIG_FOLDER):
     os.makedirs(CONFIG_FOLDER)
 CONFIG_FILE_PATH = os.path.join(CONFIG_FOLDER, 'config.toml')
-APP_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
-if not os.path.exists(APP_FOLDER):
-    os.makedirs(APP_FOLDER)
+# APP_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
+# if not os.path.exists(APP_FOLDER):
+    # os.makedirs(APP_FOLDER)
 
 
 def fetch_daily_news():
