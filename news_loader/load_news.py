@@ -32,6 +32,7 @@ CONFIG_FILE_PATH = os.path.join(CONFIG_FOLDER, 'config.toml')
 # APP_FOLDER = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'news_loader_recipes') # must be the same as in install.sh !!
 # if not os.path.exists(APP_FOLDER):
     # os.makedirs(APP_FOLDER)
+CUSTOM_RECIPES_PATH = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'custom_recipes')
 
 
 def fetch_daily_news():
@@ -43,7 +44,11 @@ def fetch_daily_news():
 
 
     folder = APP_FOLDER
-    recipe_paths, epub_paths, usernames, passwords = get_paths(folder)
+    recipe_paths = list()
+    epub_paths = []
+    usernames = []
+    passwords = []
+
 
     suffix = datetime.date.today().isoformat()
     comic_filepath = os.path.join(CONFIG_FOLDER,  f'comics_{suffix}.cbz')
