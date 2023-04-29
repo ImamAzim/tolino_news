@@ -5,7 +5,7 @@ if [ $UID = 0 ]
 then
 	path=`dirname $0`
 	apt install -y calibre
-	cp -r "$path/news_loader_recipes" $HOME/.config/calibre/
+	mkdir -p $HOME/.config/calibre/custom_recipes
 	mkdir /etc/news_loader
 	cp "$path/news_loader/config.toml" /etc/news_loader
 
