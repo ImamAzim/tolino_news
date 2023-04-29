@@ -53,7 +53,7 @@ def fetch_daily_news():
 
         suffix = datetime.date.today().isoformat()
         comic_filepath = os.path.join(temp_folder,  f'comics.cbz')
-        merged_epub_path = os.path.join(temp_folder, f'news_{suffix}.epub')
+        merged_epub_path = os.path.join(temp_folder, f'news.epub')
 
         logger.info('clean webdav folder...')
         clean_webdav_folder(webdav_link)
@@ -66,7 +66,8 @@ def fetch_daily_news():
                 epub_to_merge.append(epub_path)
         if epub_to_merge:
             logger.info('merge epub...')
-            merge_epub(epub_to_merge, merged_epub_path)
+            epub_name = f'news_{suffix}'
+            merge_epub(epub_to_merge, merged_epub_path, epub_name)
             logger.info('upload epub to webdav')
             upload_file(merged_epub_path, webdav_link)
         else:
@@ -109,14 +110,13 @@ def upload_file(file_path, link):
     oc.drop_file(file_path)
 
 
-def merge_epub(epub_paths, output_file):
-    title = os.path.basename(output_file)
+def merge_epub(epub_paths, output_file, epub_name):
     cmd = [
             'calibre-debug',
             '--run-plugin',
             'EpubMerge',
             '--',
-            f'--title={title}',
+            f'--title={epub_name}',
             f'--output={output_file}',
             ]
     cmd += epub_paths
