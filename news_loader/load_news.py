@@ -48,7 +48,7 @@ def fetch_daily_news():
         passwords.append(recipe_dict.get('password'))
         name = recipe_dict['name']
         recipe_path = os.path.join(CUSTOM_RECIPES_PATH, f'{name}.recipe')
-        epub_path = os.path.join(CONFIG_FOLDER, f'{name}.epub')
+        epub_path = os.path.join(CONFIG_FOLDER, f'{name}.epub').replace(" ", "_")
         recipe_paths.append(recipe_path)
         epub_paths.append(epub_path)
 
