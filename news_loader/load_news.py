@@ -181,16 +181,18 @@ def create_comics(rss_links, output_path):
 
     with tempfile.TemporaryDirectory() as comic_folder:
 
-        for name, rss_link in rss_links.items():
+        filenumber = 0
+        for rss_link in rss_links:
             feed = feedparser.parse(rss_link)
             comic_summary = feed.entries[0].summary
             parser = RSSParser()
             parser.feed(comic_summary)
             image_link = parser.image_link
             rsp = requests.get(image_link)
-            path = os.path.join(comic_folder, f'{name}.png')
+            path = os.path.join(comic_folder, f'{filenumber}.png')
             with open(path, 'wb') as myfile:
                 myfile.write(rsp.content)
+            filenumber += 1
         shutil.make_archive(output_path, 'zip', comic_folder)
 
     shutil.move(f'{output_path}.zip', output_path)
