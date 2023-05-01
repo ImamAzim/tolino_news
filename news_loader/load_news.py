@@ -51,8 +51,8 @@ def fetch_daily_news():
             epub_paths.append(epub_path)
 
         suffix = datetime.date.today().isoformat()
-        comic_filepath = os.path.join(temp_folder,  f'comics.cbz')
-        merged_epub_path = os.path.join(temp_folder, f'news.epub')
+        comic_filepath = os.path.join(temp_folder,  f'comics_{suffix}.cbz')
+        merged_epub_path = os.path.join(temp_folder, f'news_{suffix}.epub')
 
         logger.info('clean webdav folder...')
         clean_webdav_folder(webdav_link)
