@@ -7,7 +7,7 @@ then
 	apt install -y calibre
 	mkdir -p $HOME/.config/calibre/custom_recipes
 	mkdir /etc/news_loader
-	cp "$path/news_loader/config.toml" /etc/news_loader
+	cp -n "$path/news_loader/config.toml" /etc/news_loader
 
 	wget --output-document=EpubMerge.zip https://www.mobileread.com/forums/attachment.php?attachmentid=128768&d=1663081894
 	rm wget-log
