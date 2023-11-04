@@ -44,4 +44,4 @@ def create_config_file():
 
 
 if __name__ == '__main__':
-    pass
+    create_config_file()
