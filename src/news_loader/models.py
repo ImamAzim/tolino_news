@@ -21,8 +21,11 @@ class NewsCreator(object):
         :overwrite: True is you want to overwrite previous config
 
         """
+        directory = os.path.join(xdg.XDG_CONFIG_HOME, 'news_loader')
+        if not os.path.exists(directory):
+            os.makedirs(directory)
 
-        path = os.path.join(xdg.XDG_CONFIG_HOME, 'news_loader', 'config.toml')
+        path = os.path.join(directory, 'config.toml')
         if os.path.exists(path) and not overwrite:
             raise FileExistsError
         else:
