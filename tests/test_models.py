@@ -30,5 +30,18 @@ class TestNewsCreator(unittest.TestCase):
         pass
 
 
+def create_config_file():
+    news_creator = NewsCreator()
+    try:
+        news_creator.create_config_file()
+    except FileExistsError:
+        answer = input(
+                'a config file is already present.',
+                'do you want to overwrite it with a new one? (y/n) [n]',
+                )
+        if answer == 'y':
+            news_creator.create_config_file(overwrite=True)
+
+
 if __name__ == '__main__':
     pass
