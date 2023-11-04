@@ -11,6 +11,12 @@ class NewsCreator(object):
         """TODO: to be defined. """
         pass
 
+    def create_config_file(self):
+        """create a config file of news_loader for current user
+
+        """
+        pass
+
 
 if __name__ == '__main__':
     print(os.path.dirname(__file__))
