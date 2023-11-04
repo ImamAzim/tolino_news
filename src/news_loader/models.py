@@ -23,7 +23,7 @@ class NewsCreator(object):
         """
 
         path = os.path.join(xdg.XDG_CONFIG_HOME, 'news_loader', 'config.toml')
-        if os.path.exists(path):
+        if os.path.exists(path) and not overwrite:
             raise FileExistsError
         else:
             shutil.copy(CONFIG_FP, path)
