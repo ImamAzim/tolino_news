@@ -36,7 +36,7 @@ def create_config_file():
         news_creator.create_config_file()
     except FileExistsError:
         answer = input(
-                'a config file is already present.',
+                'a config file is already present.'
                 'do you want to overwrite it with a new one? (y/n) [n]',
                 )
         if answer == 'y':
