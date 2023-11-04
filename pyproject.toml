@@ -17,7 +17,9 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: POSIX :: Linux",
 ]
-description = "deamon fetching news to be read by ereader""
+
+description = "deamon fetching news to be read by ereader"
+
 dependencies = [
     'xdg',
     'pyocclient',
