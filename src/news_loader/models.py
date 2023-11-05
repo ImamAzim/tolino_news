@@ -65,14 +65,17 @@ class NewsLoaderConfiguration(object):
             return recipes, folder_path
 
     def add_recipe(self, recipe_name, username=None, password=None):
-        """add a recipe to the config file
+        """add a recipe to the config dict
 
         :recipe_name: name that match a custom recipe
         :username: str if required
         :password: str if required
 
         """
-        pass
+        self._config_dict['recipes'][recipe_name] = dict(
+                username=username,
+                password=password,,
+                )
 
     def add_comics_rss(self, rss_link: str):
         """add a rss feed of a comics
