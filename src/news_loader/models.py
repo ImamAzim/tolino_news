@@ -85,16 +85,13 @@ class NewsLoaderConfiguration(object):
         """
         self._config_dict['comics_rss_feeds'].append(rss_link)
 
-    def add_nextcloud_config(self, webdav_link: str, username: str, password: str):
-        """add nextcloud ocnfig toconfig
+    def add_nextcloud_config(self, webdav_link: str):
+        """add nextcloud toconfig
 
-        :webdav_link: TODO
-        :username: TODO
-        :password: TODO
-        :returns: TODO
+        :webdav_link: must be public link
 
         """
-        pass
+        self._config_dict['webdav_link'] = webdav_link
 
     def save_config(self, overwrite=False):
         """TODO: Docstring for save_config.
