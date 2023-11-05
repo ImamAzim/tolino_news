@@ -112,7 +112,7 @@ class NewsLoaderConfiguration(object):
             toml_str = tomli_w.dumps(self._config_dict)
             return toml_str
         else:
-            if os.path.exists(path) and not overwrite:
+            if os.path.exists(self.config_fp) and not overwrite:
                 raise FileExistsError
             else:
                 with open(self.config_fp, 'wb') as f:

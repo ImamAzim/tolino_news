@@ -66,6 +66,21 @@ class NewsLoaderMenu(object):
             if answer:
                 self.config.add_comics_rss(answer)
 
+        #webdav link
+        webdav_link =input('webdav link: ')
+        self.config.add_nextcloud_config(webdav_link)
+
+        # create config file
+
+        try:
+            self.config.save_config()
+        except FileExistsError:
+            answer = input(
+                    'a config file is already present.'
+                    'do you want to overwrite it with a new one? (y/n) [n]',
+                    )
+            if answer.lower() == 'y':
+                self.config.save_config(overwrite=True)
         print('===')
 
     def case_2(self):
