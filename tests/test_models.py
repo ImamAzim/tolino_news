@@ -94,18 +94,5 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
         self.assertIn(feed_name, toml_dict['comics_rss_feeds'])
 
 
-def create_config_file():
-    news_creator = NewsCreator()
-    try:
-        news_creator.create_config_file()
-    except FileExistsError:
-        answer = input(
-                'a config file is already present.'
-                'do you want to overwrite it with a new one? (y/n) [n]',
-                )
-        if answer == 'y':
-            news_creator.create_config_file(overwrite=True)
-
-
 if __name__ == '__main__':
     create_config_file()
