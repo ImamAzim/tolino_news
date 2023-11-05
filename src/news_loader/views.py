@@ -1,4 +1,4 @@
-
+from news_loader.models import NewsLoaderConfiguration
 
 class NewsLoaderMenu(object):
 
@@ -14,6 +14,7 @@ class NewsLoaderMenu(object):
                 'q': 'quit',
                 }
         self._running = True
+        self.config = NewsLoaderConfiguration()
 
     def start(self):
         self._print_welcome()
@@ -40,7 +41,18 @@ class NewsLoaderMenu(object):
         """add configuration file
 
         """
-        print('you have chosen option 1')
+        recipes, fp = self.config.get_recipes_names()
+        for recipe in recipes:
+            print(f'add {recipe}? (y/n) [y]')
+            answer = input()
+            if not answer.lower()=='n':
+                print('write credentials (or press enter to skip)')
+                username = input('username: ')
+                if username:
+                    password = input('password: ')
+                    self.config.add_recipe(recipe, username, password)
+                else:
+                    self.config.add_recipe(recipe)
         print('===')
 
     def case_2(self):
