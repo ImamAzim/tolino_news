@@ -109,8 +109,11 @@ class NewsLoaderConfiguration(object):
             toml_str = tomli_w.dumps(self._config_dict)
             return toml_str
         else:
-            with open(self.config_fp, 'wb') as f:
-                tomli_w.dump(self._config_dict, f)
+            if os.path.exists(path) and not overwrite:
+                raise FileExistsError
+            else:
+                with open(self.config_fp, 'wb') as f:
+                    tomli_w.dump(self._config_dict, f)
 
     def delete_config(self):
         """TODO: Docstring for delete_config.
