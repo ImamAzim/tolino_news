@@ -4,6 +4,7 @@ import time
 
 
 import xdg
+import tomli_w
 
 
 CONFIG_FP = os.path.join(os.path.dirname(__file__), 'config', 'config.toml')
@@ -73,10 +74,12 @@ class NewsLoaderConfiguration(object):
         :password: str if required
 
         """
-        self._config_dict['recipes'][recipe_name] = dict(
-                username=username,
-                password=password,
-                )
+        self._config_dict['recipes'][recipe_name] = dict()
+        if username:
+            self._config_dict['recipes'][recipe_name]['username'] = username
+        if password:
+            self._config_dict['recipes'][recipe_name]['password'] = password
+
 
     def add_comics_rss(self, rss_link: str):
         """add a rss feed of a comics
@@ -94,14 +97,20 @@ class NewsLoaderConfiguration(object):
         """
         self._config_dict['webdav_link'] = webdav_link
 
-    def save_config(self, overwrite=False):
-        """TODO: Docstring for save_config.
+    def save_config(self, overwrite=False, test=False):
+        """save the current config in a toml file
 
-        :overwrite: TODO
-        :returns: TODO
+        :overwrite: True if you want to replace previous file
+        :test: in test mode return a strin and does not create file
+        :returns: None or toml_str if test is True
 
         """
-        pass
+        if test:
+            toml_str = tomli_w.dumps(self._config_dict)
+            return toml_str
+        else:
+            with open(self.config_fp, 'wb') as f:
+                tomli_w.dump(self._config_dict, f)
 
     def delete_config(self):
         """TODO: Docstring for delete_config.
