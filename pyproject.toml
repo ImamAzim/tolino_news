@@ -41,3 +41,6 @@ dev = [
 [project.urls]
 "Source Code" = "https://github.com/ImamAzim/news_loader"
 "Documentation" = "https://news_loader.readthedocs.io/en/latest/index.html"
+
+[project.scripts]
+news_loader = "news_loader.apps:start_news_loader_menu"
