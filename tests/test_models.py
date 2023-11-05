@@ -8,7 +8,7 @@ test models
 import unittest
 
 
-from news_loader.models import NewsCreator
+from news_loader.models import NewsCreator, NewsLoaderConfiguration
 
 
 class TestNewsCreator(unittest.TestCase):
@@ -28,6 +28,26 @@ class TestNewsCreator(unittest.TestCase):
 
     def tearDown(self):
         pass
+
+class TestNewsLoaderConfiguration(unittest.TestCase):
+
+    """all test concerning news loader configuration. """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.config = NewsLoaderConfiguration()
+        pass
+
+    @classmethod
+    def tearDownClass(cls):
+        pass
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
 
 
 def create_config_file():
