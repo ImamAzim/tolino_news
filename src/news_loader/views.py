@@ -1,3 +1,5 @@
+import getpass
+
 from news_loader.models import NewsLoaderConfiguration
 
 class NewsLoaderMenu(object):
@@ -49,7 +51,7 @@ class NewsLoaderMenu(object):
                 print('write credentials (or press enter to skip)')
                 username = input('username: ')
                 if username:
-                    password = input('password: ')
+                    password = getpass.getpass()
                     self.config.add_recipe(recipe, username, password)
                 else:
                     self.config.add_recipe(recipe)
