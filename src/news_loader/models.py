@@ -46,6 +46,13 @@ class NewsLoaderConfiguration(object):
 
         self.config_fp = os.path.join(directory, 'config.toml')
 
+    def get_recipes_names(self):
+        """find present custom recipes in calibre config folder
+        :returns: list of recipes names
+
+        """
+        pass
+
 
 if __name__ == '__main__':
     print(os.path.dirname(__file__))
