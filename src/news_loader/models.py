@@ -48,7 +48,7 @@ class NewsLoaderConfiguration(object):
 
     def get_recipes_names(self):
         """find present custom recipes in calibre config folder
-        :returns: list of recipes names
+        :returns: list of recipes names, path to custom_recipe
 
         """
         pass

@@ -6,6 +6,7 @@ test models
 """
 
 import unittest
+import os
 
 
 from news_loader.models import NewsCreator, NewsLoaderConfiguration
@@ -47,6 +48,11 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
 
     def tearDown(self):
         pass
+
+    def test_get_names(self):
+        names, folder_path = self.config.get_recipes_names()
+        for name in names:
+            self.assertTrue(os.path.exists(os.path.join(folder_path, f'{name}.recipe')))
 
 
 
