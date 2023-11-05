@@ -38,7 +38,10 @@ class NewsLoaderConfiguration(object):
 
     def __init__(self):
         """initiate and create dict config and path to file"""
-        self._config_dict = dict()
+        self._config_dict = dict(
+                recipes=dict(),
+                comics_rss_feeds=list(),
+                )
 
         directory = os.path.join(xdg.XDG_CONFIG_HOME, 'news_loader')
         if not os.path.exists(directory):
@@ -53,14 +56,13 @@ class NewsLoaderConfiguration(object):
         """
         folder_path = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'custom_recipes')
         if not os.path.exists(folder_path):
-            raise FileNotFoundError('there is no custom recipe folder')
-        files = os.listdir(folder_path)
-        recipes = [
-                filename[0:-len('.recipe')]
-                for filename in files if filename.split('.')[-1] == 'recipe']
-        if not recipes:
-            raise FileNotFoundError('there are no recipes')
-        return recipes, folder_path
+            return [], folder_path
+        else:
+            files = os.listdir(folder_path)
+            recipes = [
+                    filename[0:-len('.recipe')]
+                    for filename in files if filename.split('.')[-1] == 'recipe']
+            return recipes, folder_path
 
     def add_recipe(self, recipe_name, username=None, password=None):
         """add a recipe to the config file

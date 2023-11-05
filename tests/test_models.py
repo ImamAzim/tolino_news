@@ -58,7 +58,7 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
         self.config.add_recipe('recipe1')
         self.config.add_recipe('recipe2', 'me', 'mypassword')
 
-        recipe_dict = self.config._config_dict
+        recipe_dict = self.config._config_dict['recipes']
 
         self.assertIn('recipe1', recipe_dict)
         recipe = recipe_dict['recipe1']
