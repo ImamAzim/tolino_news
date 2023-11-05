@@ -43,6 +43,7 @@ class NewsLoaderMenu(object):
         """add configuration file
 
         """
+        # add recipes
         recipes, fp = self.config.get_recipes_names()
         for recipe in recipes:
             print(f'add {recipe}? (y/n) [y]')
@@ -55,6 +56,16 @@ class NewsLoaderMenu(object):
                     self.config.add_recipe(recipe, username, password)
                 else:
                     self.config.add_recipe(recipe)
+
+        # add rss
+        self.config.empty_comics_rss()
+        print('enter rss feeds links of comics')
+        answer = True
+        while answer:
+            answer = input('new rss (or enter to skip): ')
+            if answer:
+                self.config.add_comics_rss(answer)
+
         print('===')
 
     def case_2(self):
