@@ -116,11 +116,11 @@ class NewsLoaderConfiguration(object):
                     tomli_w.dump(self._config_dict, f)
 
     def delete_config(self):
-        """TODO: Docstring for delete_config.
-        :returns: TODO
+        """delete toml file
 
         """
-        pass
+        if os.path.exists(self.config_fp):
+            os.remove(self.config_fp)
 
     def add_crontab(self, arg1):
         """TODO: Docstring for add_crontab.
