@@ -53,6 +53,69 @@ class NewsLoaderConfiguration(object):
         """
         pass
 
+    def add_recipe(self, recipe_name, username=None, password=None):
+        """add a recipe to the config file
+
+        :recipe_name: name that match a custom recipe
+        :username: str if required
+        :password: str if required
+
+        """
+        pass
+
+    def add_comics_rss(self, rss_link: str):
+        """add a rss feed of a comics
+
+        :rss_link: valid url of a feed
+
+        """
+        pass
+
+    def add_nextcloud_config(self, webdav_link: str, username: str, password: str):
+        """add nextcloud ocnfig toconfig
+
+        :webdav_link: TODO
+        :username: TODO
+        :password: TODO
+        :returns: TODO
+
+        """
+        pass
+
+    def save_config(self, overwrite=False):
+        """TODO: Docstring for save_config.
+
+        :overwrite: TODO
+        :returns: TODO
+
+        """
+        pass
+
+    def delete_config(self):
+        """TODO: Docstring for delete_config.
+        :returns: TODO
+
+        """
+        pass
+
+    def add_crontab(self, arg1):
+        """TODO: Docstring for add_crontab.
+
+        :arg1: TODO
+        :returns: TODO
+
+        """
+        pass
+
+    def del_crontab(self, arg1):
+        """TODO: Docstring for del_crontab.
+
+        :arg1: TODO
+        :returns: TODO
+
+        """
+        pass
+
 
 if __name__ == '__main__':
     print(os.path.dirname(__file__))
