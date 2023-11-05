@@ -51,7 +51,16 @@ class NewsLoaderConfiguration(object):
         :returns: list of recipes names, path to custom_recipe
 
         """
-        pass
+        folder_path = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'custom_recipes')
+        if not os.path.exists(folder_path):
+            raise FileNotFoundError('there is no custom recipe folder')
+        files = os.listdir(folder_path)
+        recipes = [
+                filename[0:-len('.recipe')]
+                for filename in files if filename.split('.')[-1] == 'recipe']
+        if not recipes:
+            raise FileNotFoundError('there are no recipes')
+        return recipes, folder_path
 
     def add_recipe(self, recipe_name, username=None, password=None):
         """add a recipe to the config file

@@ -55,7 +55,6 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
             self.assertTrue(os.path.exists(os.path.join(folder_path, f'{name}.recipe')))
 
 
-
 def create_config_file():
     news_creator = NewsCreator()
     try:
