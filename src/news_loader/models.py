@@ -83,7 +83,7 @@ class NewsLoaderConfiguration(object):
         :rss_link: valid url of a feed
 
         """
-        pass
+        self._config_dict['comics_rss_feeds'].append(rss_link)
 
     def add_nextcloud_config(self, webdav_link: str, username: str, password: str):
         """add nextcloud ocnfig toconfig
