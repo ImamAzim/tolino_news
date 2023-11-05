@@ -1,5 +1,4 @@
-from pyxperiments.controllers.base import ExampleController
-from pyxperiments.views.base import ExampleView
+from news_loader.views import news_loader_menu
 
 
 def main():
