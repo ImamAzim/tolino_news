@@ -74,7 +74,7 @@ class NewsLoaderConfiguration(object):
         """
         self._config_dict['recipes'][recipe_name] = dict(
                 username=username,
-                password=password,,
+                password=password,
                 )
 
     def add_comics_rss(self, rss_link: str):
