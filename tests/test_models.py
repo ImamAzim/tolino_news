@@ -54,6 +54,22 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
         for name in names:
             self.assertTrue(os.path.exists(os.path.join(folder_path, f'{name}.recipe')))
 
+    def test_add_recipe(self):
+        self.config.add_recipe('recipe1')
+        self.config.add_recipe('recipe2', 'me', 'mypassword')
+
+        recipe_dict = self.config._config_dict
+
+        self.assertIn('recipe1', recipe_dict)
+        recipe = recipe_dict['recipe1']
+        self.assertIsNone(recipe.get('username'))
+        self.assertIsNone(recipe.get('password'))
+
+        self.assertIn('recipe2', recipe_dict)
+        recipe = recipe_dict['recipe2']
+        self.assertEqual(recipe.get('username'), 'me')
+        self.assertEqual(recipe.get('password'), 'mypassword')
+
 
 def create_config_file():
     news_creator = NewsCreator()
