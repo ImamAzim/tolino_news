@@ -7,6 +7,8 @@ test models
 
 import unittest
 import os
+import tomli
+import time
 
 
 from news_loader.models import NewsCreator, NewsLoaderConfiguration
@@ -73,6 +75,16 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
     def test_add_comic_rss(self):
         self.config.add_comics_rss('my_rss_feed')
         self.assertIn('my_rss_feed', self.config._config_dict['comics_rss_feeds'])
+
+    def test_save_config_file(self):
+        timestamps = time.time()
+        feed_name = str(timestamps)
+        self.config.add_comics_rss(feed_name)
+        self.config.add_nextcloud_config('a webdav link')
+
+        toml_str = self.config.save_config(test=True)
+        toml_dict = tomli.loads(toml_str)
+        self.assertIn(feed_name, toml_dict['comics_rss_feeds'])
 
 
 def create_config_file():
