@@ -76,6 +76,11 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
         self.config.add_comics_rss('my_rss_feed')
         self.assertIn('my_rss_feed', self.config._config_dict['comics_rss_feeds'])
 
+    def test_empty_rss(self):
+        self.config.add_comics_rss('my_rss_feed')
+        self.config.empty_comics_rss()
+        self.assertListEqual(self.config._config_dict['comics_rss_feeds'], [])
+
     def test_save_config_file(self):
         timestamps = time.time()
         feed_name = str(timestamps)

@@ -89,6 +89,9 @@ class NewsLoaderConfiguration(object):
         """
         self._config_dict['comics_rss_feeds'].append(rss_link)
 
+    def empty_comics_rss(self):
+        self._config_dict['comics_rss_feeds'] = []
+
     def add_nextcloud_config(self, webdav_link: str):
         """add nextcloud toconfig
 
