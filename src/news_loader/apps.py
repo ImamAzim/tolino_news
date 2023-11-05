@@ -1,27 +1,21 @@
-from news_loader.views import news_loader_menu
+from news_loader.views import NewsLoaderMenu
 
 
-def main():
-    pass
-
-
-def example():
-    app = ExampleApp()
+def start_news_loader_menu():
+    app = NewsLoaderApp()
     app.start()
 
 
-class ExampleApp(object):
+class NewsLoaderApp(object):
 
-    """example app"""
+    """start the app to configure news loader"""
 
     def __init__(self):
         """
         construct the app
         """
 
-        view = ExampleView()
-        controller = ExampleController(view)
-        view.set_controller(controller)
+        view = NewsLoaderMenu()
         self._view = view
 
     def start(self):
@@ -29,4 +23,4 @@ class ExampleApp(object):
 
 
 if __name__ == '__main__':
-    main()
+    start_news_loader_menu()
