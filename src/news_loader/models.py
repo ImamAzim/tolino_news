@@ -135,6 +135,13 @@ class NewsLoaderConfiguration(object):
         """
         pass
 
+    def load_config(self):
+        """load toml file present in config user directory
+        :returns: data from toml config file
+
+        """
+        pass
+
 
 if __name__ == '__main__':
     print(os.path.dirname(__file__))
