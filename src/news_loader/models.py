@@ -15,9 +15,11 @@ class NewsCreator(object):
 
     """contains tools to fetch news, merge to an epub and upload it"""
 
-    def __init__(self):
-        """TODO: to be defined. """
-        pass
+    def __init__(self, config_dict):
+        """ store config dict
+        :config_dict: from toml config file
+        """
+        self._config_dict = config_dict
 
     def download_news(self):
         """download news for all the recipes and create epub for each
