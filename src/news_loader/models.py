@@ -6,6 +6,10 @@ import xdg
 import tomli_w
 
 
+
+CUSTOM_RECIPES_PATH = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'custom_recipes')
+
+
 class NewsCreator(object):
 
     """contains tools to fetch news, merge to an epub and upload it"""
@@ -37,7 +41,7 @@ class NewsLoaderConfiguration(object):
         :returns: list of recipes names, path to custom_recipe
 
         """
-        folder_path = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'custom_recipes')
+        folder_path = CUSTOM_RECIPES_PATH
         if not os.path.exists(folder_path):
             return [], folder_path
         else:
