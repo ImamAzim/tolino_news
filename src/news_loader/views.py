@@ -1,6 +1,7 @@
 import getpass
 
 from news_loader.models import NewsLoaderConfiguration
+from news_loader.jobs import run_news_loader_job
 
 class NewsLoaderMenu(object):
 
@@ -87,14 +88,14 @@ class NewsLoaderMenu(object):
         """delete configuration file
 
         """
-        print('you have chosen option 2')
+        self.config.delete_config()
         print('===')
 
     def case_3(self):
         """test the news loader now
 
         """
-        print('you have chosen option 3')
+        run_news_loader_job()
         print('===')
 
     def case_4(self):
