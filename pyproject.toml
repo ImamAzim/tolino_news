@@ -44,3 +44,4 @@ dev = [
 
 [project.scripts]
 news_loader = "news_loader.apps:start_news_loader_menu"
+news_loader_run = "news_loader.jobs:run_news_loader_job"
