@@ -4,6 +4,7 @@ import time
 
 import xdg
 import tomli_w
+import tomli
 
 
 
@@ -137,10 +138,12 @@ class NewsLoaderConfiguration(object):
 
     def load_config(self):
         """load toml file present in config user directory
-        :returns: data from toml config file
+        :returns: tomli_dict from config file
 
         """
-        pass
+        with open(self.config_fp, 'rb') as f:
+            toml_dict = tomli.load(f)
+        return toml_dict
 
 
 if __name__ == '__main__':

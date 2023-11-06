@@ -24,7 +24,8 @@ dependencies = [
     'xdg',
     'pyocclient',
     'feedparser',
-    'tomli-w'
+    'tomli-w',
+    'tomli'
 ]
 
 [project.optional-dependencies]
