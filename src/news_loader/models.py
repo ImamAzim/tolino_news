@@ -18,6 +18,13 @@ class NewsCreator(object):
         """TODO: to be defined. """
         pass
 
+    def download_news(self):
+        """download news for all the recipes and create epub for each
+        :returns: TODO
+
+        """
+        pass
+
 
 class NewsLoaderConfiguration(object):
 
