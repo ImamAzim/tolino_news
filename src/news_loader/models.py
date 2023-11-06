@@ -1,5 +1,4 @@
 import os
-import time
 
 
 import xdg
@@ -7,8 +6,11 @@ import tomli_w
 import tomli
 
 
-
-CUSTOM_RECIPES_PATH = os.path.join(xdg.XDG_CONFIG_HOME, 'calibre', 'custom_recipes')
+CUSTOM_RECIPES_PATH = os.path.join(
+        xdg.XDG_CONFIG_HOME,
+        'calibre',
+        'custom_recipes',
+        )
 
 
 class NewsCreator(object):
@@ -21,8 +23,53 @@ class NewsCreator(object):
         """
         self._config_dict = config_dict
 
-    def download_news(self):
+    def download_all_news(self):
         """download news for all the recipes and create epub for each
+        :returns: TODO
+
+        """
+        pass
+
+    def download_news(self, recipe, username, password):
+        """TODO: Docstring for download_news.
+
+        :recipe: TODO
+        :username: TODO
+        :password: TODO
+        :returns: TODO
+
+        """
+        pass
+
+    def merge_epubs(self, arg1):
+        """TODO: Docstring for merge_epubs.
+
+        :arg1: TODO
+        :returns: TODO
+
+        """
+        pass
+
+    def download_all_comics(self):
+        """TODO: Docstring for download_all_comics.
+        :returns: TODO
+
+        """
+        pass
+
+    def clean_webdav(self, arg1):
+        """TODO: Docstring for clean_webdav.
+
+        :arg1: TODO
+        :returns: TODO
+
+        """
+        pass
+
+    def upload_files(self, arg1):
+        """TODO: Docstring for upload_files.
+
+        :arg1: TODO
         :returns: TODO
 
         """
@@ -58,7 +105,9 @@ class NewsLoaderConfiguration(object):
             files = os.listdir(folder_path)
             recipes = [
                     filename[0:-len('.recipe')]
-                    for filename in files if filename.split('.')[-1] == 'recipe']
+                    for filename in files
+                    if filename.split('.')[-1] == 'recipe'
+                    ]
             return recipes, folder_path
 
     def add_recipe(self, recipe_name, username=None, password=None):
@@ -74,7 +123,6 @@ class NewsLoaderConfiguration(object):
             self._config_dict['recipes'][recipe_name]['username'] = username
         if password:
             self._config_dict['recipes'][recipe_name]['password'] = password
-
 
     def add_comics_rss(self, rss_link: str):
         """add a rss feed of a comics
