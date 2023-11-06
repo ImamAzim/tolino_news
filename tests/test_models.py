@@ -93,6 +93,14 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
         toml_dict = tomli.loads(toml_str)
         self.assertIn(feed_name, toml_dict['comics_rss_feeds'])
 
+    def test_load_config(self):
+        if os.path.exists(self.config.config_fp):
+            data = self.config.load_config()
+            self.assertIsInstance(data, dict)
+        else:
+            with self.assertRaises(FileNotFoundError):
+                self.config.load_config()
+
 
 if __name__ == '__main__':
     create_config_file()
