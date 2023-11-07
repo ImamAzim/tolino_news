@@ -34,7 +34,13 @@ class NewsCreator(object):
         """
         pass
 
-    def download_news(self, recipe_path, recipe_name, username=None, password=None):
+    def download_news(
+            self,
+            recipe_path,
+            recipe_name,
+            username=None,
+            password=None,
+            supress_output=True):
         """convert a recipe into an epub (fetch news)
 
         :recipe_path: path to calibre recipe
@@ -52,7 +58,7 @@ class NewsCreator(object):
             cmd += [f'--username={username}']
         if password is not None:
             cmd += [f'--password={password}']
-        stdout = open(os.devnull, 'w')
+        stdout = open(os.devnull, 'w') if supress_output else None
         subprocess.run(cmd, check=True, stdout=stdout)
         return epub_path
 
