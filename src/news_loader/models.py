@@ -30,13 +30,13 @@ class NewsCreator(object):
         """
         pass
 
-    def download_news(self, recipe, username, password):
-        """TODO: Docstring for download_news.
+    def download_news(self, recipe_path, username=None, password=None):
+        """convert a recipe into an epub (fetch news)
 
-        :recipe: TODO
-        :username: TODO
-        :password: TODO
-        :returns: TODO
+        :recipe_path: path to calibre recipe
+        :username: if required by recipe
+        :password: if required by recipe
+        :returns: path to epub just created
 
         """
         pass
