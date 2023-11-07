@@ -25,7 +25,8 @@ dependencies = [
     'pyocclient',
     'feedparser',
     'tomli-w',
-    'tomli'
+    'tomli',
+    'userpaths',
 ]
 
 [project.optional-dependencies]

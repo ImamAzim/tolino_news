@@ -9,6 +9,11 @@ import unittest
 import os
 import tomli
 import time
+import shutil
+
+
+import xdg
+import userpaths
 
 
 from news_loader.models import NewsCreator, NewsLoaderConfiguration
@@ -103,9 +108,14 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
 
 
 def load_news():
-    news_creator = NewsCreator()
-    epub_path = news_creator.lo
+    config = NewsLoaderConfiguration()
+    config_dict = config.load_config()
+    recipe_path = os.path.join(os.path.dirname(__file__), 'test_recipe.recipe')
+    news_creator = NewsCreator(config_dict)
+    epub_path = news_creator.download_news(recipe_path)
+    shutil.move(epub_path, userpaths.get_downloads())
 
 
 if __name__ == '__main__':
-    create_config_file()
+    load_news()
+
