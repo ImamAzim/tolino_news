@@ -112,7 +112,7 @@ def load_news():
     recipe_path = os.path.join(os.path.dirname(__file__), 'test_recipe.recipe')
     news_creator = NewsCreator(config_dict)
     epub_path = news_creator.download_news(recipe_path, 'test')
-    shutil.move(epub_path, os.environ['HOME']
+    shutil.move(epub_path, os.environ['HOME'])
 
 
 if __name__ == '__main__':
