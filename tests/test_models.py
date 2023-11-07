@@ -13,7 +13,6 @@ import shutil
 
 
 import xdg_base_dirs
-import userpaths
 
 
 from news_loader.models import NewsCreator, NewsLoaderConfiguration

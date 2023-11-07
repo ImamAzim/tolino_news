@@ -26,7 +26,6 @@ dependencies = [
     'feedparser',
     'tomli-w',
     'tomli',
-    'userpaths',
 ]
 
 [project.optional-dependencies]
