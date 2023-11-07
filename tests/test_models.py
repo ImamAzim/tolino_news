@@ -12,7 +12,7 @@ import time
 import shutil
 
 
-import xdg
+import xdg_base_dirs
 import userpaths
 
 

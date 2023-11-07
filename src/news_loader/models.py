@@ -1,13 +1,13 @@
 import os
 
 
-import xdg
+import xdg_base_dirs
 import tomli_w
 import tomli
 
 
 CUSTOM_RECIPES_PATH = os.path.join(
-        xdg.XDG_CONFIG_HOME,
+        xdg_base_dirs.xdg_config_home(),
         'calibre',
         'custom_recipes',
         )
@@ -87,7 +87,7 @@ class NewsLoaderConfiguration(object):
                 comics_rss_feeds=list(),
                 )
 
-        directory = os.path.join(xdg.XDG_CONFIG_HOME, 'news_loader')
+        directory = os.path.join(xdg_base_dirs.xdg_config_home(), 'news_loader')
         if not os.path.exists(directory):
             os.makedirs(directory)
 
