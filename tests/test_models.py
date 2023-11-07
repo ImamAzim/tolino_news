@@ -102,5 +102,10 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
                 self.config.load_config()
 
 
+def load_news():
+    news_creator = NewsCreator()
+    epub_path = news_creator.lo
+
+
 if __name__ == '__main__':
     create_config_file()
