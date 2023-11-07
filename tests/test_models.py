@@ -113,6 +113,7 @@ def load_news():
     news_creator = NewsCreator(config_dict)
     epub_path = news_creator.download_news(recipe_path, 'test')
     shutil.move(epub_path, os.environ['HOME'])
+    print(f'epub has been created at {epub_path}')
 
 
 if __name__ == '__main__':
