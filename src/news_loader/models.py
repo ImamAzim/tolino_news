@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 
 import xdg_base_dirs
@@ -22,6 +23,9 @@ class NewsCreator(object):
         :config_dict: from toml config file
         """
         self._config_dict = config_dict
+        self._data_path = os.path.join(xdg_base_dirs.xdg_data_home(), 'news_loader')
+        if not os.path.exists(self._data_path):
+            os.makedirs(self._data_path)
 
     def download_all_news(self):
         """download news for all the recipes and create epub for each
@@ -30,16 +34,27 @@ class NewsCreator(object):
         """
         pass
 
-    def download_news(self, recipe_path, username=None, password=None):
+    def download_news(self, recipe_path, recipe_name, username=None, password=None):
         """convert a recipe into an epub (fetch news)
 
         :recipe_path: path to calibre recipe
+        :recipe name: name for futur epub
         :username: if required by recipe
         :password: if required by recipe
         :returns: path to epub just created
 
         """
-        pass
+
+        epub_path = os.path.join(self._data_path, f'{recipe_name}.epub')
+
+        cmd = ['ebook-convert', recipe_path, epub_path, '--output-profile=kobo']
+        if username is not None:
+            cmd += [f'--username={username}']
+        if password is not None:
+            cmd += [f'--password={password}']
+        stdout = open(os.devnull, 'w')
+        subprocess.run(cmd, check=True, stdout=stdout)
+        return epub_path
 
     def merge_epubs(self, arg1):
         """TODO: Docstring for merge_epubs.
