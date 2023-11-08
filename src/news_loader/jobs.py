@@ -11,7 +11,7 @@ class NewsCreatorJob(object):
         self.news_creator = NewsCreator(config_dict)
         self.news_creator.download_all_news()
 
-        self.news_creator.clean_data_folder()
+        # self.news_creator.clean_data_folder()
 
     def run(self):
         pass
