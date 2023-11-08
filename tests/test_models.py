@@ -112,8 +112,9 @@ def load_news():
     recipe_path = os.path.join(os.path.dirname(__file__), 'test_recipe.recipe')
     news_creator = NewsCreator(config_dict)
     epub_path = news_creator.download_news(recipe_path, 'test')
-    shutil.move(epub_path, os.environ['HOME'])
-    print(f'epub has been created at {epub_path}')
+    shutil.copy(epub_path, os.environ['HOME'])
+    news_creator.clean_data_folder()
+    print(f'epub has been created in home folder')
 
 
 if __name__ == '__main__':

@@ -1,5 +1,6 @@
 import os
 import subprocess
+import logging
 
 
 import xdg_base_dirs
@@ -29,6 +30,8 @@ class NewsCreator(object):
                 )
         if not os.path.exists(self._data_path):
             os.makedirs(self._data_path)
+
+        self._to_delete = list()
 
     def download_all_news(self):
         """download news for all the recipes and create epub for each
@@ -67,6 +70,9 @@ class NewsCreator(object):
             cmd += [f'--password={password}']
         stdout = open(os.devnull, 'w') if supress_output else None
         subprocess.run(cmd, check=True, stdout=stdout)
+
+        self._to_delete.append(epub_path)
+
         return epub_path
 
     def merge_epubs(self, arg1):
@@ -101,6 +107,18 @@ class NewsCreator(object):
         :returns: TODO
 
         """
+        pass
+
+    def clean_data_folder(self):
+        """delete all the previous book downloaded or created
+
+        """
+        for path in self._to_delete:
+            try:
+                os.remove(path)
+            except FileNotFoundError:
+                logging.warning('file to delete has not been found')
+        self._to_delete = list()
         pass
 
 
