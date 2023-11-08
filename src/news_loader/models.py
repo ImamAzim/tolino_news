@@ -32,13 +32,13 @@ class NewsCreator(object):
             os.makedirs(self._data_path)
 
         self._to_delete = list()
-        self._to_merge = list()
 
     def download_all_news(self):
         """download news for all the recipes and create epub for each
-        :returns: TODO
+        :returns: list of path to epub just created
 
         """
+        epubs = list()
         for recipe_name, credentials in self._config_dict['recipes'].items():
             recipe_path = os.path.join(CUSTOM_RECIPES_PATH, f'{recipe_name}.recipe')
             username = credentials.get('username')
@@ -49,7 +49,8 @@ class NewsCreator(object):
                     username=username,
                     password=password,
                     )
-            self._to_merge.append(epub_path)
+            epubs.append(epub_path)
+        return epubs
 
     def download_news(
             self,
