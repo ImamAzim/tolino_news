@@ -23,7 +23,10 @@ class NewsCreator(object):
         :config_dict: from toml config file
         """
         self._config_dict = config_dict
-        self._data_path = os.path.join(xdg_base_dirs.xdg_data_home(), 'news_loader')
+        self._data_path = os.path.join(
+                xdg_base_dirs.xdg_data_home(),
+                'news_loader'
+                )
         if not os.path.exists(self._data_path):
             os.makedirs(self._data_path)
 
@@ -53,7 +56,11 @@ class NewsCreator(object):
 
         epub_path = os.path.join(self._data_path, f'{recipe_name}.epub')
 
-        cmd = ['ebook-convert', recipe_path, epub_path, '--output-profile=kobo']
+        cmd = [
+                'ebook-convert',
+                recipe_path, epub_path,
+                '--output-profile=kobo',
+                ]
         if username is not None:
             cmd += [f'--username={username}']
         if password is not None:
@@ -108,7 +115,10 @@ class NewsLoaderConfiguration(object):
                 comics_rss_feeds=list(),
                 )
 
-        directory = os.path.join(xdg_base_dirs.xdg_config_home(), 'news_loader')
+        directory = os.path.join(
+                xdg_base_dirs.xdg_config_home(),
+                'news_loader',
+                )
         if not os.path.exists(directory):
             os.makedirs(directory)
 
