@@ -122,7 +122,20 @@ def load_news():
     news_creator.clean_data_folder()
     print(f'epubs have been created in home folder')
 
+def get_comics():
+    config = NewsLoaderConfiguration()
+    config_dict = config.load_config()
+    news_creator = NewsCreator(config_dict)
+
+    rss_feed = ''
+
+    image_path = news_creator.download_comics(rss_feed)
+    shutil.copy(image_path, os.environ['HOME'])
+    news_creator.clean_data_folder()
+    print(f'image have been created in home folder')
+
+
 
 if __name__ == '__main__':
-    load_news()
+    get_comics()
 

@@ -118,13 +118,6 @@ class NewsCreator(object):
         return merged_epub
 
     def download_all_comics(self):
-        """TODO: Docstring for download_all_comics.
-        :returns: TODO
-
-        """
-        pass
-
-    def download_all_comics(self):
         """download all comics from the rss feeds in the config file
 
         :returns: list of image files
