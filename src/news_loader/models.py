@@ -1,6 +1,7 @@
 import os
 import subprocess
 import logging
+import datetime
 
 
 import xdg_base_dirs
@@ -40,7 +41,10 @@ class NewsCreator(object):
         """
         epubs = list()
         for recipe_name, credentials in self._config_dict['recipes'].items():
-            recipe_path = os.path.join(CUSTOM_RECIPES_PATH, f'{recipe_name}.recipe')
+            recipe_path = os.path.join(
+                    CUSTOM_RECIPES_PATH,
+                    f'{recipe_name}.recipe',
+                    )
             username = credentials.get('username')
             password = credentials.get('password')
             epub_path = self.download_news(
@@ -87,14 +91,31 @@ class NewsCreator(object):
 
         return epub_path
 
-    def merge_epubs(self, arg1):
-        """TODO: Docstring for merge_epubs.
+    def merge_epubs(self, epubs, epub_name=None):
+        """merge a list of epubs into one with mergedepub calibre pluginj
 
-        :arg1: TODO
-        :returns: TODO
+        :epubs: list of path to epubs
+        :epub_name: str. if None news_DATE will be taken
+        :returns: path to newly created merged epub
 
         """
-        pass
+        if epub_name is None:
+            suffix = datetime.date.today().isoformat()
+            epub_name = f'news_{suffix}'
+        merged_epub = os.path.join(self._data_path, f'{epub_name}.epub')
+
+        cmd = [
+                'calibre-debug',
+                '--run-plugin',
+                'EpubMerge',
+                '--',
+                f'--title={epub_name}',
+                f'--output={merged_epub}',
+                ]
+        cmd += epubs
+        subprocess.run(cmd)
+        self._to_delete.append(merged_epub)
+        return merged_epub
 
     def download_all_comics(self):
         """TODO: Docstring for download_all_comics.

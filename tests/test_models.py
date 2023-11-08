@@ -110,11 +110,15 @@ def load_news():
     config = NewsLoaderConfiguration()
     config_dict = config.load_config()
     recipe_path = os.path.join(os.path.dirname(__file__), 'test_recipe.recipe')
+
     news_creator = NewsCreator(config_dict)
+
     epub_path = news_creator.download_news(recipe_path, 'test')
-    # merged_epub = news_creator.merge_epubs([epub_path, epub_path])
     shutil.copy(epub_path, os.environ['HOME'])
-    # shutil.copy(merged_epub, os.environ['HOME'])
+
+    merged_epub = news_creator.merge_epubs([epub_path, epub_path])
+    shutil.copy(merged_epub, os.environ['HOME'])
+
     news_creator.clean_data_folder()
     print(f'epubs have been created in home folder')
 
