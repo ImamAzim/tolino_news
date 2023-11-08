@@ -9,12 +9,11 @@ class NewsCreatorJob(object):
         news_loader_configuration = NewsLoaderConfiguration()
         config_dict = news_loader_configuration.load_config()
         self.news_creator = NewsCreator(config_dict)
+
+    def run(self):
         self.news_creator.download_all_news()
 
         # self.news_creator.clean_data_folder()
-
-    def run(self):
-        pass
 
 
 def run_news_loader_job():
