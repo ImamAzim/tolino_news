@@ -124,6 +124,32 @@ class NewsCreator(object):
         """
         pass
 
+    def download_all_comics(self):
+        """download all comics from the rss feeds in the config file
+
+        :returns: list of image files
+
+        """
+        pass
+
+    def download_comics(self, rss_feed: str):
+        """
+
+        :rss_feed: from any webcomics rss with an image
+        :returns: path to image file just created
+
+        """
+        pass
+
+    def create_cbz_file(self, images):
+        """create an archive with images and a cbz extension
+
+        :images: list of path to image files
+        :returns: path to cbz file
+
+        """
+        pass
+
     def clean_webdav(self, arg1):
         """TODO: Docstring for clean_webdav.
 
