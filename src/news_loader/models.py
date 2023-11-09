@@ -135,7 +135,7 @@ class NewsCreator(object):
 
         """
         cbz_list = list()
-        for rss_feed self._config_dict['comics_rss_feeds']:
+        for rss_feed in self._config_dict['comics_rss_feeds']:
             cbz = self.download_comics(rss_feed)
             cbz_list.append(cbz)
         return cbz_list
