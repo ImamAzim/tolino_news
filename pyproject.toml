@@ -27,6 +27,7 @@ dependencies = [
     'tomli-w',
     'tomli',
     'requests',
+    'varboxes',
 ]
 
 [project.optional-dependencies]

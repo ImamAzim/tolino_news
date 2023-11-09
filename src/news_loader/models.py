@@ -190,10 +190,7 @@ class NewsCreator(object):
         return cbz_path_with_ext
 
     def clean_webdav(self):
-        """remove 
-
-        :arg1: TODO
-        :returns: TODO
+        """remove all files previousely uploaded
 
         """
         pass
@@ -207,10 +204,8 @@ class NewsCreator(object):
         webdav_link = self._config_dict['webdav_link']
         oc = owncloud.Client.from_public_link(webdav_link)
         oc.drop_file(file_path)
-
-def upload_file(file_path, link):
-    oc = owncloud.Client.from_public_link(link)
-    oc.drop_file(file_path)
+        
+        file_name = os.path.basename(file_path)
 
     def clean_data_folder(self):
         """delete all the previous book downloaded or created

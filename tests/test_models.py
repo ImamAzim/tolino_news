@@ -146,7 +146,6 @@ def upload_file():
     news_creator = NewsCreator(config_dict)
 
     with tempfile.NamedTemporaryFile() as fp:
-        fp.write(b'test upload')
         news_creator.upload_file(fp.name)
 
 
