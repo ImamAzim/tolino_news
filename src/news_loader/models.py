@@ -4,6 +4,8 @@ import logging
 import datetime
 from html.parser import HTMLParser
 from urllib.parse import urlparse
+import tempfile
+import shutil
 
 
 import xdg_base_dirs
@@ -42,10 +44,6 @@ class NewsCreator(object):
                 )
         if not os.path.exists(self._data_path):
             os.makedirs(self._data_path)
-
-        self._comics_folder = os.path.join(self._data_path, 'comics')
-        if not os.path.exists(self._comics_folder):
-            os.makedirs(self._comics_folder)
 
         self._to_delete = list()
 
@@ -168,17 +166,27 @@ class NewsCreator(object):
 
         return path
 
-    def create_cbz_file(self, images):
+    def create_cbz_file(self, images, cbz_filename=None):
         """create an archive with images and a cbz extension
 
         :images: list of path to image files
         :returns: path to cbz file
 
         """
-        filename = 'comics.cbz'
-        path = os.path.join(self._data_path, filename)
+        if cbz_filename is None:
+            suffix = datetime.date.today().isoformat()
+            cbz_filename = f'comics_{suffix}'
+        cbz_path = os.path.join(self._data_path, cbz_filename)
 
-        return path
+        with tempfile.TemporaryDirectory() as comic_folder:
+            for image in images:
+                shutil.move(image, comic_folder)
+            shutil.make_archive(cbz_path, 'zip', comic_folder)
+        cbz_path_with_ext = f'{cbz_path}.cbz'
+        shutil.move(f'{cbz_path}.zip', cbz_path_with_ext)
+        self._to_delete.append(cbz_path_with_ext)
+
+        return cbz_path_with_ext
 
     def clean_webdav(self, arg1):
         """TODO: Docstring for clean_webdav.
