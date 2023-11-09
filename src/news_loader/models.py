@@ -348,6 +348,8 @@ class NewsLoaderConfiguration(object):
         # TODO: only if there is already a job and raise a warning:
         cron.remove_all(comment=self._cronjob_id)
         job = cron.new(command='echo news_loader_run', comment=self._cronjob_id)
+        job.hour.on(hour)
+        job.minute.on(minute)
 
         cron.write()
 
