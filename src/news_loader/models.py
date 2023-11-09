@@ -13,6 +13,7 @@ import tomli_w
 import tomli
 import feedparser
 import requests
+import owncloud
 
 
 CUSTOM_RECIPES_PATH = os.path.join(
@@ -203,7 +204,9 @@ class NewsCreator(object):
         :file_path: str
 
         """
-        pass
+        webdav_link = self._config_dict['webdav_link']
+        oc = owncloud.Client.from_public_link(webdav_link)
+        oc.drop_file(file_path)
 
 def upload_file(file_path, link):
     oc = owncloud.Client.from_public_link(link)
