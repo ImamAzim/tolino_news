@@ -26,6 +26,7 @@ dependencies = [
     'feedparser',
     'tomli-w',
     'tomli',
+    'feedparser',
 ]
 
 [project.optional-dependencies]
@@ -36,7 +37,7 @@ dev = [
 	'sphinx',
 	'build',
 	'twine',
-	'sphinx-rtd-theme'
+	'sphinx-rtd-theme',
 ]
 
 [project.urls]
