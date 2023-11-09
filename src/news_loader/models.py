@@ -137,7 +137,7 @@ class NewsCreator(object):
 
     def download_comics(self, rss_feed: str):
         """
-
+        get image from webcomic rss feeds. it has to parse to find the image link
         :rss_feed: from any webcomics rss with an image
         :returns: path to image file just created
 
@@ -150,9 +150,12 @@ class NewsCreator(object):
 
         rsp = requests.get(image_link)
 
-        path = os.path.join(comic_folder, f'{filenumber}.png')
+        path = os.path.join(self._data_path, f'{rss_feed}.png')
         with open(path, 'wb') as myfile:
             myfile.write(rsp.content)
+        self._to_delete.append(path)
+
+        return path
 
     def create_cbz_file(self, images):
         """create an archive with images and a cbz extension
