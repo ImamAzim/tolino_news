@@ -25,14 +25,15 @@ class NewsCreatorJob(object):
     def run(self):
         logger.info('run job news loader...')
 
-        logger.info('download news')
-        epubs = self.news_creator.download_all_news()
+        # logger.info('download news')
+        # epubs = self.news_creator.download_all_news()
 
-        logger.info('merge epubs')
-        merged_epub = self.news_creator.merge_epubs(epubs)
+        # logger.info('merge epubs')
+        # merged_epub = self.news_creator.merge_epubs(epubs)
 
-        # logger.info('download comics')
-        # images = self.news_creator.download_all_comics()
+        logger.info('download comics')
+        images = self.news_creator.download_all_comics()
+        print(images)
 
         # logger.info('create cbz')
         # cbz = self.news_creator.create_cbz_file(images)
@@ -43,7 +44,7 @@ class NewsCreatorJob(object):
 
         # logger.info('clean data folder')
         # self.news_creator.clean_data_folder()
-        
+
         logger.info('job finished')
 
 

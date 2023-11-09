@@ -134,7 +134,11 @@ class NewsCreator(object):
         :returns: list of image files
 
         """
-        pass
+        cbz_list = list()
+        for rss_feed self._config_dict['comics_rss_feeds']:
+            cbz = self.download_comics(rss_feed)
+            cbz_list.append(cbz)
+        return cbz_list
 
     def download_comics(self, rss_feed: str):
         """
