@@ -127,7 +127,7 @@ def get_comics():
     config_dict = config.load_config()
     news_creator = NewsCreator(config_dict)
 
-    rss_feed = ''
+    rss_feed = 'https://xkcd.com/rss.xml'
 
     image_path = news_creator.download_comics(rss_feed)
     shutil.copy(image_path, os.environ['HOME'])
