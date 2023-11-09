@@ -259,6 +259,7 @@ class NewsLoaderConfiguration(object):
             os.makedirs(directory)
 
         self.config_fp = os.path.join(directory, 'config.toml')
+        self._cronjob_id = 'news loader'
 
     def get_recipes_names(self):
         """find present custom recipes in calibre config folder
@@ -344,19 +345,22 @@ class NewsLoaderConfiguration(object):
 
         """
         cron = CronTab(user=getpass.getuser())
-        job = cron.new(command='echo hw')
-        job.minute.every(1)
+        # TODO: only if there is already a job and raise a warning:
+        cron.remove_all(comment=self._cronjob_id)
+        job = cron.new(command='echo news_loader_run', comment=self._cronjob_id)
+
         cron.write()
 
 
-    def del_crontab(self, arg1):
-        """TODO: Docstring for del_crontab.
+    def del_crontab(self):
+        """delete the news loader job in the crontab
 
-        :arg1: TODO
-        :returns: TODO
 
         """
-        pass
+        cron = CronTab(user=getpass.getuser())
+        cron.remove_all(comment=self._cronjob_id)
+        cron.write()
+
 
     def load_config(self):
         """load toml file present in config user directory
