@@ -216,7 +216,9 @@ class NewsCreator(object):
         oc.drop_file(file_path)
 
         file_name = os.path.basename(file_path)
-        self._varbox.files_online = self._varbox.files_online.append(file_name)
+        files_online = self._varbox.files_online
+        files_online.append(file_name)
+        self._varbox.files_online = files_online
 
     def clean_data_folder(self):
         """delete all the previous book downloaded or created
