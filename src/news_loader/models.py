@@ -24,7 +24,7 @@ class RSSParser(HTMLParser):
     """a small rss parser to obtain image link"""
     def handle_starttag(self, tag, attrs):
         if tag == 'img':
-            self.image_link=dict(attrs).get('src')
+            self.image_link = dict(attrs).get('src')
 
 
 class NewsCreator(object):
@@ -142,7 +142,8 @@ class NewsCreator(object):
 
     def download_comics(self, rss_feed: str):
         """
-        get image from webcomic rss feeds. it has to parse to find the image link
+        get image from webcomic rss feeds. it has to parse to find the
+        image link
         :rss_feed: from any webcomics rss with an image
         :returns: path to image file just created
 
