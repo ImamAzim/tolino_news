@@ -156,5 +156,5 @@ def clean_webdav():
 
 
 if __name__ == '__main__':
-    upload_file()
+    clean_webdav()
 
