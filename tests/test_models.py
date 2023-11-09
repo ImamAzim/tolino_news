@@ -148,6 +148,12 @@ def upload_file():
     with tempfile.NamedTemporaryFile() as fp:
         news_creator.upload_file(fp.name)
 
+def clean_webdav():
+    config = NewsLoaderConfiguration()
+    config_dict = config.load_config()
+    news_creator = NewsCreator(config_dict)
+    news_creator.clean_webdav()
+
 
 if __name__ == '__main__':
     upload_file()
