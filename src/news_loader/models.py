@@ -333,7 +333,7 @@ class NewsLoaderConfiguration(object):
         if os.path.exists(self.config_fp):
             os.remove(self.config_fp)
 
-    def add_crontab(self, arg1):
+    def add_crontab(self, hour, minute):
         """TODO: Docstring for add_crontab.
 
         :arg1: TODO
@@ -341,6 +341,16 @@ class NewsLoaderConfiguration(object):
 
         """
         pass
+
+    def add_in_crontab(self, hour: int, minute: int):
+        """add the news loader job in user crontab
+
+        :hour: time at which job is run
+        :minute: time at which job is run
+
+        """
+        pass
+
 
     def del_crontab(self, arg1):
         """TODO: Docstring for del_crontab.
