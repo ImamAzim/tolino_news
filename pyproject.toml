@@ -27,6 +27,7 @@ dependencies = [
     'tomli-w',
     'tomli',
     'feedparser',
+    'requests',
 ]
 
 [project.optional-dependencies]

@@ -9,6 +9,7 @@ import xdg_base_dirs
 import tomli_w
 import tomli
 import feedparser
+import requests
 
 
 CUSTOM_RECIPES_PATH = os.path.join(
@@ -16,6 +17,13 @@ CUSTOM_RECIPES_PATH = os.path.join(
         'calibre',
         'custom_recipes',
         )
+
+
+class RSSParser(HTMLParser):
+    """a small rss parser to obtain image link"""
+    def handle_starttag(self, tag, attrs):
+        if tag == 'img':
+            self.image_link=dict(attrs).get('src')
 
 
 class NewsCreator(object):
@@ -134,12 +142,14 @@ class NewsCreator(object):
         :returns: path to image file just created
 
         """
-        feed = feedparser.parse(rss_link)
+        feed = feedparser.parse(rss_feed)
         comic_summary = feed.entries[0].summary
         parser = RSSParser()
         parser.feed(comic_summary)
         image_link = parser.image_link
+
         rsp = requests.get(image_link)
+
         path = os.path.join(comic_folder, f'{filenumber}.png')
         with open(path, 'wb') as myfile:
             myfile.write(rsp.content)
