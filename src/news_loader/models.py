@@ -180,7 +180,7 @@ class NewsCreator(object):
 
         with tempfile.TemporaryDirectory() as comic_folder:
             for image in images:
-                shutil.move(image, comic_folder)
+                shutil.copy(image, comic_folder)
             shutil.make_archive(cbz_path, 'zip', comic_folder)
         cbz_path_with_ext = f'{cbz_path}.cbz'
         shutil.move(f'{cbz_path}.zip', cbz_path_with_ext)
