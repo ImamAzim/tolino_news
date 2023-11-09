@@ -3,6 +3,7 @@ import subprocess
 import logging
 import datetime
 from html.parser import HTMLParser
+from urllib.parse import urlparse
 
 
 import xdg_base_dirs
@@ -149,8 +150,9 @@ class NewsCreator(object):
         image_link = parser.image_link
 
         rsp = requests.get(image_link)
+        filename = urlparse(rss_feed).netloc
+        path = os.path.join(self._data_path, f'{filename}.png')
 
-        path = os.path.join(self._data_path, f'{rss_feed}.png')
         with open(path, 'wb') as myfile:
             myfile.write(rsp.content)
         self._to_delete.append(path)
