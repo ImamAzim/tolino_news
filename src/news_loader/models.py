@@ -14,6 +14,7 @@ import tomli
 import feedparser
 import requests
 import owncloud
+from varboxes import VarBox
 
 
 CUSTOM_RECIPES_PATH = os.path.join(
@@ -47,6 +48,10 @@ class NewsCreator(object):
             os.makedirs(self._data_path)
 
         self._to_delete = list()
+
+        self._varbox = VarBox()
+        if not hasattr(self._varbox, 'files_online'):
+            self._varbox.files_online = list()
 
     def download_all_news(self):
         """download news for all the recipes and create epub for each
@@ -193,7 +198,12 @@ class NewsCreator(object):
         """remove all files previousely uploaded
 
         """
-        pass
+        webdav_link = self._config_dict['webdav_link']
+        oc = owncloud.Client.from_public_link(webdav_link)
+        for filename in self._varbox.files_online:
+            oc.delete(filename)
+        self._varbox.files_online = list()
+
 
     def upload_file(self, file_path):
         """upload a file to the webdav folder
@@ -204,8 +214,9 @@ class NewsCreator(object):
         webdav_link = self._config_dict['webdav_link']
         oc = owncloud.Client.from_public_link(webdav_link)
         oc.drop_file(file_path)
-        
+
         file_name = os.path.basename(file_path)
+        self._varbox.files_online = self._varbox.files_online.append(file_name)
 
     def clean_data_folder(self):
         """delete all the previous book downloaded or created
