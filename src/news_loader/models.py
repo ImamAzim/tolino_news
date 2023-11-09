@@ -6,6 +6,7 @@ from html.parser import HTMLParser
 from urllib.parse import urlparse
 import tempfile
 import shutil
+import getpass
 
 
 import xdg_base_dirs
@@ -15,6 +16,7 @@ import feedparser
 import requests
 import owncloud
 from varboxes import VarBox
+from crontab import CronTab
 
 
 CUSTOM_RECIPES_PATH = os.path.join(
@@ -341,7 +343,10 @@ class NewsLoaderConfiguration(object):
         :minute: time at which job is run
 
         """
-        pass
+        cron = CronTab(user=getpass.getuser())
+        job = cron.new(command='echo hw')
+        job.minute.every(1)
+        cron.write()
 
 
     def del_crontab(self, arg1):
