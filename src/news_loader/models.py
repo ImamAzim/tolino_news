@@ -201,9 +201,14 @@ class NewsCreator(object):
         webdav_link = self._config_dict['webdav_link']
         oc = owncloud.Client.from_public_link(webdav_link)
         for filename in self._varbox.files_online:
-            oc.delete(filename)
+            try:
+                oc.delete(filename)
+            except owncloud.HTTPResponseError:
+                logging.warning(
+                        'http error.',
+                        'maybe the file is not present anymore on webdav',
+                        )
         self._varbox.files_online = list()
-
 
     def upload_file(self, file_path):
         """upload a file to the webdav folder
