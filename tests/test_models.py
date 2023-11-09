@@ -10,6 +10,7 @@ import os
 import tomli
 import time
 import shutil
+import tempfile
 
 
 import xdg_base_dirs
@@ -135,7 +136,20 @@ def get_comics():
     print(f'image have been created in home folder')
 
 
+def clean_webdav():
+    pass
+
+
+def upload_file():
+    config = NewsLoaderConfiguration()
+    config_dict = config.load_config()
+    news_creator = NewsCreator(config_dict)
+
+    with tempfile.NamedTemporaryFile() as fp:
+        fp.write(b'test upload')
+        news_creator.upload_file(fp.name)
+
 
 if __name__ == '__main__':
-    get_comics()
+    upload_file()
 
