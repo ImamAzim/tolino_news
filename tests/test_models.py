@@ -155,6 +155,11 @@ def clean_webdav():
     news_creator.clean_webdav()
 
 
+def add_to_crontab():
+    config = NewsLoaderConfiguration()
+    config.add_in_crontab(8, 30)
+
+
 if __name__ == '__main__':
-    clean_webdav()
+    add_to_crontab()
 
