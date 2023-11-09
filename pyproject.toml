@@ -28,6 +28,7 @@ dependencies = [
     'tomli',
     'requests',
     'varboxes',
+    'python-crontab',
 ]
 
 [project.optional-dependencies]
