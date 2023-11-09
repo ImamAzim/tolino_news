@@ -33,10 +33,9 @@ class NewsCreatorJob(object):
 
         logger.info('download comics')
         images = self.news_creator.download_all_comics()
-        print(images)
 
-        # logger.info('create cbz')
-        # cbz = self.news_creator.create_cbz_file(images)
+        logger.info('create cbz')
+        cbz = self.news_creator.create_cbz_file(images)
 
         # self.news_creator.clean_webdav()
         # self.news_creator.upload_file(merged_epub)

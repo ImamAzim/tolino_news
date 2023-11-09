@@ -43,6 +43,10 @@ class NewsCreator(object):
         if not os.path.exists(self._data_path):
             os.makedirs(self._data_path)
 
+        self._comics_folder = os.path.join(self._data_path, 'comics')
+        if not os.path.exists(self._comics_folder):
+            os.makedirs(self._comics_folder)
+
         self._to_delete = list()
 
     def download_all_news(self):
@@ -134,11 +138,11 @@ class NewsCreator(object):
         :returns: list of image files
 
         """
-        cbz_list = list()
+        images = list()
         for rss_feed in self._config_dict['comics_rss_feeds']:
-            cbz = self.download_comics(rss_feed)
-            cbz_list.append(cbz)
-        return cbz_list
+            image = self.download_comics(rss_feed)
+            images.append(image)
+        return images
 
     def download_comics(self, rss_feed: str):
         """
@@ -171,7 +175,10 @@ class NewsCreator(object):
         :returns: path to cbz file
 
         """
-        pass
+        filename = 'comics.cbz'
+        path = os.path.join(self._data_path, filename)
+
+        return path
 
     def clean_webdav(self, arg1):
         """TODO: Docstring for clean_webdav.
