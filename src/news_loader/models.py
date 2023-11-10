@@ -51,7 +51,7 @@ class NewsCreator(object):
 
         self._to_delete = list()
 
-        self._varbox = VarBox()
+        self._varbox = VarBox('news_loader')
         if not hasattr(self._varbox, 'files_online'):
             self._varbox.files_online = list()
 
