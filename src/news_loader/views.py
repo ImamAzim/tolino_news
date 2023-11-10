@@ -14,6 +14,7 @@ class NewsLoaderMenu(object):
                 '3': 'test the news loader now',
                 '4': 'add a crontab job to load news',
                 '5': 'delete crontab job',
+                '6': 'show configuration file',
                 'q': 'quit',
                 }
         self._running = True
@@ -127,6 +128,14 @@ class NewsLoaderMenu(object):
         """
         self.config.del_crontab()
         print('cron job deleted. News Loader will not run daily anymore')
+        print('===')
+
+    def case_6(self):
+        """show config file
+
+        """
+        config_dict = self.config.load_config()
+        print(config_dict)
         print('===')
 
     def case_q(self):
