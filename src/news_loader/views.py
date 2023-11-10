@@ -102,7 +102,7 @@ class NewsLoaderMenu(object):
         """add crontab job
 
         """
-        print('you have chosen option 4')
+        input
         print('===')
 
     def case_5(self):
