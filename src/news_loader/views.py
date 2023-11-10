@@ -109,7 +109,8 @@ class NewsLoaderMenu(object):
         """delete crontab job
 
         """
-        print('you have chosen option 5')
+        self.config.del_crontab()
+        print('cron job deleted. News Loader will not run daily anymore')
         print('===')
 
     def case_q(self):
