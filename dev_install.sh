@@ -12,4 +12,5 @@ python3 -m venv /usr/local/lib/news_loader
 source /usr/local/lib/news_loader/bin/activate
 pip install $path
 ln -fs /usr/local/lib/news_loader/bin/news_loader /usr/local/bin
+ln -fs /usr/local/lib/news_loader/bin/news_loader_run /usr/local/bin
 
