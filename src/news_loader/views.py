@@ -102,7 +102,23 @@ class NewsLoaderMenu(object):
         """add crontab job
 
         """
-        input
+        hour_str = input('hours=')
+        try:
+            hour = int(hour_str)
+        except ValueError:
+            print('invalid hour')
+        else:
+            min_str = input('minutes=')
+            try:
+                minute = int(min_str)
+            except ValueError:
+                print('invalid minutes')
+            else:
+                try:
+                    self.config.add_in_crontab(hour, minute)
+                except FileExistsError:
+                    print('there is already such cron job. please delete it first.')
+
         print('===')
 
     def case_5(self):
