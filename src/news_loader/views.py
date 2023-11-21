@@ -1,7 +1,7 @@
 import getpass
 
 from news_loader.models import NewsLoaderConfiguration
-from news_loader.jobs import run_news_loader_job
+from news_loader.jobs import run_news_loader
 
 class NewsLoaderMenu(object):
 
@@ -96,7 +96,7 @@ class NewsLoaderMenu(object):
         """test the news loader now
 
         """
-        run_news_loader_job()
+        run_news_loader()
         print('===')
 
     def case_4(self):
