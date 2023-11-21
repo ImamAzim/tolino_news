@@ -1,19 +1,20 @@
 import logging
+import os
 import sys
+
+
+import xdg_base_dirs
 
 
 from news_loader.models import NewsCreator, NewsLoaderConfiguration
 
 
-logger = logging.getLogger('news loader')
-logger.setLevel(logging.INFO)
-formatter = logging.Formatter(
+logging.basicConfig(
+        encoding='utf-8',
+        level=logging.INFO,
         fmt="%(asctime)s %(name)s.%(levelname)s: %(message)s",
         datefmt="%Y.%m.%d %H:%M:%S",
         )
-handler = logging.StreamHandler(stream=sys.stdout)
-handler.setFormatter(formatter)
-logger.addHandler(handler)
 
 
 class NewsCreatorJob(object):
@@ -26,34 +27,49 @@ class NewsCreatorJob(object):
         self.news_creator = NewsCreator(config_dict)
 
     def run(self):
-        logger.info('run job news loader...')
+        logging.info('run job news loader...')
 
-        logger.info('download news')
+        logging.info('download news')
         epubs = self.news_creator.download_all_news()
 
-        logger.info('merge epubs')
+        logging.info('merge epubs')
         merged_epub = self.news_creator.merge_epubs(epubs)
 
-        logger.info('download comics')
+        logging.info('download comics')
         images = self.news_creator.download_all_comics()
 
-        logger.info('create cbz')
+        logging.info('create cbz')
         cbz = self.news_creator.create_cbz_file(images)
 
-        logger.info('clean webdav folder')
+        logging.info('clean webdav folder')
         self.news_creator.clean_webdav()
 
-        logger.info('upload files')
+        logging.info('upload files')
         self.news_creator.upload_file(merged_epub)
         self.news_creator.upload_file(cbz)
 
-        logger.info('clean data folder')
+        logging.info('clean data folder')
         self.news_creator.clean_data_folder()
 
-        logger.info('job finished')
+        logging.info('job finished')
 
 
 def run_news_loader_job():
+    directory = os.path.join(
+            xdg_base_dirs.xdg_state_home(),
+            'news_loader',
+            )
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    filename = os.path.join(directory, 'log')
+    logging.basicConfig(
+            filename=filename
+            )
+    job = NewsCreatorJob()
+    job.run()
+
+
+def run_news_loader():
     job = NewsCreatorJob()
     job.run()
 
