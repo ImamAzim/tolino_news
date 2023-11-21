@@ -57,7 +57,7 @@ def run_news_loader_job():
         os.makedirs(directory)
     filename = os.path.join(directory, 'log')
     logging.basicConfig(
-            filename=filename
+            filename=filename,
             encoding='utf-8',
             level=logging.INFO,
             format="%(asctime)s %(name)s.%(levelname)s: %(message)s",
