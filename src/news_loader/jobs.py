@@ -9,12 +9,6 @@ import xdg_base_dirs
 from news_loader.models import NewsCreator, NewsLoaderConfiguration
 
 
-logging.basicConfig(
-        encoding='utf-8',
-        level=logging.INFO,
-        format="%(asctime)s %(name)s.%(levelname)s: %(message)s",
-        datefmt="%Y.%m.%d %H:%M:%S",
-        )
 
 
 class NewsCreatorJob(object):
@@ -64,12 +58,22 @@ def run_news_loader_job():
     filename = os.path.join(directory, 'log')
     logging.basicConfig(
             filename=filename
+            encoding='utf-8',
+            level=logging.INFO,
+            format="%(asctime)s %(name)s.%(levelname)s: %(message)s",
+            datefmt="%Y.%m.%d %H:%M:%S",
             )
     job = NewsCreatorJob()
     job.run()
 
 
 def run_news_loader():
+    logging.basicConfig(
+            encoding='utf-8',
+            level=logging.INFO,
+            format="%(asctime)s %(name)s.%(levelname)s: %(message)s",
+            datefmt="%Y.%m.%d %H:%M:%S",
+            )
     job = NewsCreatorJob()
     job.run()
 
