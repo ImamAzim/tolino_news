@@ -12,7 +12,7 @@ from news_loader.models import NewsCreator, NewsLoaderConfiguration
 logging.basicConfig(
         encoding='utf-8',
         level=logging.INFO,
-        fmt="%(asctime)s %(name)s.%(levelname)s: %(message)s",
+        format="%(asctime)s %(name)s.%(levelname)s: %(message)s",
         datefmt="%Y.%m.%d %H:%M:%S",
         )
 
