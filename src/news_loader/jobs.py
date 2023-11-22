@@ -1,6 +1,7 @@
 import logging
 import os
 import sys
+import contextlib
 
 
 import xdg_base_dirs
@@ -55,18 +56,19 @@ def run_news_loader_job():
             )
     if not os.path.exists(directory):
         os.makedirs(directory)
-    filename = os.path.join(directory, 'log')
+    logfile = os.path.join(directory, 'log')
     logging.basicConfig(
-            filename=filename,
+            filename=logfile,
             encoding='utf-8',
             level=logging.INFO,
             format="%(asctime)s %(name)s.%(levelname)s: %(message)s",
             datefmt="%Y.%m.%d %H:%M:%S",
             )
-    with open(filename, 'a') as logfile:
-        sys.stderr = logfile
-        job = NewsCreatorJob()
-        job.run()
+    # logfile = os.path.join(directory, 'errors')
+    # with open(filename, 'w') as logfile:
+    sys.stderr = open(logfile, 'a')
+    job = NewsCreatorJob()
+    job.run()
     sys.stderr = sys.__stderr__
 
 
