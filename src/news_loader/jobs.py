@@ -63,8 +63,11 @@ def run_news_loader_job():
             format="%(asctime)s %(name)s.%(levelname)s: %(message)s",
             datefmt="%Y.%m.%d %H:%M:%S",
             )
-    job = NewsCreatorJob()
-    job.run()
+    with open(filename, 'a') as logfile:
+        sys.stderr = logfile
+        job = NewsCreatorJob()
+        job.run()
+    sys.stderr = sys.__stderr__
 
 
 def run_news_loader():
