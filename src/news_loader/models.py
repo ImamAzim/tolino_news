@@ -375,6 +375,12 @@ class NewsLoaderConfiguration(object):
             toml_dict = tomli.load(f)
         return toml_dict
 
+    def install_epubmerge_plugin(self):
+        """use calibre customize to install zip file
+
+        """
+        pass
+
 
 if __name__ == '__main__':
     print(os.path.dirname(__file__))
