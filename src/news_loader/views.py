@@ -9,6 +9,7 @@ class NewsLoaderMenu(object):
 
     def __init__(self):
         self._menu = {
+                '0': 'install epubmerge plugin (mandatory before first use)',
                 '1': 'add configuration file',
                 '2': 'delete configuration file',
                 '3': 'test the news loader now',
@@ -39,6 +40,13 @@ class NewsLoaderMenu(object):
     def _print_menu(self):
         for key, value in self._menu.items():
             print(key, value)
+        print('===')
+
+    def case_0(self):
+        """install epubmerge plugin
+
+        """
+        self.config.install_epubmerge_plugin()
         print('===')
 
     def case_1(self):
