@@ -12,10 +12,10 @@ else
 fi
 
 path=`dirname $0`
-wget --output-document=EpubMerge.zip https://www.mobileread.com/forums/attachment.php?attachmentid=128768&d=1663081894
-rm wget-log
+sudo -u $real_user wget --output-document=EpubMerge.zip https://www.mobileread.com/forums/attachment.php?attachmentid=128768&d=1663081894
+sudo -u $real_user rm wget-log
 sudo -u $real_user calibre-customize -a EpubMerge.zip
-rm EpubMerge.zip
+sudo -u $real_user rm EpubMerge.zip
 
 apt install -y python3-venv
 python3 -m venv /usr/local/lib/news_loader
