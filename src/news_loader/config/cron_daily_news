@@ -1,1 +1,0 @@
-35 6 * * * root /usr/local/bin/news_loader/bin/fetch_daily_news
