@@ -13,9 +13,6 @@ import shutil
 import tempfile
 
 
-import xdg_base_dirs
-
-
 from news_loader.models import NewsCreator, NewsLoaderConfiguration
 
 

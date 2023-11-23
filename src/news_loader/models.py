@@ -9,7 +9,7 @@ import shutil
 import getpass
 
 
-import xdg_base_dirs
+import xdg
 import tomli_w
 import tomli
 import feedparser
@@ -20,7 +20,7 @@ from crontab import CronTab
 
 
 CUSTOM_RECIPES_PATH = os.path.join(
-        xdg_base_dirs.xdg_config_home(),
+        xdg.xdg_config_home(),
         'calibre',
         'custom_recipes',
         )
@@ -43,7 +43,7 @@ class NewsCreator(object):
         """
         self._config_dict = config_dict
         self._data_path = os.path.join(
-                xdg_base_dirs.xdg_data_home(),
+                xdg.xdg_data_home(),
                 'news_loader'
                 )
         if not os.path.exists(self._data_path):
@@ -252,7 +252,7 @@ class NewsLoaderConfiguration(object):
                 )
 
         directory = os.path.join(
-                xdg_base_dirs.xdg_config_home(),
+                xdg.xdg_config_home(),
                 'news_loader',
                 )
         if not os.path.exists(directory):

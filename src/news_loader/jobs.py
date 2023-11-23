@@ -4,7 +4,7 @@ import sys
 import contextlib
 
 
-import xdg_base_dirs
+import xdg
 
 
 from news_loader.models import NewsCreator, NewsLoaderConfiguration
@@ -51,7 +51,7 @@ class NewsCreatorJob(object):
 
 def run_news_loader_job():
     directory = os.path.join(
-            xdg_base_dirs.xdg_state_home(),
+            xdg.xdg_state_home(),
             'news_loader',
             )
     if not os.path.exists(directory):
