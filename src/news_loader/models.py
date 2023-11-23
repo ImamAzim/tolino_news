@@ -388,6 +388,7 @@ class NewsLoaderConfiguration(object):
                 '-a',
                 f'{path}'
                 ]
+        subprocess.run(cmd)
 
 
 if __name__ == '__main__':
