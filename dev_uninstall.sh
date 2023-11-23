@@ -1,16 +1,22 @@
 #!/bin/bash
 
-
-if [ $UID = 0 ]
-then
-	path=`dirname $0`
-	calibre-customize -r EpubMerge
-	rm -rf /usr/local/bin/news_loader
-	rm /etc/cron.d/cron_daily_news 
-	echo " you can now remove the source files in $path"
-	echo "you can remove calibre if you want"
-else
-	echo "please run this script as root. create one if necessary with the command:
-	sudo passwd root"
+if ! [ $(id -u) = 0 ]; then
+   echo "The script need to be run as root." >&2
+   exit 1
 fi
+
+if [ $SUDO_USER ]; then
+    real_user=$SUDO_USER
+else
+    real_user=$(whoami)
+fi
+
+path=`dirname $0`
+sudo -u $real_user calibre-customize -r EpubMerge.zip
+rm -rf /usr/local/lib/news_loader
+rm -f /usr/local/bin/news_loader
+rm -f /usr/local/bin/news_loader_run
+echo "if you did not remove the crontab job before, you have to do it manually"
+echo " you can now remove the source files in $path"
+echo "you can remove calibre if you want"
 
