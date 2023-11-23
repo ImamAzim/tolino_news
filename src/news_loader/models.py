@@ -25,6 +25,8 @@ CUSTOM_RECIPES_PATH = os.path.join(
         'custom_recipes',
         )
 
+EXEC_PATH = "/usr/local/bin/news_loader_run" # must be created on install
+
 
 class RSSParser(HTMLParser):
     """a small rss parser to obtain image link"""
@@ -347,7 +349,7 @@ class NewsLoaderConfiguration(object):
         cron = CronTab(user=getpass.getuser())
         if [el for el in cron.find_comment(self._cronjob_id)]:
             raise FileExistsError
-        job = cron.new(command=f'news_loader_run > /tmp/news_loader_log', comment=self._cronjob_id)
+        job = cron.new(command=f'{EXEC_PATH} > /tmp/news_loader_log 2>&1', comment=self._cronjob_id)
         job.hour.on(hour)
         job.minute.on(minute)
 
