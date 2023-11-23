@@ -347,7 +347,7 @@ class NewsLoaderConfiguration(object):
         cron = CronTab(user=getpass.getuser())
         if [el for el in cron.find_comment(self._cronjob_id)]:
             raise FileExistsError
-        job = cron.new(command='news_loader_run', comment=self._cronjob_id)
+        job = cron.new(command=f'news_loader_run > /tmp/news_loader_log', comment=self._cronjob_id)
         job.hour.on(hour)
         job.minute.on(minute)
 
