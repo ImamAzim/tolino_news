@@ -12,7 +12,7 @@ else
 fi
 
 path=`dirname $0`
-sudo -u $real_user calibre-customize -r EpubMerge.zip
+sudo -u $real_user calibre-customize -r EpubMerge
 rm -rf /usr/local/lib/news_loader
 rm -f /usr/local/bin/news_loader
 rm -f /usr/local/bin/news_loader_run
