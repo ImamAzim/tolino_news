@@ -379,7 +379,15 @@ class NewsLoaderConfiguration(object):
         """use calibre customize to install zip file
 
         """
-        pass
+        filename = 'EpubMerge.zip'
+        plugin_dir = os.path.join(os.path.dirname(__file__), 'plugins')
+        path = os.path.join(plugin_dir, filename)
+
+        cmd = [
+                'calibre-customize',
+                '-a',
+                f'{path}'
+                ]
 
 
 if __name__ == '__main__':
