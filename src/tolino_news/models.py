@@ -262,6 +262,26 @@ class NewsCreator(object):
             msg = 'registered!'
             return msg
 
+    def unregister_device(self):
+        """unregister device on server
+        :return: msg of success or failure
+
+        """
+        server_name =self._config_dict['tolino_cloud_config']['server_name']
+        username =self._config_dict['tolino_cloud_config']['username']
+        password =self._config_dict['tolino_cloud_config']['password']
+        try:
+            client = Client(server_name)
+            client.login(username, password)
+            client.unregister()
+            client.logout()
+        except PytolinoException:
+            msg = 'unregistration failed'
+            return msg
+        else:
+            msg = 'unregistered!'
+            return msg
+
 
 class NewsLoaderConfiguration(object):
 
