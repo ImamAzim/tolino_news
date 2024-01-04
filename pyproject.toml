@@ -22,13 +22,13 @@ description = "deamon fetching news to be read by ereader"
 
 dependencies = [
     'xdg',
-    'pyocclient',
     'feedparser',
     'tomli-w',
     'tomli',
     'requests',
     'varboxes',
     'python-crontab',
+    'pytolino',
 ]
 
 [project.optional-dependencies]
