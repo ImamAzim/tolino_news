@@ -7,7 +7,7 @@ import contextlib
 import xdg
 
 
-from news_loader.models import NewsCreator, NewsLoaderConfiguration
+from tolino_news.models import NewsCreator, NewsLoaderConfiguration
 
 
 
@@ -52,7 +52,7 @@ class NewsCreatorJob(object):
 def run_news_loader_job():
     directory = os.path.join(
             xdg.xdg_state_home(),
-            'news_loader',
+            'tolino_news',
             )
     if not os.path.exists(directory):
         os.makedirs(directory)
