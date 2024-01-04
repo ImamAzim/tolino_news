@@ -1,1 +1,1 @@
-include src/news_loader/plugins/*
+include src/tolino_news/plugins/*
