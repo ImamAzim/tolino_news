@@ -78,8 +78,17 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
         self.config.add_comics_rss('my_rss_feed')
         self.assertIn('my_rss_feed', self.config._config_dict['comics_rss_feeds'])
 
-    # def test_add_tolino_cloud_config(self):
-        # self.
+    def test_add_tolino_cloud_config(self):
+        mytolino_config = dict(
+                server_name='server name',
+                username='me',
+                password='secret',
+                )
+        self.config.add_tolino_cloud_config(**mytolino_config)
+        config_dict = self.config._config_dict
+        self.assertIn('tolino_cloud_config', config_dict)
+        tolino_config = config_dict['tolino_cloud_config']
+        self.assertDictEqual(mytolino_config, tolino_config)
 
     def test_empty_rss(self):
         self.config.add_comics_rss('my_rss_feed')
