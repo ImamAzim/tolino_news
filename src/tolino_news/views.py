@@ -76,9 +76,13 @@ class NewsLoaderMenu(object):
             if answer:
                 self.config.add_comics_rss(answer)
 
-        #webdav link
-        webdav_link =input('webdav link: ')
-        self.config.add_nextcloud_config(webdav_link)
+        #tolino cloud config
+        server_name =input('tolino server name [www.buecher.de]:\n')
+        server_name = 'www.buecher.de' if not server_name else server_name
+        username = input('username:\n')
+        password = getpass.getpass()
+
+        self.config.add_tolino_cloud_config(server_name, username, password)
 
         # create config file
 
