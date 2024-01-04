@@ -88,7 +88,14 @@ def register_device():
     :returns: msg to inform success
 
     """
-    pass
+    news_loader_configuration = NewsLoaderConfiguration()
+    try:
+        config_dict = news_loader_configuration.load_config()
+    except FileNotFoundError:
+        msg = 'file not found! did you create a config files?'
+        return msg
+    else:
+        news_creator = NewsCreator(config_dict)
 
 
 
