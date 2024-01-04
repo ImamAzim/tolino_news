@@ -14,9 +14,9 @@ fi
 path=`dirname $0`
 
 apt install -y python3-venv
-python3 -m venv /usr/local/lib/news_loader
-source /usr/local/lib/news_loader/bin/activate
+python3 -m venv /usr/local/lib/tolino_news
+source /usr/local/lib/tolino_news/bin/activate
 pip install $path
-ln -fs /usr/local/lib/news_loader/bin/news_loader /usr/local/bin
-ln -fs /usr/local/lib/news_loader/bin/news_loader_run /usr/local/bin
+ln -fs /usr/local/lib/tolino_news/bin/tolino_news /usr/local/bin
+ln -fs /usr/local/lib/tolino_news/bin/tolino_news_run /usr/local/bin
 
