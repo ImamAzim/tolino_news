@@ -1,4 +1,4 @@
-from news_loader.views import NewsLoaderMenu
+from tolino_news.views import NewsLoaderMenu
 
 
 def start_news_loader_menu():
