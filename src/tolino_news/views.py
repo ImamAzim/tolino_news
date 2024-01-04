@@ -1,7 +1,7 @@
 import getpass
 
 from tolino_news.models import NewsLoaderConfiguration
-from tolino_news.jobs import run_news_loader, register_device
+from tolino_news.jobs import run_news_loader, register_device, unregister_device
 
 class NewsLoaderMenu(object):
 
@@ -118,6 +118,8 @@ class NewsLoaderMenu(object):
         """unregister device
 
         """
+        msg = unregister_device()
+        print(msg)
         print('===')
 
     def case_5(self):
