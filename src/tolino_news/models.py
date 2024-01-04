@@ -25,7 +25,7 @@ CUSTOM_RECIPES_PATH = os.path.join(
         'custom_recipes',
         )
 
-EXEC_PATH = "/usr/local/bin/news_loader_run" # must be created on install
+EXEC_PATH = "/usr/local/bin/tolino_news_run" # must be created on install
 
 
 class RSSParser(HTMLParser):
@@ -46,14 +46,14 @@ class NewsCreator(object):
         self._config_dict = config_dict
         self._data_path = os.path.join(
                 xdg.xdg_data_home(),
-                'news_loader'
+                'tolino_news'
                 )
         if not os.path.exists(self._data_path):
             os.makedirs(self._data_path)
 
         self._to_delete = list()
 
-        self._varbox = VarBox('news_loader')
+        self._varbox = VarBox('tolino_news')
         if not hasattr(self._varbox, 'files_online'):
             self._varbox.files_online = list()
 
@@ -255,13 +255,13 @@ class NewsLoaderConfiguration(object):
 
         directory = os.path.join(
                 xdg.xdg_config_home(),
-                'news_loader',
+                'tolino_news',
                 )
         if not os.path.exists(directory):
             os.makedirs(directory)
 
         self.config_fp = os.path.join(directory, 'config.toml')
-        self._cronjob_id = 'news loader'
+        self._cronjob_id = 'tolino news'
 
     def get_recipes_names(self):
         """find present custom recipes in calibre config folder
@@ -349,7 +349,7 @@ class NewsLoaderConfiguration(object):
         cron = CronTab(user=getpass.getuser())
         if [el for el in cron.find_comment(self._cronjob_id)]:
             raise FileExistsError
-        job = cron.new(command=f'{EXEC_PATH} > /tmp/news_loader_log 2>&1', comment=self._cronjob_id)
+        job = cron.new(command=f'{EXEC_PATH} > /tmp/tolino_news_log 2>&1', comment=self._cronjob_id)
         job.hour.on(hour)
         job.minute.on(minute)
 
