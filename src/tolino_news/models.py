@@ -404,6 +404,13 @@ class NewsLoaderConfiguration(object):
                 ]
         subprocess.run(cmd)
 
+    def register_device(self):
+        """register current device on the server
+        :raise: PytolinoException if fail to register
+
+        """
+        pass
+
 
 if __name__ == '__main__':
     print(os.path.dirname(__file__))
