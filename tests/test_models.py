@@ -13,7 +13,7 @@ import shutil
 import tempfile
 
 
-from news_loader.models import NewsCreator, NewsLoaderConfiguration
+from tolino_news.models import NewsCreator, NewsLoaderConfiguration
 
 
 class TestNewsCreator(unittest.TestCase):
