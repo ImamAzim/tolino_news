@@ -251,6 +251,7 @@ class NewsLoaderConfiguration(object):
         self._config_dict = dict(
                 recipes=dict(),
                 comics_rss_feeds=list(),
+                tolino_cloud_config=dict(),
                 )
 
         directory = os.path.join(
