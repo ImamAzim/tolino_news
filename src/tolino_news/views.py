@@ -110,13 +110,13 @@ class NewsLoaderMenu(object):
         """register device
 
         """
-        # try:
-            # config_dict = self.config.load_config()
-        # except FileNotFoundError:
-            # print('file not found! did you create a config files?')
-        # else:
-            # try:
-                # self.config.
+        try:
+            config_dict = self.config.load_config()
+        except FileNotFoundError:
+            print('file not found! did you create a config files?')
+        else:
+            answer = self.config.register_device()
+            print(answer)
         print('===')
 
     def case_4(self):
