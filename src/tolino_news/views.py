@@ -1,7 +1,7 @@
 import getpass
 
 from tolino_news.models import NewsLoaderConfiguration
-from tolino_news.jobs import run_news_loader
+from tolino_news.jobs import run_news_loader, register_device
 
 class NewsLoaderMenu(object):
 
@@ -110,6 +110,8 @@ class NewsLoaderMenu(object):
         """register device
 
         """
+        msg = register_device()
+        print(msg)
         print('===')
 
     def case_4(self):
