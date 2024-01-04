@@ -322,7 +322,10 @@ class NewsLoaderConfiguration(object):
         :password: from mytolino
 
         """
-        pass
+        tolino_config = self._config_dict['tolino_cloud_config']
+        tolino_config['server_name'] = server_name
+        tolino_config['username'] = username
+        tolino_config['password'] = password
 
     def save_config(self, overwrite=False, test=False):
         """save the current config in a toml file
