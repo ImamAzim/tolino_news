@@ -3,7 +3,7 @@ requires = ['setuptools>=61.0', 'wheel']
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "news_loader"
+name = "tolino_news"
 version = "0.1"
 authors = [
     {name="Imam Usmani"},
@@ -43,9 +43,9 @@ dev = [
 ]
 
 [project.urls]
-"Source Code" = "https://github.com/ImamAzim/news_loader"
-"Documentation" = "https://news_loader.readthedocs.io/en/latest/index.html"
+"Source Code" = "https://github.com/ImamAzim/tolino_news"
+"Documentation" = "https://tolino_news.readthedocs.io/en/latest/index.html"
 
 [project.scripts]
-news_loader = "news_loader.apps:start_news_loader_menu"
-news_loader_run = "news_loader.jobs:run_news_loader_job"
+tolino_news = "tolino_news.apps:start_news_loader_menu"
+tolino_news_run = "tolino_news.jobs:run_news_loader_job"
