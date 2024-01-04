@@ -100,5 +100,22 @@ def register_device():
         return msg
 
 
+def unregister_device():
+    """unregister the device on the server (do this only once)
+    :returns: msg to inform success
+
+    """
+    news_loader_configuration = NewsLoaderConfiguration()
+    try:
+        config_dict = news_loader_configuration.load_config()
+    except FileNotFoundError:
+        msg = 'file not found! did you create a config files?'
+        return msg
+    else:
+        news_creator = NewsCreator(config_dict)
+        msg = news_creator.unregister_device()
+        return msg
+
+
 if __name__ == '__main__':
     run_news_loader_job()
