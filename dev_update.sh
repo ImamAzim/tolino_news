@@ -3,5 +3,5 @@
 
 path=`dirname $0`
 git -C $path pull
-source /usr/local/lib/news_loader/bin/activate
+source /usr/local/lib/tolino_news/bin/activate
 pip install $path
