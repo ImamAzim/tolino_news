@@ -78,6 +78,9 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
         self.config.add_comics_rss('my_rss_feed')
         self.assertIn('my_rss_feed', self.config._config_dict['comics_rss_feeds'])
 
+    # def test_add_tolino_cloud_config(self):
+        # self.
+
     def test_empty_rss(self):
         self.config.add_comics_rss('my_rss_feed')
         self.config.empty_comics_rss()

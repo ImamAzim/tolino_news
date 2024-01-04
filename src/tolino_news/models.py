@@ -313,6 +313,16 @@ class NewsLoaderConfiguration(object):
         """
         self._config_dict['webdav_link'] = webdav_link
 
+    def add_tolino_cloud_config(self, server_name: str, username: str, password: str):
+        """add tolino cloud credentials and server in config
+
+        :server_name: must be accepted by pytolino client (ex:www.buecher.de)
+        :username: from mytolino
+        :password: from mytolino
+
+        """
+        pass
+
     def save_config(self, overwrite=False, test=False):
         """save the current config in a toml file
 
