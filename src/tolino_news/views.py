@@ -12,10 +12,12 @@ class NewsLoaderMenu(object):
                 '0': 'install epubmerge plugin (mandatory before first use)',
                 '1': 'add configuration file',
                 '2': 'delete configuration file',
-                '3': 'test the tolino news now',
-                '4': 'add a crontab job to tolino news',
-                '5': 'delete crontab job',
-                '6': 'show configuration file',
+                '3': 'register device (necessary to do it once before first use)',
+                '4': 'unregister device',
+                '5': 'test the tolino news now',
+                '6': 'add a crontab job to tolino news',
+                '7': 'delete crontab job',
+                '8': 'show configuration file',
                 'q': 'quit',
                 }
         self._running = True
@@ -105,13 +107,25 @@ class NewsLoaderMenu(object):
         print('===')
 
     def case_3(self):
+        """register device
+
+        """
+        print('===')
+
+    def case_4(self):
+        """unregister device
+
+        """
+        print('===')
+
+    def case_5(self):
         """test the tolino news now
 
         """
         run_news_loader()
         print('===')
 
-    def case_4(self):
+    def case_6(self):
         """add crontab job
 
         """
@@ -134,7 +148,7 @@ class NewsLoaderMenu(object):
 
         print('===')
 
-    def case_5(self):
+    def case_7(self):
         """delete crontab job
 
         """
@@ -142,7 +156,7 @@ class NewsLoaderMenu(object):
         print('cron job deleted. Tolino News will not run daily anymore')
         print('===')
 
-    def case_6(self):
+    def case_8(self):
         """show config file
 
         """
