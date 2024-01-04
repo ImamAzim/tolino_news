@@ -241,6 +241,13 @@ class NewsCreator(object):
         self._to_delete = list()
         pass
 
+    def register_device(self):
+        """register device on server
+        :return: msg of success or failure
+
+        """
+        pass
+
 
 class NewsLoaderConfiguration(object):
 

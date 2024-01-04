@@ -96,7 +96,8 @@ def register_device():
         return msg
     else:
         news_creator = NewsCreator(config_dict)
-
+        msg = news_creator.register_device()
+        return msg
 
 
 if __name__ == '__main__':
