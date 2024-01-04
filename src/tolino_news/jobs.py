@@ -83,5 +83,14 @@ def run_news_loader():
     job.run()
 
 
+def register_device():
+    """register the device on the server (do this only once)
+    :returns: msg to inform success
+
+    """
+    pass
+
+
+
 if __name__ == '__main__':
     run_news_loader_job()
