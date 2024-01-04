@@ -17,6 +17,7 @@ import requests
 import owncloud
 from varboxes import VarBox
 from crontab import CronTab
+from pytolino.tolino_cloud import Client, PytolinoException
 
 
 CUSTOM_RECIPES_PATH = os.path.join(
@@ -246,7 +247,20 @@ class NewsCreator(object):
         :return: msg of success or failure
 
         """
-        pass
+        server_name =self._config_dict['server_name']
+        username =self._config_dict['username']
+        password =self._config_dict['password']
+        try:
+            client = Client(server_name)
+            client.login(username, password)
+            client.register()
+            client.logout()
+        except PytolinoException:
+            msg = 'registration failed'
+            return msg
+        else:
+            msg = 'registered!'
+            return msg
 
 
 class NewsLoaderConfiguration(object):
