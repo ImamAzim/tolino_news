@@ -1,7 +1,7 @@
 import getpass
 
-from news_loader.models import NewsLoaderConfiguration
-from news_loader.jobs import run_news_loader
+from tolino_news.models import NewsLoaderConfiguration
+from tolino_news.jobs import run_news_loader
 
 class NewsLoaderMenu(object):
 
@@ -12,8 +12,8 @@ class NewsLoaderMenu(object):
                 '0': 'install epubmerge plugin (mandatory before first use)',
                 '1': 'add configuration file',
                 '2': 'delete configuration file',
-                '3': 'test the news loader now',
-                '4': 'add a crontab job to load news',
+                '3': 'test the tolino news now',
+                '4': 'add a crontab job to tolino news',
                 '5': 'delete crontab job',
                 '6': 'show configuration file',
                 'q': 'quit',
@@ -33,7 +33,7 @@ class NewsLoaderMenu(object):
 
     def _print_welcome(self):
         print(
-                'welcome to the news loader menu'
+                'welcome to the tolino news menu'
                 )
         print('===')
 
@@ -101,7 +101,7 @@ class NewsLoaderMenu(object):
         print('===')
 
     def case_3(self):
-        """test the news loader now
+        """test the tolino news now
 
         """
         run_news_loader()
@@ -135,7 +135,7 @@ class NewsLoaderMenu(object):
 
         """
         self.config.del_crontab()
-        print('cron job deleted. News Loader will not run daily anymore')
+        print('cron job deleted. Tolino News will not run daily anymore')
         print('===')
 
     def case_6(self):
