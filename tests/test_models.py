@@ -87,7 +87,6 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
         timestamps = time.time()
         feed_name = str(timestamps)
         self.config.add_comics_rss(feed_name)
-        self.config.add_nextcloud_config('a webdav link')
         self.config.add_recipe('recipe1')
         self.config.add_recipe('recipe2', 'me', 'mypassword')
 
@@ -131,10 +130,6 @@ def get_comics():
     shutil.copy(image_path, os.environ['HOME'])
     news_creator.clean_data_folder()
     print(f'image have been created in home folder')
-
-
-def clean_webdav():
-    pass
 
 
 def upload_file():
