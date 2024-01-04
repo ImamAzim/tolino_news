@@ -142,8 +142,12 @@ class NewsLoaderMenu(object):
         """show config file
 
         """
-        config_dict = self.config.load_config()
-        print(config_dict)
+        try:
+            config_dict = self.config.load_config()
+        except FileNotFoundError:
+            print('file not found! did you create a config files?')
+        else:
+            print(config_dict)
         print('===')
 
     def case_q(self):
