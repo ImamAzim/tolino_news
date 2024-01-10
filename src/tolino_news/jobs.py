@@ -37,7 +37,7 @@ class NewsCreatorJob(object):
         cbz = self.news_creator.create_cbz_file(images)
 
         logging.info('clean webdav folder')
-        self.news_creator.clean_webdav()
+        self.news_creator.clean_cloud()
 
         logging.info('upload files')
         self.news_creator.upload_file(merged_epub)
