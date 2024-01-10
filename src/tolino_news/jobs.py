@@ -36,11 +36,13 @@ class NewsCreatorJob(object):
         logging.info('create cbz')
         cbz = self.news_creator.create_cbz_file(images)
 
-        logging.info('clean webdav folder')
+        logging.info('clean cloud folder')
         self.news_creator.clean_cloud()
 
         logging.info('upload files')
+        logging.info('upload news')
         self.news_creator.upload_file(merged_epub)
+        logging.info('upload comics')
         self.news_creator.upload_file(cbz)
 
         logging.info('clean data folder')
