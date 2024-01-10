@@ -199,21 +199,30 @@ class NewsCreator(object):
 
         return cbz_path_with_ext
 
-    def clean_webdav(self):
+    def clean_cloud(self):
         """remove all files previousely uploaded
 
         """
-        webdav_link = self._config_dict['webdav_link']
-        oc = owncloud.Client.from_public_link(webdav_link)
-        for filename in self._varbox.files_online:
+        server_name =self._config_dict['tolino_cloud_config']['server_name']
+        username =self._config_dict['tolino_cloud_config']['username']
+        password =self._config_dict['tolino_cloud_config']['password']
+        client = Client(server_name)
+        try:
+            client.login(username, password)
+        except PytolinoException:
+            logging.warning('failed to login before file deletion')
+        else:
+            for ebook_id in self._varbox.files_online:
+                try:
+                    client.delete_ebook(ebook_id)
+                except PytolinoException:
+                    logging.warning('failed to delete some files because of a pytolino exception')
             try:
-                oc.delete(filename)
-            except owncloud.HTTPResponseError:
-                logging.warning(
-                        'http error.',
-                        'maybe the file is not present anymore on webdav',
-                        )
-        self._varbox.files_online = list()
+                client.logout()
+            except PytolinoException:
+                logging.warning('failed to logout')
+            finally:
+                self._varbox.files_online = list()
 
     def upload_file(self, file_path):
         """upload a file to the cloud
