@@ -216,19 +216,26 @@ class NewsCreator(object):
         self._varbox.files_online = list()
 
     def upload_file(self, file_path):
-        """upload a file to the webdav folder
+        """upload a file to the cloud
 
         :file_path: str
 
         """
-        webdav_link = self._config_dict['webdav_link']
-        oc = owncloud.Client.from_public_link(webdav_link)
-        oc.drop_file(file_path)
 
-        file_name = os.path.basename(file_path)
-        files_online = self._varbox.files_online
-        files_online.append(file_name)
-        self._varbox.files_online = files_online
+        server_name =self._config_dict['tolino_cloud_config']['server_name']
+        username =self._config_dict['tolino_cloud_config']['username']
+        password =self._config_dict['tolino_cloud_config']['password']
+        try:
+            client = Client(server_name)
+            client.login(username, password)
+            ebook_id = client.upload(file_path)
+            client.logout()
+        except PytolinoException:
+            logging.warning('failed to upload file because of a pytolino exception')
+        else:
+            files_online = self._varbox.files_online
+            files_online.append(ebook_id)
+            self._varbox.files_online = files_online
 
     def clean_data_folder(self):
         """delete all the previous book downloaded or created
