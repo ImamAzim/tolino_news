@@ -30,11 +30,11 @@ class NewsCreatorJob(object):
         logging.info('merge epubs')
         merged_epub = self.news_creator.merge_epubs(epubs)
 
-        logging.info('download comics')
-        images = self.news_creator.download_all_comics()
+        # logging.info('download comics')
+        # images = self.news_creator.download_all_comics()
 
-        logging.info('create cbz')
-        cbz = self.news_creator.create_cbz_file(images)
+        # logging.info('create cbz')
+        # cbz = self.news_creator.create_cbz_file(images)
 
         logging.info('clean cloud folder')
         self.news_creator.clean_cloud()
@@ -42,8 +42,8 @@ class NewsCreatorJob(object):
         logging.info('upload files')
         logging.info('upload news')
         self.news_creator.upload_file(merged_epub)
-        logging.info('upload comics')
-        self.news_creator.upload_file(cbz)
+        # logging.info('upload comics')
+        # self.news_creator.upload_file(cbz)
 
         logging.info('clean data folder')
         self.news_creator.clean_data_folder()
