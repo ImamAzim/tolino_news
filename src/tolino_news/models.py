@@ -14,7 +14,6 @@ import tomli_w
 import tomli
 import feedparser
 import requests
-import owncloud
 from varboxes import VarBox
 from crontab import CronTab
 from pytolino.tolino_cloud import Client, PytolinoException
@@ -362,14 +361,6 @@ class NewsLoaderConfiguration(object):
 
     def empty_comics_rss(self):
         self._config_dict['comics_rss_feeds'] = []
-
-    def add_nextcloud_config(self, webdav_link: str):
-        """add nextcloud toconfig
-
-        :webdav_link: must be public link
-
-        """
-        self._config_dict['webdav_link'] = webdav_link
 
     def add_tolino_cloud_config(self, server_name: str, username: str, password: str):
         """add tolino cloud credentials and server in config
