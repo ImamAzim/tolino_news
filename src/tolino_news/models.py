@@ -26,6 +26,7 @@ CUSTOM_RECIPES_PATH = os.path.join(
         )
 
 EXEC_PATH = "/usr/local/bin/tolino_news_run" # must be created on install
+COLLECTION_NAME = 'news'
 
 
 class RSSParser(HTMLParser):
@@ -237,6 +238,7 @@ class NewsCreator(object):
             client = Client(server_name)
             client.login(username, password)
             ebook_id = client.upload(file_path)
+            client.add_to_collection(ebook_id, COLLECTION_NAME)
             client.logout()
         except PytolinoException:
             logging.warning('failed to upload file because of a pytolino exception')
