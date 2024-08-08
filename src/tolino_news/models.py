@@ -364,7 +364,7 @@ class NewsLoaderConfiguration(object):
     def empty_comics_rss(self):
         self._config_dict['comics_rss_feeds'] = []
 
-    def add_tolino_cloud_config(self, server_name: str, username: str, password: str):
+    def add_tolino_cloud_config(self, server_name: str, username: str, password: str, epub_name: str):
         """add tolino cloud credentials and server in config
 
         :server_name: must be accepted by pytolino client (ex:www.buecher.de)
