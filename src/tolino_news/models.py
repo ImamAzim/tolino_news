@@ -115,25 +115,24 @@ class NewsCreator(object):
 
         return epub_path
 
-    def merge_epubs(self, epubs, epub_name=None):
+    def merge_epubs(self, epubs):
         """merge a list of epubs into one with mergedepub calibre pluginj
 
         :epubs: list of path to epubs
-        :epub_name: str. if None news_DATE will be taken
         :returns: path to newly created merged epub
 
         """
-        if epub_name is None:
-            suffix = datetime.date.today().isoformat()
-            epub_name = f'news_{suffix}'
-        merged_epub = os.path.join(self._data_path, f'{epub_name}.epub')
+        epub_name = self._config_dict['tolino_cloud_config']['epub_name']
+        suffix = datetime.date.today().isoformat()
+        epub_title = f'{epub_name}_suffix'
+        merged_epub = os.path.join(self._data_path, f'{epub_title}.epub')
 
         cmd = [
                 'calibre-debug',
                 '--run-plugin',
                 'EpubMerge',
                 '--',
-                f'--title={epub_name}',
+                f'--title={epub_title}',
                 f'--output={merged_epub}',
                 ]
         cmd += epubs
