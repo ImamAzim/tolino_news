@@ -83,6 +83,7 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
                 server_name='server name',
                 username='me',
                 password='secret',
+                epub_name='test',
                 )
         self.config.add_tolino_cloud_config(**mytolino_config)
         config_dict = self.config._config_dict

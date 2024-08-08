@@ -370,6 +370,7 @@ class NewsLoaderConfiguration(object):
         :server_name: must be accepted by pytolino client (ex:www.buecher.de)
         :username: from mytolino
         :password: from mytolino
+        :epub_name: title of the merged epub
 
         """
         tolino_config = self._config_dict['tolino_cloud_config']
