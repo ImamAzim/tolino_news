@@ -124,7 +124,7 @@ class NewsCreator(object):
         """
         epub_name = self._config_dict['tolino_cloud_config']['epub_name']
         suffix = datetime.date.today().isoformat()
-        epub_title = f'{epub_name}_suffix'
+        epub_title = f'{epub_name}_{suffix}'
         merged_epub = os.path.join(self._data_path, f'{epub_title}.epub')
 
         cmd = [
