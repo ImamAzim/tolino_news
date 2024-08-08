@@ -55,6 +55,9 @@ class NewsLoaderMenu(object):
         """add configuration file
 
         """
+        # define a name
+        epub_name = input('enter name of the epub [news]')
+        epub_name = 'news' if not epub_name else epub_name
         # add recipes
         recipes, fp = self.config.get_recipes_names()
         for recipe in recipes:
@@ -84,7 +87,7 @@ class NewsLoaderMenu(object):
         username = input('username:\n')
         password = getpass.getpass()
 
-        self.config.add_tolino_cloud_config(server_name, username, password)
+        self.config.add_tolino_cloud_config(server_name, username, password, epub_name)
 
         # create config file
 
