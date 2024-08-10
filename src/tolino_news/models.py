@@ -414,7 +414,8 @@ class NewsLoaderConfiguration(object):
         cron = CronTab(user=getpass.getuser())
         if [el for el in cron.find_comment(self._cronjob_id)]:
             raise FileExistsError
-        job = cron.new(command=f'{EXEC_PATH} > /tmp/tolino_news_log 2>&1', comment=self._cronjob_id)
+        tmp_file = f'/tmp/tolino_news_log_{getpass.getuser()}'
+        job = cron.new(command=f'{EXEC_PATH} > {tmp_file} 2>&1', comment=self._cronjob_id)
         job.hour.on(hour)
         job.minute.on(minute)
 
