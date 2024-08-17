@@ -77,7 +77,8 @@ class NewsCreator(object):
                     username=username,
                     password=password,
                     )
-            epubs.append(epub_path)
+            if epub_path:
+                epubs.append(epub_path)
         return epubs
 
     def download_news(
@@ -109,11 +110,14 @@ class NewsCreator(object):
         if password is not None:
             cmd += [f'--password={password}']
         stdout = open(os.devnull, 'w') if supress_output else None
-        subprocess.run(cmd, check=True, stdout=stdout)
-
-        self._to_delete.append(epub_path)
-
-        return epub_path
+        try:
+            subprocess.run(cmd, check=True, stdout=stdout, capture_output=True)
+        except subprocess.CalledProcessError as e:
+            print(e)
+            return None
+        else:
+            self._to_delete.append(epub_path)
+            return epub_path
 
     def merge_epubs(self, epubs):
         """merge a list of epubs into one with mergedepub calibre pluginj
