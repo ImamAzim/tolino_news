@@ -111,7 +111,7 @@ class NewsCreator(object):
             cmd += [f'--password={password}']
         stdout = open(os.devnull, 'w') if supress_output else None
         try:
-            subprocess.run(cmd, check=True, stdout=stdout, capture_output=True)
+            subprocess.run(cmd, check=True, stdout=stdout)
         except subprocess.CalledProcessError as e:
             print(e)
             return None
