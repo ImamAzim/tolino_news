@@ -28,7 +28,7 @@ dependencies = [
     'requests',
     'varboxes',
     'python-crontab',
-    'pytolino>=1.0',
+    'pytolino>=1.5',
 ]
 
 [project.optional-dependencies]
