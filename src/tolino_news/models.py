@@ -2,18 +2,12 @@ import os
 import subprocess
 import logging
 import datetime
-from html.parser import HTMLParser
-from urllib.parse import urlparse
-import tempfile
-import shutil
 import getpass
 
 
 import xdg
 import tomli_w
 import tomli
-import feedparser
-import requests
 from varboxes import VarBox
 from crontab import CronTab
 from pytolino.tolino_cloud import Client, PytolinoException
@@ -27,13 +21,6 @@ CUSTOM_RECIPES_PATH = os.path.join(
 
 EXEC_PATH = "/usr/local/bin/tolino_news_run"  # must be created on install
 COLLECTION_NAME = 'news'
-
-
-class RSSParser(HTMLParser):
-    """a small rss parser to obtain image link"""
-    def handle_starttag(self, tag, attrs):
-        if tag == 'img':
-            self.image_link = dict(attrs).get('src')
 
 
 class NewsCreator(object):
