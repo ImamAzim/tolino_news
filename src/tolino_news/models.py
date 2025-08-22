@@ -25,7 +25,7 @@ CUSTOM_RECIPES_PATH = os.path.join(
         'custom_recipes',
         )
 
-EXEC_PATH = "/usr/local/bin/tolino_news_run" # must be created on install
+EXEC_PATH = "/usr/local/bin/tolino_news_run"  # must be created on install
 COLLECTION_NAME = 'news'
 
 
@@ -206,9 +206,9 @@ class NewsCreator(object):
         """remove all files previousely uploaded
 
         """
-        server_name =self._config_dict['tolino_cloud_config']['server_name']
-        username =self._config_dict['tolino_cloud_config']['username']
-        password =self._config_dict['tolino_cloud_config']['password']
+        server_name = self._config_dict['tolino_cloud_config']['server_name']
+        username = self._config_dict['tolino_cloud_config']['username']
+        password = self._config_dict['tolino_cloud_config']['password']
         client = Client(server_name)
         try:
             client.login(username, password)
@@ -219,7 +219,9 @@ class NewsCreator(object):
                 try:
                     client.delete_ebook(ebook_id)
                 except PytolinoException:
-                    logging.warning('failed to delete some files because of a pytolino exception')
+                    msg = 'failed to delete some files because of '
+                    'a pytolino exception'
+                    logging.warning(msg)
             try:
                 client.logout()
             except PytolinoException:
@@ -234,9 +236,9 @@ class NewsCreator(object):
 
         """
 
-        server_name =self._config_dict['tolino_cloud_config']['server_name']
-        username =self._config_dict['tolino_cloud_config']['username']
-        password =self._config_dict['tolino_cloud_config']['password']
+        server_name = self._config_dict['tolino_cloud_config']['server_name']
+        username = self._config_dict['tolino_cloud_config']['username']
+        password = self._config_dict['tolino_cloud_config']['password']
         try:
             client = Client(server_name)
             client.login(username, password)
@@ -244,7 +246,9 @@ class NewsCreator(object):
             client.add_to_collection(ebook_id, COLLECTION_NAME)
             client.logout()
         except PytolinoException:
-            logging.warning('failed to upload file because of a pytolino exception')
+            msg = 'failed to delete some files because of '
+            'a pytolino exception'
+            logging.warning(msg)
         else:
             files_online = self._varbox.files_online
             files_online.append(ebook_id)
@@ -267,9 +271,9 @@ class NewsCreator(object):
         :return: msg of success or failure
 
         """
-        server_name =self._config_dict['tolino_cloud_config']['server_name']
-        username =self._config_dict['tolino_cloud_config']['username']
-        password =self._config_dict['tolino_cloud_config']['password']
+        server_name = self._config_dict['tolino_cloud_config']['server_name']
+        username = self._config_dict['tolino_cloud_config']['username']
+        password = self._config_dict['tolino_cloud_config']['password']
         try:
             client = Client(server_name)
             client.login(username, password)
@@ -287,9 +291,9 @@ class NewsCreator(object):
         :return: msg of success or failure
 
         """
-        server_name =self._config_dict['tolino_cloud_config']['server_name']
-        username =self._config_dict['tolino_cloud_config']['username']
-        password =self._config_dict['tolino_cloud_config']['password']
+        server_name = self._config_dict['tolino_cloud_config']['server_name']
+        username = self._config_dict['tolino_cloud_config']['username']
+        password = self._config_dict['tolino_cloud_config']['password']
         try:
             client = Client(server_name)
             client.login(username, password)
@@ -367,7 +371,12 @@ class NewsLoaderConfiguration(object):
     def empty_comics_rss(self):
         self._config_dict['comics_rss_feeds'] = []
 
-    def add_tolino_cloud_config(self, server_name: str, username: str, password: str, epub_name: str):
+    def add_tolino_cloud_config(
+            self,
+            server_name: str,
+            username: str,
+            password: str,
+            epub_name: str):
         """add tolino cloud credentials and server in config
 
         :server_name: must be accepted by pytolino client (ex:www.buecher.de)
@@ -407,7 +416,6 @@ class NewsLoaderConfiguration(object):
         if os.path.exists(self.config_fp):
             os.remove(self.config_fp)
 
-
     def add_in_crontab(self, hour: int, minute: int):
         """add the news loader job in user crontab
 
@@ -419,12 +427,13 @@ class NewsLoaderConfiguration(object):
         if [el for el in cron.find_comment(self._cronjob_id)]:
             raise FileExistsError
         tmp_file = f'/tmp/tolino_news_log_{getpass.getuser()}'
-        job = cron.new(command=f'{EXEC_PATH} > {tmp_file} 2>&1', comment=self._cronjob_id)
+        job = cron.new(
+                command=f'{EXEC_PATH} > {tmp_file} 2>&1',
+                comment=self._cronjob_id)
         job.hour.on(hour)
         job.minute.on(minute)
 
         cron.write()
-
 
     def del_crontab(self):
         """delete the news loader job in the crontab
@@ -434,7 +443,6 @@ class NewsLoaderConfiguration(object):
         cron = CronTab(user=getpass.getuser())
         cron.remove_all(comment=self._cronjob_id)
         cron.write()
-
 
     def load_config(self):
         """load toml file present in config user directory
