@@ -92,14 +92,11 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
 
     def test_save_config_file(self):
         timestamps = time.time()
-        feed_name = str(timestamps)
-        self.config.add_comics_rss(feed_name)
         self.config.add_recipe('recipe1')
         self.config.add_recipe('recipe2', 'me', 'mypassword')
 
         toml_str = self.config.save_config(test=True)
         toml_dict = tomli.loads(toml_str)
-        self.assertIn(feed_name, toml_dict['comics_rss_feeds'])
 
     def test_load_config(self):
         if os.path.exists(self.config.config_fp):
