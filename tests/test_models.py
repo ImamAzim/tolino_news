@@ -77,12 +77,6 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
         self.assertEqual(recipe.get('username'), 'me')
         self.assertEqual(recipe.get('password'), 'mypassword')
 
-    def test_add_comic_rss(self):
-        self.config.add_comics_rss('my_rss_feed')
-        self.assertIn(
-                'my_rss_feed',
-                self.config._config_dict['comics_rss_feeds'])
-
     def test_add_tolino_cloud_config(self):
         mytolino_config = dict(
                 server_name='server name',
@@ -95,11 +89,6 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
         self.assertIn('tolino_cloud_config', config_dict)
         tolino_config = config_dict['tolino_cloud_config']
         self.assertDictEqual(mytolino_config, tolino_config)
-
-    def test_empty_rss(self):
-        self.config.add_comics_rss('my_rss_feed')
-        self.config.empty_comics_rss()
-        self.assertListEqual(self.config._config_dict['comics_rss_feeds'], [])
 
     def test_save_config_file(self):
         timestamps = time.time()

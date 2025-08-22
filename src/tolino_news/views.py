@@ -76,15 +76,6 @@ class NewsLoaderMenu(object):
                 else:
                     self.config.add_recipe(recipe)
 
-        # add rss
-        self.config.empty_comics_rss()
-        print('enter rss feeds links of comics')
-        answer = True
-        while answer:
-            answer = input('new rss (or enter to skip): ')
-            if answer:
-                self.config.add_comics_rss(answer)
-
         # tolino cloud config
         server_name = input('tolino server name [www.buecher.de]:\n')
         server_name = 'www.buecher.de' if not server_name else server_name

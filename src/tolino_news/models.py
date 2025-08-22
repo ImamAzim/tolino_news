@@ -289,17 +289,6 @@ class NewsLoaderConfiguration(object):
         if password:
             self._config_dict['recipes'][recipe_name]['password'] = password
 
-    def add_comics_rss(self, rss_link: str):
-        """add a rss feed of a comics
-
-        :rss_link: valid url of a feed
-
-        """
-        self._config_dict['comics_rss_feeds'].append(rss_link)
-
-    def empty_comics_rss(self):
-        self._config_dict['comics_rss_feeds'] = []
-
     def add_tolino_cloud_config(
             self,
             server_name: str,
