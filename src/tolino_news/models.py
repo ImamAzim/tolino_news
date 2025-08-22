@@ -144,64 +144,6 @@ class NewsCreator(object):
         self._to_delete.append(merged_epub)
         return merged_epub
 
-    def download_all_comics(self):
-        """download all comics from the rss feeds in the config file
-
-        :returns: list of image files
-
-        """
-        images = list()
-        for rss_feed in self._config_dict['comics_rss_feeds']:
-            image = self.download_comics(rss_feed)
-            images.append(image)
-        return images
-
-    def download_comics(self, rss_feed: str):
-        """
-        get image from webcomic rss feeds. it has to parse to find the
-        image link
-        :rss_feed: from any webcomics rss with an image
-        :returns: path to image file just created
-
-        """
-        feed = feedparser.parse(rss_feed)
-        comic_summary = feed.entries[0].summary
-        parser = RSSParser()
-        parser.feed(comic_summary)
-        image_link = parser.image_link
-
-        rsp = requests.get(image_link)
-        filename = urlparse(rss_feed).netloc
-        path = os.path.join(self._data_path, f'{filename}.png')
-
-        with open(path, 'wb') as myfile:
-            myfile.write(rsp.content)
-        self._to_delete.append(path)
-
-        return path
-
-    def create_cbz_file(self, images, cbz_filename=None):
-        """create an archive with images and a cbz extension
-
-        :images: list of path to image files
-        :returns: path to cbz file
-
-        """
-        if cbz_filename is None:
-            suffix = datetime.date.today().isoformat()
-            cbz_filename = f'comics_{suffix}'
-        cbz_path = os.path.join(self._data_path, cbz_filename)
-
-        with tempfile.TemporaryDirectory() as comic_folder:
-            for image in images:
-                shutil.copy(image, comic_folder)
-            shutil.make_archive(cbz_path, 'zip', comic_folder)
-        cbz_path_with_ext = f'{cbz_path}.cbz'
-        shutil.move(f'{cbz_path}.zip', cbz_path_with_ext)
-        self._to_delete.append(cbz_path_with_ext)
-
-        return cbz_path_with_ext
-
     def clean_cloud(self):
         """remove all files previousely uploaded
 
