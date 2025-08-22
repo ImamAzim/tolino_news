@@ -34,6 +34,7 @@ class TestNewsCreator(unittest.TestCase):
     def tearDown(self):
         pass
 
+
 class TestNewsLoaderConfiguration(unittest.TestCase):
 
     """all test concerning news loader configuration. """
@@ -56,7 +57,9 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
     def test_get_names(self):
         names, folder_path = self.config.get_recipes_names()
         for name in names:
-            self.assertTrue(os.path.exists(os.path.join(folder_path, f'{name}.recipe')))
+            self.assertTrue(
+                    os.path.exists(os.path.join(
+                        folder_path, f'{name}.recipe')))
 
     def test_add_recipe(self):
         self.config.add_recipe('recipe1')
@@ -76,7 +79,9 @@ class TestNewsLoaderConfiguration(unittest.TestCase):
 
     def test_add_comic_rss(self):
         self.config.add_comics_rss('my_rss_feed')
-        self.assertIn('my_rss_feed', self.config._config_dict['comics_rss_feeds'])
+        self.assertIn(
+                'my_rss_feed',
+                self.config._config_dict['comics_rss_feeds'])
 
     def test_add_tolino_cloud_config(self):
         mytolino_config = dict(
@@ -130,19 +135,7 @@ def load_news():
     shutil.copy(merged_epub, os.environ['HOME'])
 
     news_creator.clean_data_folder()
-    print(f'epubs have been created in home folder')
-
-def get_comics():
-    config = NewsLoaderConfiguration()
-    config_dict = config.load_config()
-    news_creator = NewsCreator(config_dict)
-
-    rss_feed = 'https://xkcd.com/rss.xml'
-
-    image_path = news_creator.download_comics(rss_feed)
-    shutil.copy(image_path, os.environ['HOME'])
-    news_creator.clean_data_folder()
-    print(f'image have been created in home folder')
+    print('epubs have been created in home folder')
 
 
 def upload_file():
@@ -153,12 +146,6 @@ def upload_file():
     with tempfile.NamedTemporaryFile() as fp:
         news_creator.upload_file(fp.name)
 
-def clean_webdav():
-    config = NewsLoaderConfiguration()
-    config_dict = config.load_config()
-    news_creator = NewsCreator(config_dict)
-    news_creator.clean_webdav()
-
 
 def add_to_crontab():
     config = NewsLoaderConfiguration()
@@ -168,4 +155,3 @@ def add_to_crontab():
 
 if __name__ == '__main__':
     add_to_crontab()
-
