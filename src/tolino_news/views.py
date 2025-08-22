@@ -1,7 +1,10 @@
 import getpass
 
+
 from tolino_news.models import NewsLoaderConfiguration
-from tolino_news.jobs import run_news_loader, register_device, unregister_device
+from tolino_news.jobs import run_news_loader, register_device
+from tolino_news.jobs import unregister_device
+
 
 class NewsLoaderMenu(object):
 
@@ -12,7 +15,8 @@ class NewsLoaderMenu(object):
                 '0': 'install epubmerge plugin (mandatory before first use)',
                 '1': 'add configuration file',
                 '2': 'delete configuration file',
-                '3': 'register device (necessary to do it once before first use)',
+                '3': 'register device (necessary to do it once before'
+                'first use)',
                 '4': 'unregister device',
                 '5': 'test the tolino news now',
                 '6': 'add a crontab job to tolino news',
@@ -63,7 +67,7 @@ class NewsLoaderMenu(object):
         for recipe in recipes:
             print(f'add {recipe}? (y/n) [y]')
             answer = input()
-            if not answer.lower()=='n':
+            if not answer.lower() == 'n':
                 print('write credentials (or press enter to skip)')
                 username = input('username: ')
                 if username:
@@ -81,13 +85,17 @@ class NewsLoaderMenu(object):
             if answer:
                 self.config.add_comics_rss(answer)
 
-        #tolino cloud config
-        server_name =input('tolino server name [www.buecher.de]:\n')
+        # tolino cloud config
+        server_name = input('tolino server name [www.buecher.de]:\n')
         server_name = 'www.buecher.de' if not server_name else server_name
         username = input('username:\n')
         password = getpass.getpass()
 
-        self.config.add_tolino_cloud_config(server_name, username, password, epub_name)
+        self.config.add_tolino_cloud_config(
+                server_name,
+                username,
+                password,
+                epub_name)
 
         # create config file
 
@@ -151,7 +159,8 @@ class NewsLoaderMenu(object):
                 try:
                     self.config.add_in_crontab(hour, minute)
                 except FileExistsError:
-                    print('there is already such cron job. please delete it first.')
+                    print('there is already such cron job. '
+                          'please delete it first.')
 
         print('===')
 
