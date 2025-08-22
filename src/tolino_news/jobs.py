@@ -1,15 +1,12 @@
 import logging
 import os
 import sys
-import contextlib
 
 
 import xdg
 
 
 from tolino_news.models import NewsCreator, NewsLoaderConfiguration
-
-
 
 
 class NewsCreatorJob(object):
