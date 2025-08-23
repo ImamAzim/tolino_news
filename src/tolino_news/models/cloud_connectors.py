@@ -11,7 +11,7 @@ class TolinoCloudConnector(CloudConnector):
 
     """use a tolino cloud (based on pytolino)"""
 
-    def __init__(self, credentials: dict):
+    def __init__(self, username, password, server):
         pass
 
     def connect(self):
@@ -21,7 +21,7 @@ class TolinoCloudConnector(CloudConnector):
         pass
 
     def __enter__(self):
-        pass
+        return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         pass
