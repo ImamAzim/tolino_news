@@ -1,8 +1,7 @@
 from pathlib import Path
 
 
-import pytolino
-from pytolino.tolino_cloud import PARTNERS
+from pytolino.tolino_cloud import PARTNERS, Client
 
 
 from tolino_news.models.interfaces import CloudConnector
@@ -15,7 +14,11 @@ class TolinoCloudConnector(CloudConnector):
 
     """use a tolino cloud (based on pytolino)"""
 
-    def __init__(self, username: str, password: str, server: str = DEFAULT_PARTNER):
+    def __init__(
+            self,
+            username: str,
+            password: str,
+            server: str = DEFAULT_PARTNER):
         """
 
         :username: credential from tolino cloud
@@ -25,20 +28,22 @@ class TolinoCloudConnector(CloudConnector):
         """
         self._username = username
         self._password = password
-        self._server = server
-        print(server)
+        self._client = Client(server_name=server)
 
     def connect(self):
-        pass
+        self._client.login(self._username, self._password)
+        self._client.register()
 
     def disconnect(self):
-        pass
+        self._client.unregister()
+        self._client.logout()
 
     def __enter__(self):
+        self.connect()
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        pass
+        self.disconnect()
 
     def upload(self, fp: Path) -> str:
         pass
