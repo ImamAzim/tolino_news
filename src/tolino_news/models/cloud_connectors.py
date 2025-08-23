@@ -1,7 +1,7 @@
 from pathlib import Path
 
 
-from pytolino.tolino_cloud import PARTNERS, Client
+from pytolino.tolino_cloud import PARTNERS, Client, PytolinoException
 
 
 from tolino_news.models.interfaces import CloudConnector
@@ -39,11 +39,19 @@ class TolinoCloudConnector(CloudConnector):
         self._client.logout()
 
     def __enter__(self):
-        self.connect()
+        try:
+            self.connect()
+        except PytolinoException as e:
+            print('failed to login or register')
+            print(e)
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        self.disconnect()
+        try:
+            self.disconnect()
+        except PytolinoException as e:
+            print('failed to unregister or logout')
+            print(e)
 
     def upload(self, fp: Path) -> str:
         pass
