@@ -2,7 +2,7 @@ import configparser
 from pathlib import Path
 
 
-from tolino_news.models.cloud_connectors import TolinoCloudConnector
+from tolino_news.models.cloud_connectors import TolinoCloudConnector, CloudConnectorException
 
 
 TEST_EPUB = 'basic-v3plus2.epub'
@@ -31,9 +31,17 @@ def test_tolino_cloud_connector():
     credentials = get_credentials()
     epub_fp = Path(__file__).parent / TEST_EPUB
     with TolinoCloudConnector(**credentials) as tcc:
-        epub_id = tcc.upload(epub_fp)
+        try:
+            epub_id = tcc.upload(epub_fp)
+        except CloudConnectorException as e:
+            print(e)
+            print('failed to upload')
         input('check your cloud if a new epub has been created!\npress enter')
-        tcc.delete_file(epub_id)
+        try:
+            tcc.delete_file(epub_id)
+        except CloudConnectorException as e:
+            print(e)
+            print('failed to delete file')
         input('check your cloud if epub has been deleted!')
 
 
