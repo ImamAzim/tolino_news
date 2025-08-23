@@ -13,7 +13,7 @@ def get_credentials():
     if fp.exists():
         credentials_config = configparser.ConfigParser()
         credentials_config.read(fp)
-        credentials = credentials_config['DEFAULT']
+        credentials = credentials_config.defaults()
     else:
         import getpass
         server = input('server:\n')
