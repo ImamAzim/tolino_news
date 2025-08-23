@@ -10,9 +10,14 @@ from tolino_news.models.interfaces import CloudConnector
 DEFAULT_PARTNER = PARTNERS[0]
 
 
+class CloudConnectorException(Exception):
+    pass
+
+
 class TolinoCloudConnector(CloudConnector):
 
     """use a tolino cloud (based on pytolino)"""
+    _COLLECTION = 'news'
 
     def __init__(
             self,
@@ -54,7 +59,17 @@ class TolinoCloudConnector(CloudConnector):
             print(e)
 
     def upload(self, fp: Path) -> str:
-        pass
+        try:
+            epub_id = self._client.upload(fp)
+            self._client.add_to_collection(epub_id, self._COLLECTION)
+        except PytolinoException as e:
+            print(e)
+            raise CloudConnectorException
+        return epub_id
 
     def delete_file(self, adress: str):
-        pass
+        try:
+            self._client.delete_ebook(adress)
+        except PytolinoException as e:
+            print(e)
+            raise CloudConnectorException
