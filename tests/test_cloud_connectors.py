@@ -1,8 +1,11 @@
 import configparser
 from pathlib import Path
+import inspect
 
 
-from tolino_news.models.cloud_connectors import TolinoCloudConnector, CloudConnectorException
+from tolino_news.models.cloud_connectors import TolinoCloudConnector
+from tolino_news.models.cloud_connectors import CloudConnectorException
+from tolino_news.models.cloud_connectors import cloud_connectors
 
 
 TEST_EPUB = 'basic-v3plus2.epub'
@@ -45,5 +48,15 @@ def test_tolino_cloud_connector():
         input('check your cloud if epub has been deleted!')
 
 
+def test_cloud_connectors():
+    for name, cls in cloud_connectors.items():
+        sig = inspect.signature(cls)
+        for arg, param in sig.parameters.items():
+            print(arg)
+            if param.default is not param.empty:
+                print(param.default)
+
+
 if __name__ == '__main__':
-    test_tolino_cloud_connector()
+    # test_tolino_cloud_connector()
+    test_cloud_connectors()

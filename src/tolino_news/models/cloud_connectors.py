@@ -1,4 +1,5 @@
 from pathlib import Path
+from abc import ABCMeta
 
 
 from pytolino.tolino_cloud import PARTNERS, Client, PytolinoException
@@ -14,7 +15,20 @@ class CloudConnectorException(Exception):
     pass
 
 
-class TolinoCloudConnector(CloudConnector):
+cloud_connectors = dict()
+
+
+class MetaCloudConnector(ABCMeta):
+
+    """meta class for cloud connector to store class in a dict"""
+
+    def __init__(cls, name, bases, dict):
+        """store the class in a dict upon creation"""
+        ABCMeta.__init__(cls, name, bases, dict)
+        cloud_connectors[name] = cls
+
+
+class TolinoCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
 
     """use a tolino cloud (based on pytolino)"""
     _COLLECTION = 'news'
