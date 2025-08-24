@@ -30,7 +30,7 @@ def get_credentials():
     return credentials
 
 
-def test_tolino_cloud_connector():
+def check_tolino_cloud_connector():
     credentials = get_credentials()
     epub_fp = Path(__file__).parent / TEST_EPUB
     with TolinoCloudConnector(**credentials) as tcc:
@@ -48,7 +48,7 @@ def test_tolino_cloud_connector():
         input('check your cloud if epub has been deleted!')
 
 
-def test_cloud_connectors():
+def check_cloud_connectors():
     for name, cls in cloud_connectors.items():
         sig = inspect.signature(cls)
         for arg, param in sig.parameters.items():
