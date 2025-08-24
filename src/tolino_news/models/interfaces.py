@@ -70,3 +70,97 @@ class CloudConnector(ABC):
 
         """
         pass
+
+
+class BaseConfigurator(ABC):
+
+    """helper class to store and load configuration for recipes
+    and cloud"""
+
+    @abstractmethod
+    def get_all_calibre_recipes(self) -> Path:
+        """find present custom recipes in calibre config folder
+        :returns: list of recipes fp
+
+        """
+        pass
+
+    @abstractmethod
+    def add_recipe(
+            self,
+            recipe_fp: Path,
+            username=None,
+            password=None):
+        """add a recipe to the configuration
+
+        :recipe_fp: point to recipe file
+        :username: str if required
+        :password: str if required
+
+        """
+        pass
+
+    @abstractmethod
+    def add_cloud_credentials(
+            self,
+            cloud_connector: str,
+            credentials: dict,
+            ):
+        """add credentials of the cloud to the config
+
+        :cloud_connector: name of the class of the cloud_connector to use
+        :credentials: kwargs for the cloud_connector class
+
+        """
+        pass
+
+    @abstractmethod
+    def save_config(self, overwrite=False, test=False):
+        """save the current configuration
+
+        :overwrite: True if you want to replace previous file
+
+        """
+        pass
+
+    @abstractmethod
+    def delete_config(self):
+        """delete stored configuration
+
+        """
+        pass
+
+    @abstractmethod
+    def add_in_crontab(self, hour: int, minute: int):
+        """add the news loader job in user crontab
+
+        :hour: time at which job is run
+        :minute: time at which job is run
+
+        """
+        pass
+
+    @abstractmethod
+    def del_crontab(self):
+        """delete the news loader job in the crontab
+
+        """
+        pass
+
+    @abstractmethod
+    def load_cloud_credentials(
+            self,
+            ) -> tuple[type, dict]:
+        """get the stored cloud credentials and cloud connector
+
+        :returns: cloud connector class and required arguments
+
+        """
+        pass
+
+    @abstractmethod
+    def install_epubmerge_plugin(self):
+        """use calibre customize to install zip file
+
+        """
+        pass
