@@ -1,4 +1,5 @@
 import unittest
+import warnings
 
 
 from tolino_news.models.configurators import Configurator
@@ -10,7 +11,7 @@ class TestConfigurator(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.config = Configurator()
+        cls._configurator = Configurator()
 
     @classmethod
     def tearDownClass(cls):
@@ -22,12 +23,14 @@ class TestConfigurator(unittest.TestCase):
     def tearDown(self):
         pass
 
-    # def test_get_names(self):
-        # names, folder_path = self.config.get_recipes_names()
-        # for name in names:
-            # self.assertTrue(
-                    # os.path.exists(os.path.join(
-                        # folder_path, f'{name}.recipe')))
+    def test_get_calibre_recipes(self):
+        recipes = self._configurator.get_all_calibre_recipes()
+        if not recipes:
+            warnings.warn('no calibre recipes returned. Is the custom'
+                          'recipes folder empty?')
+        for fp in recipes:
+            self.assertTrue(fp.exists())
+
 
     # def test_add_recipe(self):
         # self.config.add_recipe('recipe1')

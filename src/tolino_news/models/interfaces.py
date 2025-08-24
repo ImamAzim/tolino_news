@@ -78,7 +78,7 @@ class BaseConfigurator(ABC):
     and cloud"""
 
     @abstractmethod
-    def get_all_calibre_recipes(self) -> Path:
+    def get_all_calibre_recipes(self) -> list[Path]:
         """find present custom recipes in calibre config folder
         :returns: list of recipes fp
 
