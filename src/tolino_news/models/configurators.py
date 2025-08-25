@@ -1,6 +1,9 @@
 from pathlib import Path
 
 
+import xdg_base_dirs
+
+
 from tolino_news.models.interfaces import BaseConfigurator
 
 
@@ -9,8 +12,15 @@ class Configurator(BaseConfigurator):
     def __init__(self):
         pass
 
-    def get_all_calibre_recipes(self) -> Path:
-        pass
+    def get_all_calibre_recipes(self) -> list[Path]:
+        config_home = xdg_base_dirs.xdg_config_home()
+        folder_path = config_home / 'calibre' / 'custom_recipes'
+        recipes = list()
+        if folder_path.exists():
+            for fp in folder_path.iterdir():
+                if fp.suffix == '.recipe':
+                    recipes.append(fp)
+        return recipes
 
     def add_recipe(
             self,
