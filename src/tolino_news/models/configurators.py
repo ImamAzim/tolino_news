@@ -53,5 +53,10 @@ class Configurator(BaseConfigurator):
             ) -> tuple[type, dict]:
         pass
 
+    def load_recipes(
+            self,
+            ) -> tuple[list[Path], list[str | None], list[str | None]]:
+        pass
+
     def install_epubmerge_plugin(self):
         pass
