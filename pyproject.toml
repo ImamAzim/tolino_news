@@ -21,6 +21,7 @@ classifiers = [
 description = "deamon fetching news to be read by ereader"
 
 dependencies = [
+    'xdg-base-dirs',
     'xdg',
     'feedparser',
     'tomli-w',
