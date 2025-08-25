@@ -159,7 +159,7 @@ class BaseConfigurator(ABC):
         pass
 
     @abstractmethod
-    def load_recipes(
+    def get_stored_recipes(
             self,
             ) -> tuple[list[Path], list[str | None], list[str | None]]:
         """get all the stored recipes from config and credentials if any
