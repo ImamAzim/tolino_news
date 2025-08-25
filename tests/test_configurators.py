@@ -1,8 +1,13 @@
 import unittest
 import warnings
+import inspect
 
 
 from tolino_news.models.configurators import Configurator
+from tolino_news.models.cloud_connectors import TolinoCloudConnector
+
+
+TEST_RECIPE_FN = 'test_recipe.recipe'
 
 
 class TestConfigurator(unittest.TestCase):
@@ -30,6 +35,31 @@ class TestConfigurator(unittest.TestCase):
                           'recipes folder empty?')
         for fp in recipes:
             self.assertTrue(fp.exists())
+
+    def test_save_and_load_config(self):
+        test_user = 'me'
+        test_password = 'secret_pass'
+        test_server = 'some_server'
+        recipe_fp = __file__.parent / TEST_RECIPE_FN
+        self._configurator.add_recipe(
+                recipe_fp,
+                username=test_user,
+                password=test_password,
+                )
+        cloud_connector_name = TolinoCloudConnector.__name__
+        sig = inspect.signature(TolinoCloudConnector)
+        test_credentials = dict()
+        for arg in sig.parameters:
+            test_credentials[arg] = 'dummy'
+        self._configurator.add_cloud_credentials(
+                cloud_connector_name,
+                test_credentials)
+        self._configurator.save_config()
+        res = self._configurator.load_cloud_credentials()
+        cloud_connector_cls, credentials = res
+
+        self.assertEqual(cloud_connector_cls, TolinoCloudConnector)
+        self.assertDictEqual(test_credentials, credentials)
 
 
     # def test_add_recipe(self):

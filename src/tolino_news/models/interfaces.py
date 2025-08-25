@@ -159,6 +159,16 @@ class BaseConfigurator(ABC):
         pass
 
     @abstractmethod
+    def load_recipes(
+            self,
+            ) -> tuple[list[Path], list[str | None], list[str | None]]:
+        """get all the stored recipes from config and credentials if any
+        :returns: recipes_fp, users, passwords
+
+        """
+        pass
+
+    @abstractmethod
     def install_epubmerge_plugin(self):
         """use calibre customize to install zip file
 

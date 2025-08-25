@@ -59,4 +59,4 @@ def check_cloud_connectors():
 
 if __name__ == '__main__':
     # test_tolino_cloud_connector()
-    test_cloud_connectors()
+    check_cloud_connectors()
