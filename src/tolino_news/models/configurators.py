@@ -1,4 +1,5 @@
 from pathlib import Path
+import tomlib
 
 
 import xdg_base_dirs
@@ -18,6 +19,8 @@ class ConfiguratorError(Exception):
 
 class Configurator(BaseConfigurator):
 
+    _KEY_TITLE = 'epub title'
+
     def __init__(self, test=False):
         if test:
             config_fn = 'test_config.toml'
@@ -33,6 +36,14 @@ class Configurator(BaseConfigurator):
         """
         if not self._config_fp.exists():
             raise ConfiguratorError('config file not present')
+
+    def _load_config_file(self):
+        """
+        """
+        self._check_config_file()
+        with open(self._config_fp, 'rb') as f:
+            data = tomlib.load(f)
+        self._config_dict.update(data)
 
     def get_all_calibre_recipes(self) -> list[Path]:
         config_home = xdg_base_dirs.xdg_config_home()
@@ -59,10 +70,10 @@ class Configurator(BaseConfigurator):
         pass
 
     def add_epub_title(self, title: str):
-        pass
+        self._config_dict[self._KEY_TITLE] = title
 
     def load_epub_title(self) -> str:
-        self._check_config_file()
+        self._load_config_file()
 
     def save_config(self, overwrite=False):
         with open(self._config_fp, 'wb') as f:
@@ -80,12 +91,12 @@ class Configurator(BaseConfigurator):
     def load_cloud_credentials(
             self,
             ) -> tuple[type, dict]:
-        self._check_config_file()
+        self._load_config_file()
 
     def get_stored_recipes(
             self,
             ) -> tuple[list[Path], list[str | None], list[str | None]]:
-        self._check_config_file()
+        self._load_config_file()
 
     def install_epubmerge_plugin(self):
         pass
