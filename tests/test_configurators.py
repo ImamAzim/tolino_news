@@ -39,6 +39,7 @@ class TestConfigurator(unittest.TestCase):
     def test_save_and_load_config(self):
         test_user = 'me'
         test_password = 'secret_pass'
+        test_title = 'mytitle'
         recipe_fp = __file__.parent / TEST_RECIPE_FN
         self._configurator.add_recipe(
                 recipe_fp,
@@ -53,18 +54,21 @@ class TestConfigurator(unittest.TestCase):
         self._configurator.add_cloud_credentials(
                 cloud_connector_name,
                 test_credentials)
+        self._configurator.add_epub_title(test_title)
         self._configurator.save_config(test=True)
 
         res = self._configurator.get_stored_recipes()
         fps, users, passwords = res
         res = self._configurator.load_cloud_credentials()
         cloud_connector_cls, credentials = res
+        title = self._configurator.load_epub_title()
 
         self.assertEqual(fps[0], recipe_fp)
         self.assertEqual(users[0], test_user)
         self.assertEqual(passwords[0], test_password)
         self.assertEqual(cloud_connector_cls, TolinoCloudConnector)
         self.assertDictEqual(test_credentials, credentials)
+        self.assertEqual(title, test_title)
 
 
     # def test_add_recipe(self):
