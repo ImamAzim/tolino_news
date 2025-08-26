@@ -115,6 +115,23 @@ class BaseConfigurator(ABC):
         pass
 
     @abstractmethod
+    def add_epub_title(self, title: str):
+        """store the desired title merge epub to upload
+
+        :title: sstr
+
+        """
+        pass
+
+    @abstractmethod
+    def load_epub_title(self) -> str:
+        """get the stored desired title for epub
+        :returns: title
+
+        """
+        pass
+
+    @abstractmethod
     def save_config(self, overwrite=False, test=False):
         """save the current configuration
 
@@ -125,8 +142,9 @@ class BaseConfigurator(ABC):
         pass
 
     @abstractmethod
-    def delete_config(self):
+    def delete_config(self, test=False):
         """delete stored configuration
+        :test: True if you want to delete the test config file
 
         """
         pass
