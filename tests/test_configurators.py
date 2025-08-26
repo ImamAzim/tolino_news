@@ -37,13 +37,13 @@ class TestConfigurator(unittest.TestCase):
         with self.assertRaises(ConfiguratorError):
             self._configurator.load_epub_title()
 
-    # def test_get_calibre_recipes(self):
-        # recipes = self._configurator.get_all_calibre_recipes()
-        # if not recipes:
-            # warnings.warn('no calibre recipes returned. Is the custom'
-                          # 'recipes folder empty?')
-        # for fp in recipes:
-            # self.assertTrue(fp.exists())
+    def test_get_calibre_recipes(self):
+        recipes = self._configurator.get_all_calibre_recipes()
+        if not recipes:
+            warnings.warn('no calibre recipes returned. Is the custom'
+                          'recipes folder empty?')
+        for fp in recipes:
+            self.assertTrue(fp.exists())
 
     # def test_add_cloud(self):
         # cloud_connector_name = TolinoCloudConnector.__name__
@@ -69,17 +69,19 @@ class TestConfigurator(unittest.TestCase):
                 # username=test_user,
                 # password=test_password,
                 # )
+        # self._configurator.save_config()
         # res = self._configurator2.get_stored_recipes()
         # fps, users, passwords = res
         # self.assertEqual(fps[0], recipe_fp)
         # self.assertEqual(users[0], test_user)
         # self.assertEqual(passwords[0], test_password)
 
-    # def test_add_title(self):
-        # test_title = 'mytitle'
-        # self._configurator.add_epub_title(test_title)
-        # title = self._configurator2.load_epub_title()
-        # self.assertEqual(title, test_title)
+    def test_add_title(self):
+        test_title = 'mytitle'
+        self._configurator.add_epub_title(test_title)
+        self._configurator.save_config()
+        title = self._configurator2.load_epub_title()
+        self.assertEqual(title, test_title)
 
 if __name__ == '__main__':
     pass
