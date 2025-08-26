@@ -7,6 +7,10 @@ import xdg_base_dirs
 from tolino_news.models.interfaces import BaseConfigurator
 
 
+class ConfiguratorError(Exception):
+    pass
+
+
 class Configurator(BaseConfigurator):
 
     def __init__(self, test=False):
