@@ -2,6 +2,7 @@ from pathlib import Path
 
 
 import xdg_base_dirs
+import tomli_w
 
 
 from tolino_news.models.interfaces import BaseConfigurator
@@ -64,7 +65,8 @@ class Configurator(BaseConfigurator):
         self._check_config_file()
 
     def save_config(self, overwrite=False):
-        pass
+        with open(self._config_fp, 'wb') as f:
+            tomli_w.dump(self._config_dict, f)
 
     def delete_config(self):
         self._config_fp.unlink(missing_ok=True)
