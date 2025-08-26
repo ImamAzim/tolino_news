@@ -36,6 +36,21 @@ class TestConfigurator(unittest.TestCase):
         for fp in recipes:
             self.assertTrue(fp.exists())
 
+    def test_add_cloud(self):
+        cloud_connector_name = TolinoCloudConnector.__name__
+        sig = inspect.signature(TolinoCloudConnector)
+        test_credentials = dict()
+        for arg in sig.parameters:
+            test_credentials[arg] = 'dummy'
+        self._configurator.add_cloud_credentials(
+                cloud_connector_name,
+                test_credentials)
+        self._configurator.save_config(test=True)
+        res = self._configurator.load_cloud_credentials()
+        cloud_connector_cls, credentials = res
+        self.assertEqual(cloud_connector_cls, TolinoCloudConnector)
+        self.assertDictEqual(test_credentials, credentials)
+
     def test_save_and_load_config(self):
         test_user = 'me'
         test_password = 'secret_pass'
@@ -46,28 +61,15 @@ class TestConfigurator(unittest.TestCase):
                 username=test_user,
                 password=test_password,
                 )
-        cloud_connector_name = TolinoCloudConnector.__name__
-        sig = inspect.signature(TolinoCloudConnector)
-        test_credentials = dict()
-        for arg in sig.parameters:
-            test_credentials[arg] = 'dummy'
-        self._configurator.add_cloud_credentials(
-                cloud_connector_name,
-                test_credentials)
         self._configurator.add_epub_title(test_title)
-        self._configurator.save_config(test=True)
 
         res = self._configurator.get_stored_recipes()
         fps, users, passwords = res
-        res = self._configurator.load_cloud_credentials()
-        cloud_connector_cls, credentials = res
         title = self._configurator.load_epub_title()
 
         self.assertEqual(fps[0], recipe_fp)
         self.assertEqual(users[0], test_user)
         self.assertEqual(passwords[0], test_password)
-        self.assertEqual(cloud_connector_cls, TolinoCloudConnector)
-        self.assertDictEqual(test_credentials, credentials)
         self.assertEqual(title, test_title)
 
 

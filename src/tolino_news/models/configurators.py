@@ -9,7 +9,8 @@ from tolino_news.models.interfaces import BaseConfigurator
 
 class Configurator(BaseConfigurator):
 
-    def __init__(self):
+    def __init__(self, test=False):
+        self._test = test
         self._config_dict = dict()
 
     def get_all_calibre_recipes(self) -> list[Path]:
@@ -42,10 +43,10 @@ class Configurator(BaseConfigurator):
     def load_epub_title(self) -> str:
         pass
 
-    def save_config(self, overwrite=False, test=False):
+    def save_config(self, overwrite=False):
         pass
 
-    def delete_config(self, test=False):
+    def delete_config(self):
         pass
 
     def add_in_crontab(self, hour: int, minute: int):

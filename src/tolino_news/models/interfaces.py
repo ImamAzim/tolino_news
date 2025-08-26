@@ -132,19 +132,17 @@ class BaseConfigurator(ABC):
         pass
 
     @abstractmethod
-    def save_config(self, overwrite=False, test=False):
+    def save_config(self, overwrite=False):
         """save the current configuration
 
         :overwrite: True if you want to replace previous file
-        :test: True if you want to use a test config file
 
         """
         pass
 
     @abstractmethod
-    def delete_config(self, test=False):
+    def delete_config(self):
         """delete stored configuration
-        :test: True if you want to delete the test config file
 
         """
         pass
