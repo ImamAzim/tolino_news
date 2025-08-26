@@ -67,7 +67,7 @@ class Configurator(BaseConfigurator):
         pass
 
     def delete_config(self):
-        pass
+        self._config_fp.unlink(missing_ok=True)
 
     def add_in_crontab(self, hour: int, minute: int):
         pass
