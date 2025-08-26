@@ -31,7 +31,7 @@ class TestConfigurator(unittest.TestCase):
         self._configurator2.delete_config()
 
     def test_del_config(self):
-        self._configurator.add_epub_title('mytitle')
+        self._configurator.save_config()
         self._configurator.load_epub_title()
         self._configurator.delete_config()
         with self.assertRaises(ConfiguratorError):
