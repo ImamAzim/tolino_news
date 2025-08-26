@@ -16,7 +16,8 @@ class TestConfigurator(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls._configurator = Configurator()
+        cls._configurator = Configurator(test=True)
+        cls._configurator2 = Configurator(test=True)
 
     @classmethod
     def tearDownClass(cls):
@@ -26,7 +27,8 @@ class TestConfigurator(unittest.TestCase):
         pass
 
     def tearDown(self):
-        self._configurator.delete_config(test=True)
+        self._configurator.delete_config()
+        self._configurator2.delete_config()
 
     def test_get_calibre_recipes(self):
         recipes = self._configurator.get_all_calibre_recipes()
@@ -45,33 +47,32 @@ class TestConfigurator(unittest.TestCase):
         self._configurator.add_cloud_credentials(
                 cloud_connector_name,
                 test_credentials)
-        self._configurator.save_config(test=True)
-        res = self._configurator.load_cloud_credentials()
+        self._configurator.save_config()
+        res = self._configurator2.load_cloud_credentials()
         cloud_connector_cls, credentials = res
         self.assertEqual(cloud_connector_cls, TolinoCloudConnector)
         self.assertDictEqual(test_credentials, credentials)
 
-    def test_save_and_load_config(self):
+    def test_add_recipe(self):
         test_user = 'me'
         test_password = 'secret_pass'
-        test_title = 'mytitle'
         recipe_fp = __file__.parent / TEST_RECIPE_FN
         self._configurator.add_recipe(
                 recipe_fp,
                 username=test_user,
                 password=test_password,
                 )
-        self._configurator.add_epub_title(test_title)
-
-        res = self._configurator.get_stored_recipes()
+        res = self._configurator2.get_stored_recipes()
         fps, users, passwords = res
-        title = self._configurator.load_epub_title()
-
         self.assertEqual(fps[0], recipe_fp)
         self.assertEqual(users[0], test_user)
         self.assertEqual(passwords[0], test_password)
-        self.assertEqual(title, test_title)
 
+    def test_add_title(self):
+        test_title = 'mytitle'
+        self._configurator.add_epub_title(test_title)
+        title = self._configurator2.load_epub_title()
+        self.assertEqual(title, test_title)
 
     # def test_add_recipe(self):
         # self.config.add_recipe('recipe1')
