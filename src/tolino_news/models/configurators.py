@@ -5,6 +5,10 @@ import xdg_base_dirs
 
 
 from tolino_news.models.interfaces import BaseConfigurator
+from tolino_news import APP_NAME
+
+
+DATA_FOLDER = xdg_base_dirs.xdg_data_home() / APP_NAME
 
 
 class ConfiguratorError(Exception):
@@ -14,8 +18,20 @@ class ConfiguratorError(Exception):
 class Configurator(BaseConfigurator):
 
     def __init__(self, test=False):
+        if test:
+            config_fn = 'test_config.toml'
+        else:
+            config_fn = 'config.toml'
+        self._config_fp = DATA_FOLDER / config_fn
         self._test = test
         self._config_dict = dict()
+
+    def _check_config_file(self):
+        """
+
+        """
+        if not self._config_fp.exists():
+            raise ConfiguratorError('config file not present')
 
     def get_all_calibre_recipes(self) -> list[Path]:
         config_home = xdg_base_dirs.xdg_config_home()
@@ -45,7 +61,7 @@ class Configurator(BaseConfigurator):
         pass
 
     def load_epub_title(self) -> str:
-        pass
+        self._check_config_file()
 
     def save_config(self, overwrite=False):
         pass
@@ -62,12 +78,12 @@ class Configurator(BaseConfigurator):
     def load_cloud_credentials(
             self,
             ) -> tuple[type, dict]:
-        pass
+        self._check_config_file()
 
     def get_stored_recipes(
             self,
             ) -> tuple[list[Path], list[str | None], list[str | None]]:
-        pass
+        self._check_config_file()
 
     def install_epubmerge_plugin(self):
         pass
