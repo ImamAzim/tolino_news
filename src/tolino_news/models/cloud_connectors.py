@@ -9,6 +9,7 @@ from tolino_news.models.interfaces import CloudConnector
 
 
 DEFAULT_PARTNER = PARTNERS[0]
+DEFAULT_EPUB_NAME = 'news'
 
 
 class CloudConnectorException(Exception):
@@ -74,7 +75,9 @@ class TolinoCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
 
     def upload(self, fp: Path) -> str:
         try:
-            epub_id = self._client.upload(fp.as_posix())
+            epub_id = self._client.upload(
+                    fp.as_posix(),
+                    )
             self._client.add_to_collection(epub_id, self._COLLECTION)
         except PytolinoException as e:
             print(e)
