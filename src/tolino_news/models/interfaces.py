@@ -119,6 +119,7 @@ class BaseConfigurator(ABC):
         """save the current configuration
 
         :overwrite: True if you want to replace previous file
+        :test: True if you want to use a test config file
 
         """
         pass
