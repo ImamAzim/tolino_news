@@ -2,6 +2,7 @@ import unittest
 import warnings
 import inspect
 from pathlib import Path
+import subprocess
 
 
 from tolino_news.models.configurators import Configurator, ConfiguratorError
@@ -83,5 +84,15 @@ class TestConfigurator(unittest.TestCase):
         title = self._configurator2.load_epub_title()
         self.assertEqual(title, test_title)
 
+def check_crontab():
+    configurator = Configurator(True)
+    configurator.add_in_crontab(8, 42)
+    subprocess.run(['crontab', '-l'])
+    input('check you crontab if there is a task at 8:42')
+    configurator.del_crontab()
+    subprocess.run(['crontab', '-l'])
+    input('check you crontab if task has been deleted')
+    configurator.delete_config()
+
 if __name__ == '__main__':
-    pass
+    check_crontab()
