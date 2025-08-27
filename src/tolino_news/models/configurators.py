@@ -1,5 +1,5 @@
 from pathlib import Path
-import tomlib
+import tomllib
 
 
 import xdg_base_dirs
@@ -42,7 +42,7 @@ class Configurator(BaseConfigurator):
         """
         self._check_config_file()
         with open(self._config_fp, 'rb') as f:
-            data = tomlib.load(f)
+            data = tomllib.load(f)
         self._config_dict.update(data)
 
     def get_all_calibre_recipes(self) -> list[Path]:
