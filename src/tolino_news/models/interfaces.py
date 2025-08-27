@@ -86,7 +86,7 @@ class BaseConfigurator(ABC):
         pass
 
     @abstractmethod
-    def add_recipe(
+    def save_recipe(
             self,
             recipe_fp: Path,
             username=None,
@@ -101,7 +101,7 @@ class BaseConfigurator(ABC):
         pass
 
     @abstractmethod
-    def add_cloud_credentials(
+    def save_cloud_credentials(
             self,
             cloud_connector: str,
             credentials: dict,
@@ -115,7 +115,7 @@ class BaseConfigurator(ABC):
         pass
 
     @abstractmethod
-    def add_epub_title(self, title: str):
+    def save_epub_title(self, title: str):
         """store the desired title merge epub to upload
 
         :title: sstr
@@ -176,7 +176,7 @@ class BaseConfigurator(ABC):
         pass
 
     @abstractmethod
-    def get_stored_recipes(
+    def load_recipes(
             self,
             ) -> tuple[list[Path], list[str | None], list[str | None]]:
         """get all the stored recipes from config and credentials if any

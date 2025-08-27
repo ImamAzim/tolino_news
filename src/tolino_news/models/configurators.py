@@ -55,27 +55,28 @@ class Configurator(BaseConfigurator):
                     recipes.append(fp)
         return recipes
 
-    def add_recipe(
+    def save_recipe(
             self,
             recipe_fp: Path,
             username=None,
             password=None):
-        pass
+        self._save_config()
 
-    def add_cloud_credentials(
+    def save_cloud_credentials(
             self,
             cloud_connector: str,
             credentials: dict,
             ):
-        pass
+        self._save_config()
 
-    def add_epub_title(self, title: str):
+    def save_epub_title(self, title: str):
         self._config_dict[self._KEY_TITLE] = title
+        self._save_config()
 
     def load_epub_title(self) -> str:
         self._load_config_file()
 
-    def save_config(self, overwrite=False):
+    def _save_config(self, overwrite=False):
         with open(self._config_fp, 'wb') as f:
             tomli_w.dump(self._config_dict, f)
 
@@ -93,7 +94,7 @@ class Configurator(BaseConfigurator):
             ) -> tuple[type, dict]:
         self._load_config_file()
 
-    def get_stored_recipes(
+    def load_recipes(
             self,
             ) -> tuple[list[Path], list[str | None], list[str | None]]:
         self._load_config_file()
