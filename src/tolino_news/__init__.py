@@ -10,3 +10,5 @@ log_folder.mkdir(exist_ok=True)
 LOG_FP = log_folder / 'log'
 exec_fn = 'tolino_news_run'
 RUNJOB_FP = Path('/usr', 'local', 'bin', exec_fn)  # created at install
+
+PLUGIN_FP = Path(__file__).parent / 'plugins' / 'EpubMerge.zip'
