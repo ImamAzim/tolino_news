@@ -8,6 +8,7 @@ import tomli_w
 
 from tolino_news.models.interfaces import BaseConfigurator
 from tolino_news import APP_NAME
+from tolino_news.models.cloud_connectors import cloud_connectors
 
 
 DATA_FOLDER = xdg_base_dirs.xdg_data_home() / APP_NAME
@@ -20,6 +21,8 @@ class ConfiguratorError(Exception):
 class Configurator(BaseConfigurator):
 
     _KEY_TITLE = 'epub title'
+    _KEY_CLOUD_CREDENTIALS = 'cloud credentials'
+    _KEY_CLOUD_CONNECTOR = 'cloud connector'
 
     def __init__(self, test=False):
         if test:
@@ -67,6 +70,8 @@ class Configurator(BaseConfigurator):
             cloud_connector: str,
             credentials: dict,
             ):
+        self._config_dict[self._KEY_CLOUD_CONNECTOR] = cloud_connector
+        self._config_dict[self._KEY_CLOUD_CREDENTIALS] = credentials
         self._save_config()
 
     def save_epub_title(self, title: str):
@@ -94,6 +99,10 @@ class Configurator(BaseConfigurator):
             self,
             ) -> tuple[type, dict]:
         self._load_config_file()
+        credentials = self._config_dict[self._KEY_CLOUD_CREDENTIALS]
+        connector_name = self._config_dict[self._KEY_CLOUD_CONNECTOR]
+        connector_cls = cloud_connectors[connector_name]
+        return connector_cls, credentials
 
     def load_recipes(
             self,

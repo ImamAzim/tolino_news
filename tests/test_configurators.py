@@ -1,6 +1,7 @@
 import unittest
 import warnings
 import inspect
+from pathlib import Path
 
 
 from tolino_news.models.configurators import Configurator, ConfiguratorError
@@ -45,36 +46,34 @@ class TestConfigurator(unittest.TestCase):
         for fp in recipes:
             self.assertTrue(fp.exists())
 
-    # def test_add_cloud(self):
-        # cloud_connector_name = TolinoCloudConnector.__name__
-        # sig = inspect.signature(TolinoCloudConnector)
-        # test_credentials = dict()
-        # for arg in sig.parameters:
-            # test_credentials[arg] = 'dummy'
-        # self._configurator.add_cloud_credentials(
-                # cloud_connector_name,
-                # test_credentials)
-        # self._configurator.save_config()
-        # res = self._configurator2.load_cloud_credentials()
-        # cloud_connector_cls, credentials = res
-        # self.assertEqual(cloud_connector_cls, TolinoCloudConnector)
-        # self.assertDictEqual(test_credentials, credentials)
+    def test_add_cloud(self):
+        cloud_connector_name = TolinoCloudConnector.__name__
+        sig = inspect.signature(TolinoCloudConnector)
+        test_credentials = dict()
+        for arg in sig.parameters:
+            test_credentials[arg] = 'dummy'
+        self._configurator.save_cloud_credentials(
+                cloud_connector_name,
+                test_credentials)
+        res = self._configurator2.load_cloud_credentials()
+        cloud_connector_cls, credentials = res
+        self.assertEqual(cloud_connector_cls, TolinoCloudConnector)
+        self.assertDictEqual(test_credentials, credentials)
 
-    # def test_add_recipe(self):
-        # test_user = 'me'
-        # test_password = 'secret_pass'
-        # recipe_fp = __file__.parent / TEST_RECIPE_FN
-        # self._configurator.add_recipe(
-                # recipe_fp,
-                # username=test_user,
-                # password=test_password,
-                # )
-        # self._configurator.save_config()
-        # res = self._configurator2.get_stored_recipes()
-        # fps, users, passwords = res
-        # self.assertEqual(fps[0], recipe_fp)
-        # self.assertEqual(users[0], test_user)
-        # self.assertEqual(passwords[0], test_password)
+    def test_add_recipe(self):
+        test_user = 'me'
+        test_password = 'secret_pass'
+        recipe_fp = Path(__file__).parent / TEST_RECIPE_FN
+        self._configurator.save_recipe(
+                recipe_fp,
+                username=test_user,
+                password=test_password,
+                )
+        res = self._configurator2.load_recipes()
+        fps, users, passwords = res
+        self.assertEqual(fps[0], recipe_fp)
+        self.assertEqual(users[0], test_user)
+        self.assertEqual(passwords[0], test_password)
 
     def test_add_title(self):
         test_title = 'mytitle'
