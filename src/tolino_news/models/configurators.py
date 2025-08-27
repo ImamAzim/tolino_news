@@ -77,7 +77,7 @@ class Configurator(BaseConfigurator):
         else:
             credentials = None
         recipe = dict()
-        recipe[self._KEY_FP] = recipe_fp
+        recipe[self._KEY_FP] = recipe_fp.as_posix()
         recipe[self._KEY_CREDENTIALS] = credentials
         recipe_name = recipe_fp.name
         recipes[recipe_name] = recipe
@@ -132,7 +132,7 @@ class Configurator(BaseConfigurator):
         credentials = list()
         recipe: dict
         for recipe in recipes.values():
-            fp = recipe.get(self._KEY_FP)
+            fp = Path(recipe.get(self._KEY_FP))
             credential = recipe.get(self._KEY_CREDENTIALS)
             fps.append(fp)
             credentials.append(credential)
