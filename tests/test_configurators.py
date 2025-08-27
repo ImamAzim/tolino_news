@@ -86,7 +86,10 @@ class TestConfigurator(unittest.TestCase):
 
 def check_crontab():
     configurator = Configurator(True)
-    configurator.add_in_crontab(8, 42)
+    try:
+        configurator.add_in_crontab(8, 42)
+    except ConfiguratorError as e:
+        print(e)
     subprocess.run(['crontab', '-l'])
     input('check you crontab if there is a task at 8:42')
     configurator.del_crontab()

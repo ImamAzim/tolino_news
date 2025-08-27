@@ -1,17 +1,20 @@
 from pathlib import Path
 import tomllib
+import getpass
 
 
 import xdg_base_dirs
 import tomli_w
+from crontab import CronTab
 
 
 from tolino_news.models.interfaces import BaseConfigurator
-from tolino_news import APP_NAME
+from tolino_news import APP_NAME, LOG_FP, RUNJOB_FP
 from tolino_news.models.cloud_connectors import cloud_connectors
 
 
 DATA_FOLDER = xdg_base_dirs.xdg_data_home() / APP_NAME
+DATA_FOLDER.mkdir(exist_ok=True)
 
 
 class ConfiguratorError(Exception):
@@ -109,7 +112,16 @@ class Configurator(BaseConfigurator):
         self._config_fp.unlink(missing_ok=True)
 
     def add_in_crontab(self, hour: int, minute: int):
-        pass
+        cron = CronTab(user=getpass.getuser())
+        if [el for el in cron.find_comment(APP_NAME)]:
+            raise ConfiguratorError('there is already a crontab job')
+
+        job = cron.new(
+                command=f'{RUNJOB_FP} > {LOG_FP} 2>&1',
+                comment=APP_NAME)
+        job.hour.on(hour)
+        job.minute.on(minute)
+        cron.write()
 
     def del_crontab(self):
         pass
