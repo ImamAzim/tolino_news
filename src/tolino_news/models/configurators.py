@@ -127,6 +127,16 @@ class Configurator(BaseConfigurator):
             self,
             ) -> tuple[list[Path], list[str | None], list[str | None]]:
         self._load_config_file()
+        recipes: dict = self._config_dict[self._KEY_RECIPES]
+        fps = list()
+        credentials = list()
+        recipe: dict
+        for recipe in recipes.values():
+            fp = recipe.get(self._KEY_FP)
+            credential = recipe.get(self._KEY_CREDENTIALS)
+            fps.append(fp)
+            credentials.append(credential)
+        return fps, credentials
 
     def install_epubmerge_plugin(self):
         pass
