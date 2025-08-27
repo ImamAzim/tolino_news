@@ -124,7 +124,9 @@ class Configurator(BaseConfigurator):
         cron.write()
 
     def del_crontab(self):
-        pass
+        cron = CronTab(user=getpass.getuser())
+        cron.remove_all(comment=APP_NAME)
+        cron.write()
 
     def load_cloud_credentials(
             self,
