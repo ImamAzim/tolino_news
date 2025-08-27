@@ -75,6 +75,7 @@ class Configurator(BaseConfigurator):
 
     def load_epub_title(self) -> str:
         self._load_config_file()
+        return self._config_dict[self._KEY_TITLE]
 
     def _save_config(self, overwrite=False):
         with open(self._config_fp, 'wb') as f:
