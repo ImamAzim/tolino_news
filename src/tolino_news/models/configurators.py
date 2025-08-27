@@ -23,6 +23,11 @@ class Configurator(BaseConfigurator):
     _KEY_TITLE = 'epub title'
     _KEY_CLOUD_CREDENTIALS = 'cloud credentials'
     _KEY_CLOUD_CONNECTOR = 'cloud connector'
+    _KEY_RECIPES = 'recipes'
+    _KEY_USERNAME = 'username'
+    _KEY_PASSWORD = 'password'
+    _KEY_FP = 'file path'
+    _KEY_CREDENTIALS = 'credentials'
 
     def __init__(self, test=False):
         if test:
@@ -32,6 +37,7 @@ class Configurator(BaseConfigurator):
         self._config_fp = DATA_FOLDER / config_fn
         self._test = test
         self._config_dict = dict()
+        self._config_dict[self._KEY_RECIPES] = dict()
 
     def _check_config_file(self):
         """
@@ -63,6 +69,18 @@ class Configurator(BaseConfigurator):
             recipe_fp: Path,
             username=None,
             password=None):
+        recipes: dict = self._config_dict[self._KEY_RECIPES]
+        if username:
+            credentials = dict()
+            credentials[self._KEY_USERNAME] = username
+            credentials[self._KEY_PASSWORD] = password
+        else:
+            credentials = None
+        recipe = dict()
+        recipe[self._KEY_FP] = recipe_fp
+        recipe[self._KEY_CREDENTIALS] = credentials
+        recipe_name = recipe_fp.name
+        recipes[recipe_name] = recipe
         self._save_config()
 
     def save_cloud_credentials(
@@ -80,7 +98,8 @@ class Configurator(BaseConfigurator):
 
     def load_epub_title(self) -> str:
         self._load_config_file()
-        return self._config_dict[self._KEY_TITLE]
+        title = self._config_dict.get(self._KEY_TITLE)
+        return title
 
     def _save_config(self, overwrite=False):
         with open(self._config_fp, 'wb') as f:
@@ -99,9 +118,9 @@ class Configurator(BaseConfigurator):
             self,
             ) -> tuple[type, dict]:
         self._load_config_file()
-        credentials = self._config_dict[self._KEY_CLOUD_CREDENTIALS]
-        connector_name = self._config_dict[self._KEY_CLOUD_CONNECTOR]
-        connector_cls = cloud_connectors[connector_name]
+        credentials = self._config_dict.get(self._KEY_CLOUD_CREDENTIALS)
+        connector_name = self._config_dict.get(self._KEY_CLOUD_CONNECTOR)
+        connector_cls = cloud_connectors.get(connector_name)
         return connector_cls, credentials
 
     def load_recipes(

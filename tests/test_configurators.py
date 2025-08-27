@@ -70,10 +70,12 @@ class TestConfigurator(unittest.TestCase):
                 password=test_password,
                 )
         res = self._configurator2.load_recipes()
-        fps, users, passwords = res
+        fps, credentials = res
+        user = credentials[0]['user']
+        password = credentials[0]['password']
         self.assertEqual(fps[0], recipe_fp)
-        self.assertEqual(users[0], test_user)
-        self.assertEqual(passwords[0], test_password)
+        self.assertEqual(user, test_user)
+        self.assertEqual(password, test_password)
 
     def test_add_title(self):
         test_title = 'mytitle'
