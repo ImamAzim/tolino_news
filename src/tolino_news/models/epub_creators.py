@@ -1,10 +1,12 @@
+import subprocess
+from pathlib import Path
+
+
+from tolino_news import PLUGIN_FP
 from tolino_news.models.interfaces import BaseEpubCreator
 
 
 class EpubCreator(BaseEpubCreator):
-
-    def install_epubmerge_plugin(self):
-        pass
 
     def download_news(self,
                       recipe_fp: Path,
@@ -18,3 +20,11 @@ class EpubCreator(BaseEpubCreator):
 
     def clean_cache_folder(self):
         pass
+
+    def install_epubmerge_plugin(self):
+        cmd = [
+                'calibre-customize',
+                '-a',
+                f'{PLUGIN_FP}'
+                ]
+        subprocess.run(cmd)

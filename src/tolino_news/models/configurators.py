@@ -1,7 +1,6 @@
 from pathlib import Path
 import tomllib
 import getpass
-import subprocess
 
 
 import xdg_base_dirs
@@ -10,7 +9,7 @@ from crontab import CronTab
 
 
 from tolino_news.models.interfaces import BaseConfigurator
-from tolino_news import APP_NAME, LOG_FP, RUNJOB_FP, PLUGIN_FP
+from tolino_news import APP_NAME, LOG_FP, RUNJOB_FP
 from tolino_news.models.cloud_connectors import cloud_connectors
 
 
@@ -152,11 +151,3 @@ class Configurator(BaseConfigurator):
             fps.append(fp)
             credentials.append(credential)
         return fps, credentials
-
-    def install_epubmerge_plugin(self):
-        cmd = [
-                'calibre-customize',
-                '-a',
-                f'{PLUGIN_FP}'
-                ]
-        subprocess.run(cmd)
