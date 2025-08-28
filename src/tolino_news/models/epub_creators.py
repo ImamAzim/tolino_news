@@ -1,6 +1,7 @@
 import subprocess
 import shutil
 from pathlib import Path
+import datetime
 
 
 from tolino_news import PLUGIN_FP, cache_folder
@@ -15,7 +16,9 @@ class EpubCreator(BaseEpubCreator):
 
     _CALIBRE_ENTRY = 'calibre'
     _CALIBRE_CUSTOMIZE = 'calibre-customize'
+    _CALIBRE_DEBUG = 'calibre_debug'
     _EBOOK_CONVERT = 'ebook-convert'
+    _EPUB_MERGE = 'EpubMerge'
 
     def _check_calibre_installation(self):
         """
@@ -42,10 +45,8 @@ class EpubCreator(BaseEpubCreator):
             cmd.append(f'--username={username}')
         if password is not None:
             cmd.append(f'--password={password}')
-        # stdout = open(os.devnull, 'w') if supress_output else None
-        stdout = None
         try:
-            subprocess.run(cmd, stdout=stdout)
+            subprocess.run(cmd)
         except FileNotFoundError as e:
             print(e)
             raise EpubCreator('failed to convert recipe.is calibre installed?')
@@ -58,24 +59,26 @@ class EpubCreator(BaseEpubCreator):
             epub_fps: list[Path],
             ) -> Path:
 
-        epub_name = self._config_dict['tolino_cloud_config']['epub_name']
-        suffix = datetime.date.today().isoformat()
-        epub_title = f'{epub_name}_{suffix}'
-        merged_epub = os.path.join(self._data_path, f'{epub_title}.epub')
+        date = datetime.date.today().isoformat()
+        dated_title = f'{title}_{date}'
+        output_fp = cache_folder / f'{dated_title}.epub'
 
         cmd = [
-                'calibre-debug',
+                self._CALIBRE_DEBUG,
                 '--run-plugin',
-                'EpubMerge',
+                self._EPUB_MERGE,
                 '--',
-                f'--title={epub_title}',
-                f'--output={merged_epub}',
+                f'--title={dated_title}',
+                f'--output={output_fp}',
                 ]
-        cmd += epubs
-        subprocess.run(cmd)
-        self._to_delete.append(merged_epub)
-        return merged_epub
-        pass
+        cmd += epub_fps
+        try:
+            subprocess.run(cmd)
+        except FileNotFoundError as e:
+            print(e)
+            raise EpubCreator('failed to convert recipe.is calibre installed?')
+        else:
+            return output_fp
 
     def clean_cache_folder(self):
         for child in cache_folder.iterdir():

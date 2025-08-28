@@ -8,6 +8,7 @@ from tolino_news import cache_folder
 test_recipe_fp = Path(__file__).parent / 'test_recipe.recipe'
 test_epub = Path(__file__).parent / 'basic-v3plus2.epub'
 
+
 class TestEpubCreator(unittest.TestCase):
 
     """all test concerning EpubCreator calss. """
