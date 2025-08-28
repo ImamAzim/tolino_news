@@ -15,6 +15,7 @@ class EpubCreator(BaseEpubCreator):
 
     _CALIBRE_ENTRY = 'calibre'
     _CALIBRE_CUSTOMIZE = 'calibre-customize'
+    _EBOOK_CONVERT = 'ebook-convert'
 
     def _check_calibre_installation(self):
         """
@@ -30,7 +31,26 @@ class EpubCreator(BaseEpubCreator):
                       username: None | str = None,
                       password: None | str = None,
                       ) -> Path:
-        pass
+        output_fp = cache_folder / f'{recipe_fp.stem}.epub'
+        cmd = [
+                self._EBOOK_CONVERT,
+                recipe_fp,
+                output_fp,
+                '--output-profile=kobo',
+                ]
+        if username is not None:
+            cmd.append(f'--username={username}')
+        if password is not None:
+            cmd.append(f'--password={password}')
+        # stdout = open(os.devnull, 'w') if supress_output else None
+        stdout = None
+        try:
+            subprocess.run(cmd, stdout=stdout)
+        except FileNotFoundError as e:
+            print(e)
+            raise EpubCreator('failed to convert recipe.is calibre installed?')
+        else:
+            return output_fp
 
     def merge_epubs(self, epub_fps: list[Path]) -> Path:
         pass
@@ -53,5 +73,5 @@ class EpubCreator(BaseEpubCreator):
 
 
 if __name__ == '__main__':
-    ec = EpubCreator()
-    ec._check_calibre_installation()
+    # ec = EpubCreator()
+    # ec._check_calibre_installation()
