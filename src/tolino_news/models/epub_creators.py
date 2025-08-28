@@ -16,7 +16,7 @@ class EpubCreator(BaseEpubCreator):
 
     _CALIBRE_ENTRY = 'calibre'
     _CALIBRE_CUSTOMIZE = 'calibre-customize'
-    _CALIBRE_DEBUG = 'calibre_debug'
+    _CALIBRE_DEBUG = 'calibre-debug'
     _EBOOK_CONVERT = 'ebook-convert'
     _EPUB_MERGE = 'EpubMerge'
 
