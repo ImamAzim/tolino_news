@@ -6,7 +6,7 @@ from tolino_news.models.epub_creators import EpubCreator
 from tolino_news import cache_folder
 
 test_recipe_fp = Path(__file__).parent / 'test_recipe.recipe'
-
+test_epub = Path(__file__).parent / 'basic-v3plus2.epub'
 
 class TestEpubCreator(unittest.TestCase):
 
@@ -35,5 +35,12 @@ class TestEpubCreator(unittest.TestCase):
     def test_download_news(self):
         self._epub_creator.clean_cache_folder()
         epub_fp = self._epub_creator.download_news(test_recipe_fp)
+        self.assertTrue(epub_fp.exists())
+        self.assertEqual(epub_fp.suffix, '.epub')
+
+    def test_merge_epubs(self):
+        self._epub_creator.clean_cache_folder()
+        epubs = list((test_epub, test_epub))
+        epub_fp = self._epub_creator.merge_epubs(epubs)
         self.assertTrue(epub_fp.exists())
         self.assertEqual(epub_fp.suffix, '.epub')
