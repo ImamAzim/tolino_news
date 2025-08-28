@@ -36,7 +36,11 @@ class EpubCreator(BaseEpubCreator):
         pass
 
     def clean_cache_folder(self):
-        pass
+        for child in cache_folder.iterdir():
+            if child.is_file():
+                child.unlink()
+            else:
+                shutil.rmtree(child)
 
     def install_epubmerge_plugin(self):
         self._check_calibre_installation()
