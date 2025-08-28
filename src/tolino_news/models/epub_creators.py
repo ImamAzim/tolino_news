@@ -3,7 +3,7 @@ import shutil
 from pathlib import Path
 
 
-from tolino_news import PLUGIN_FP
+from tolino_news import PLUGIN_FP, cache_folder
 from tolino_news.models.interfaces import BaseEpubCreator
 
 
