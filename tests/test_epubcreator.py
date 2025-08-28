@@ -41,6 +41,6 @@ class TestEpubCreator(unittest.TestCase):
     def test_merge_epubs(self):
         self._epub_creator.clean_cache_folder()
         epubs = list((test_epub, test_epub))
-        epub_fp = self._epub_creator.merge_epubs(epubs)
+        epub_fp = self._epub_creator.merge_epubs('test', epubs)
         self.assertTrue(epub_fp.exists())
         self.assertEqual(epub_fp.suffix, '.epub')

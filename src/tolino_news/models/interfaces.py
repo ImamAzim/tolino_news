@@ -205,9 +205,14 @@ class BaseEpubCreator(ABC):
         pass
 
     @abstractmethod
-    def merge_epubs(self, epub_fps: list[Path]) -> Path:
+    def merge_epubs(
+            self,
+            title: str,
+            epub_fps: list[Path],
+            ) -> Path:
         """use calibre epubmerge plugin to merge epub into on
 
+        :title: title of generated epub (date will be added)
         :epub_fps: list of path to epub to merge
         :returns: path to generated epub
 

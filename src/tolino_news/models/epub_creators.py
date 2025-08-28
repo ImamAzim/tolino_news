@@ -52,7 +52,29 @@ class EpubCreator(BaseEpubCreator):
         else:
             return output_fp
 
-    def merge_epubs(self, epub_fps: list[Path]) -> Path:
+    def merge_epubs(
+            self,
+            title: str,
+            epub_fps: list[Path],
+            ) -> Path:
+
+        epub_name = self._config_dict['tolino_cloud_config']['epub_name']
+        suffix = datetime.date.today().isoformat()
+        epub_title = f'{epub_name}_{suffix}'
+        merged_epub = os.path.join(self._data_path, f'{epub_title}.epub')
+
+        cmd = [
+                'calibre-debug',
+                '--run-plugin',
+                'EpubMerge',
+                '--',
+                f'--title={epub_title}',
+                f'--output={merged_epub}',
+                ]
+        cmd += epubs
+        subprocess.run(cmd)
+        self._to_delete.append(merged_epub)
+        return merged_epub
         pass
 
     def clean_cache_folder(self):
