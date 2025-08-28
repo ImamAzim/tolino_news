@@ -176,9 +176,47 @@ class BaseConfigurator(ABC):
         """
         pass
 
+
+class EpubCreator(ABC):
+
+    """class to manipulate and generate epub using calibre"""
+
     @abstractmethod
     def install_epubmerge_plugin(self):
         """use calibre customize to install zip file
+
+        """
+        pass
+
+    @abstractmethod
+    def download_news(self,
+                      recipe_fp: Path,
+                      username: None | str = None,
+                      password: None | str = None,
+                      ) -> Path:
+        """use calibre recipe to fetch news and generate epub
+
+        :recipe_fp: path to calibre recipe
+        :username: if required by recipe
+        :password: if required by recipe
+        :returns: path to generated epub
+
+        """
+        pass
+
+    @abstractmethod
+    def merge_epubs(self, epub_fps: list[Path]) -> Path:
+        """use calibre epubmerge plugin to merge epub into on
+
+        :epub_fps: list of path to epub to merge
+        :returns: path to generated epub
+
+        """
+        pass
+
+    @abstractmethod
+    def clean_cache_folder(self):
+        """remove all files from cache folder of the app
 
         """
         pass
