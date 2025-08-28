@@ -177,7 +177,7 @@ class BaseConfigurator(ABC):
         pass
 
 
-class EpubCreator(ABC):
+class BaseEpubCreator(ABC):
 
     """class to manipulate and generate epub using calibre"""
 
