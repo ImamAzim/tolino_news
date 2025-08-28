@@ -9,12 +9,8 @@ from crontab import CronTab
 
 
 from tolino_news.models.interfaces import BaseConfigurator
-from tolino_news import APP_NAME, LOG_FP, RUNJOB_FP
+from tolino_news import APP_NAME, LOG_FP, RUNJOB_FP, DATA_FOLDER
 from tolino_news.models.cloud_connectors import cloud_connectors
-
-
-DATA_FOLDER = xdg_base_dirs.xdg_data_home() / APP_NAME
-DATA_FOLDER.mkdir(exist_ok=True)
 
 
 class ConfiguratorError(Exception):

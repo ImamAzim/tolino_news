@@ -14,6 +14,7 @@ class EpubCreatorError(Exception):
 class EpubCreator(BaseEpubCreator):
 
     _CALIBRE_ENTRY = 'calibre'
+    _CALIBRE_CUSTOMIZE = 'calibre-customize'
 
     def _check_calibre_installation(self):
         """
@@ -24,27 +25,21 @@ class EpubCreator(BaseEpubCreator):
         if fp is None:
             raise EpubCreatorError('calibre is not installed')
 
-    def _check_epubmergeplugin_installation(self):
-        """
-        :returns: TODO
-
-        """
-        self._check_calibre_installation()
-
     def download_news(self,
                       recipe_fp: Path,
                       username: None | str = None,
                       password: None | str = None,
                       ) -> Path:
-        self._check_calibre_installation()
+        pass
 
     def merge_epubs(self, epub_fps: list[Path]) -> Path:
-        self._check_epubmergeplugin_installation()
+        pass
 
     def clean_cache_folder(self):
         pass
 
     def install_epubmerge_plugin(self):
+        self._check_calibre_installation()
         cmd = [
                 'calibre-customize',
                 '-a',
