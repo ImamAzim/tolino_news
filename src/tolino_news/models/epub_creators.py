@@ -73,5 +73,6 @@ class EpubCreator(BaseEpubCreator):
 
 
 if __name__ == '__main__':
+    pass
     # ec = EpubCreator()
     # ec._check_calibre_installation()
