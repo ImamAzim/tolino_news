@@ -1,4 +1,5 @@
 import subprocess
+import shutil
 from pathlib import Path
 
 
@@ -12,12 +13,16 @@ class EpubCreatorError(Exception):
 
 class EpubCreator(BaseEpubCreator):
 
+    _CALIBRE_ENTRY = 'calibre'
+
     def _check_calibre_installation(self):
         """
         :returns: TODO
 
         """
-        pass
+        fp = shutil.which(self._CALIBRE_ENTRY)
+        if fp is None:
+            raise EpubCreatorError('calibre is not installed')
 
     def _check_epubmergeplugin_installation(self):
         """
@@ -46,3 +51,8 @@ class EpubCreator(BaseEpubCreator):
                 f'{PLUGIN_FP}'
                 ]
         subprocess.run(cmd)
+
+
+if __name__ == '__main__':
+    ec = EpubCreator()
+    ec._check_calibre_installation()
