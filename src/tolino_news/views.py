@@ -78,12 +78,29 @@ class NewsLoaderMenu(object):
                 self._configurator.save_recipe(recipe, username, password)
 
         # cloud config
-        print(f'select a cloud connection [0-{len(cloud_connectors)}]:')
+        print('select a cloud connection:')
         index = 0
+        options = dict()
         for cloud_connector, cloud_connector_cls in cloud_connectors.items():
             print(f'[{index}]: {cloud_connector}')
             print(inspect.getdoc(cloud_connector_cls))
-
+            options[str(index)] = cloud_connector
+            index += 1
+        answer = input(f'[0-{len(cloud_connectors)}]?: ')
+        choice = options.get(answer)
+        if choice:
+            cloud_connector_name = choice
+            cloud_connector_cls = cloud_connectors[cloud_connector_name]
+            signature = inspect.signature(cloud_connector_cls)
+            credentials = dict()
+            for arg, param in signature.parameters.items():
+                answer = input(f'{arg} [{param.default}]: ')
+                answer = answer if answer else param.default
+                credentials[arg] = answer
+            self._configurator.save_cloud_credentials(
+                    cloud_connector_name, **credentials)
+        else:
+            print('invalid choice')
         print('===')
 
     def case_2(self):
