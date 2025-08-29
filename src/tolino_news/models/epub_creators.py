@@ -31,8 +31,8 @@ class EpubCreator(BaseEpubCreator):
 
     def download_news(self,
                       recipe_fp: Path,
-                      username: None | str = None,
-                      password: None | str = None,
+                      username: str = '',
+                      password: str = '',
                       ) -> Path:
         output_fp = cache_folder / f'{recipe_fp.stem}.epub'
         cmd = [
@@ -41,9 +41,9 @@ class EpubCreator(BaseEpubCreator):
                 output_fp,
                 '--output-profile=kobo',
                 ]
-        if username is not None:
+        if username:
             cmd.append(f'--username={username}')
-        if password is not None:
+        if password:
             cmd.append(f'--password={password}')
         try:
             subprocess.run(cmd)
