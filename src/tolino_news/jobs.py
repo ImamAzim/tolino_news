@@ -20,39 +20,44 @@ class NewsCreatorJob(object):
         config = Configurator()
         resp = config.load_cloud_credentials()
         cloud_connector_cls, cloud_credentials = resp
-        cloud_connector: interfaces.CloudConnector = cloud_connector_cls(
-                **cloud_credentials)
         epub_creator = EpubCreator()
         varbox = VarBox(APP_NAME, cloud_connector_cls.__name__)
 
         self._configurator = config
-        self._cloud_connector = cloud_connector
+        self._cloud_connector_cls = cloud_connector_cls
+        self._cloud_credentials = cloud_credentials
         self._epub_creator = epub_creator
+        if not hasattr(varbox, 'last_uploaded_file'):
+            varbox.last_uploaded_file = None
+        self._last_uploaded_file = varbox.last_uploaded_file
 
     def run(self):
         logging.info('run job news loader...')
 
+        logging.info('clean cache')
+        self._epub_creator.clean_cache_folder()
+
         logging.info('download news')
-        epubs = self.news_creator.download_all_news()
+        recipe_fps, usernames, passwords = self._configurator.load_recipes()
+        epub_fps = list()
+        for recipe_fp, username, password in zip(
+                recipe_fps, usernames, passwords):
+            epub_fp = self._epub_creator.download_news(
+                    recipe_fp, username, password)
+            epub_fps.append(epub_fp)
 
         logging.info('merge epubs')
-        merged_epub = self.news_creator.merge_epubs(epubs)
+        title = self._configurator.load_epub_title()
+        merged_epub_fp = self._epub_creator.merge_epubs('a', epub_fps)
 
-        logging.info('register')
-        register_device()
-
-        logging.info('clean cloud folder')
-        self.news_creator.clean_cloud()
-
-        logging.info('upload news')
-        self.news_creator.upload_file(merged_epub)
-
-        logging.info('clean data folder')
-        self.news_creator.clean_data_folder()
-
-        logging.info('unregister')
-        unregister_device()
-
+        with self._cloud_connector_cls(**self._cloud_credentials) as cc:
+            cc: interfaces.CloudConnector
+            if self._last_uploaded_file:
+                logging.info('delete last uploaded file')
+                cc.delete_file(self._last_uploaded_file)
+            logging.info('upload news')
+            epub_id = cc.upload(merged_epub_fp)
+            self._last_uploaded_file = epub_id
         logging.info('job finished')
 
 
