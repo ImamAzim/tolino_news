@@ -97,8 +97,12 @@ class NewsLoaderMenu(object):
             signature = inspect.signature(cloud_connector_cls)
             credentials = dict()
             for arg, param in signature.parameters.items():
-                answer = input(f'{arg} [{param.default}]: ')
-                answer = answer if answer else param.default
+                if param.default == param.empty:
+                    default_value = ''
+                else:
+                    default_value = param.default
+                answer = input(f'{arg} [{default_value}]: ')
+                answer = answer if answer else default_value
                 credentials[arg] = answer
             self._configurator.save_cloud_credentials(
                     cloud_connector_name, credentials)
