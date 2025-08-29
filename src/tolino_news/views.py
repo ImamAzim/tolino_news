@@ -1,4 +1,5 @@
 import getpass
+import inspect
 
 
 from tolino_news.models.epub_creators import EpubCreator
@@ -58,46 +59,31 @@ class NewsLoaderMenu(object):
         """add configuration file
 
         """
-        # define a name
-        epub_name = input('enter name of the epub [news]')
-        epub_name = 'news' if not epub_name else epub_name
+        # epub title
+        title = input('enter name of the epub [news]:\n')
+        title = 'news' if not title else title
+        self._configurator.save_epub_title(title)
         # add recipes
-        recipes, fp = self.config.get_recipes_names()
+        recipes = self._configurator.get_all_calibre_recipes()
         for recipe in recipes:
-            print(f'add {recipe}? (y/n) [y]')
-            answer = input()
-            if not answer.lower() == 'n':
-                print('write credentials (or press enter to skip)')
+            answer = input(f'add {recipe.name}? (y/n) [y]:\n')
+            answer = 'y' if not answer else answer
+            if answer.lower() == 'y':
+                print('give credentials (or press enter to skip)')
                 username = input('username: ')
                 if username:
                     password = getpass.getpass()
-                    self.config.add_recipe(recipe, username, password)
                 else:
-                    self.config.add_recipe(recipe)
+                    password = ''
+                self._configurator.save_recipe(recipe, username, password)
 
-        # tolino cloud config
-        server_name = input('tolino server name [www.buecher.de]:\n')
-        server_name = 'www.buecher.de' if not server_name else server_name
-        username = input('username:\n')
-        password = getpass.getpass()
+        # cloud config
+        print(f'select a cloud connection [0-{len(cloud_connectors)}]:')
+        index = 0
+        for cloud_connector, cloud_connector_cls in cloud_connectors.items():
+            print(f'[{index}]: {cloud_connector}')
+            print(inspect.getdoc(cloud_connector_cls))
 
-        self.config.add_tolino_cloud_config(
-                server_name,
-                username,
-                password,
-                epub_name)
-
-        # create config file
-
-        try:
-            self.config.save_config()
-        except FileExistsError:
-            answer = input(
-                    'a config file is already present.'
-                    'do you want to overwrite it with a new one? (y/n) [n]',
-                    )
-            if answer.lower() == 'y':
-                self.config.save_config(overwrite=True)
         print('===')
 
     def case_2(self):
