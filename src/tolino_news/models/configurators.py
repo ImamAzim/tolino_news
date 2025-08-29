@@ -37,6 +37,14 @@ class Configurator(BaseConfigurator):
         self._config_dict = dict()
         self._config_dict[self._KEY_RECIPES] = dict()
 
+    def __repr__(self):
+        """load config from toml file and return dict
+        :returns: configuration
+
+        """
+        self._load_config_file()
+        return repr(self._config_dict)
+
     def _check_config_file(self):
         """
 
