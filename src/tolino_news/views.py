@@ -2,7 +2,7 @@ import getpass
 import inspect
 
 
-from tolino_news.models.epub_creators import EpubCreator
+from tolino_news.models.epub_creators import EpubCreator, EpubCreatorError
 from tolino_news.models.configurators import Configurator, ConfiguratorError
 from tolino_news.models.cloud_connectors import cloud_connectors
 from tolino_news.jobs import run_news_loader
@@ -52,7 +52,10 @@ class NewsLoaderMenu(object):
         """install epubmerge plugin
 
         """
-        self._epub_creator.install_epubmerge_plugin()
+        try:
+            self._epub_creator.install_epubmerge_plugin()
+        except EpubCreatorError as e:
+            print(e)
         print('===')
 
     def case_1(self):
@@ -107,7 +110,10 @@ class NewsLoaderMenu(object):
         """delete configuration file
 
         """
-        self._configurator.delete_config()
+        try:
+            self._configurator.delete_config()
+        except ConfiguratorError as e:
+            print(e)
         print('===')
 
     def case_3(self):
@@ -143,8 +149,12 @@ class NewsLoaderMenu(object):
         """delete crontab job
 
         """
-        self._configurator.del_crontab()
-        print('cron job deleted. Tolino News will not run daily anymore')
+        try:
+            self._configurator.del_crontab()
+        except ConfiguratorError as e:
+            print(e)
+        else:
+            print('cron job deleted. Tolino News will not run daily anymore')
         print('===')
 
     def case_6(self):
