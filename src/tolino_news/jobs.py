@@ -1,12 +1,14 @@
 import logging
-import os
 import sys
 
 
-import xdg
+from varboxes import VarBox
 
 
-from tolino_news.models import NewsCreator, NewsLoaderConfiguration
+from tolino_news.models.cloud_connectors import CloudConnectorException
+from tolino_news.models.cloud_connectors import cloud_connectors
+from tolino_news.models.configurators import Configurator, ConfiguratorError
+from tolino_news.models.epub_creators import EpubCreator, EpubCreatorError
 
 
 class NewsCreatorJob(object):
@@ -45,27 +47,27 @@ class NewsCreatorJob(object):
         logging.info('job finished')
 
 
-def run_news_loader_job():
-    directory = os.path.join(
-            xdg.xdg_state_home(),
-            'tolino_news',
-            )
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    logfile = os.path.join(directory, 'log')
-    logging.basicConfig(
-            filename=logfile,
-            encoding='utf-8',
-            level=logging.INFO,
-            format="%(asctime)s %(name)s.%(levelname)s: %(message)s",
-            datefmt="%Y.%m.%d %H:%M:%S",
-            )
-    # logfile = os.path.join(directory, 'errors')
-    # with open(filename, 'w') as logfile:
-    sys.stderr = open(logfile, 'a')
-    job = NewsCreatorJob()
-    job.run()
-    sys.stderr = sys.__stderr__
+# def run_news_loader_job():
+    # directory = os.path.join(
+            # xdg.xdg_state_home(),
+            # 'tolino_news',
+            # )
+    # if not os.path.exists(directory):
+        # os.makedirs(directory)
+    # logfile = os.path.join(directory, 'log')
+    # logging.basicConfig(
+            # filename=logfile,
+            # encoding='utf-8',
+            # level=logging.INFO,
+            # format="%(asctime)s %(name)s.%(levelname)s: %(message)s",
+            # datefmt="%Y.%m.%d %H:%M:%S",
+            # )
+    # # logfile = os.path.join(directory, 'errors')
+    # # with open(filename, 'w') as logfile:
+    # sys.stderr = open(logfile, 'a')
+    # job = NewsCreatorJob()
+    # job.run()
+    # sys.stderr = sys.__stderr__
 
 
 def run_news_loader():
@@ -79,39 +81,5 @@ def run_news_loader():
     job.run()
 
 
-def register_device():
-    """register the device on the server (do this only once)
-    :returns: msg to inform success
-
-    """
-    news_loader_configuration = NewsLoaderConfiguration()
-    try:
-        config_dict = news_loader_configuration.load_config()
-    except FileNotFoundError:
-        msg = 'file not found! did you create a config files?'
-        return msg
-    else:
-        news_creator = NewsCreator(config_dict)
-        msg = news_creator.register_device()
-        return msg
-
-
-def unregister_device():
-    """unregister the device on the server (do this only once)
-    :returns: msg to inform success
-
-    """
-    news_loader_configuration = NewsLoaderConfiguration()
-    try:
-        config_dict = news_loader_configuration.load_config()
-    except FileNotFoundError:
-        msg = 'file not found! did you create a config files?'
-        return msg
-    else:
-        news_creator = NewsCreator(config_dict)
-        msg = news_creator.unregister_device()
-        return msg
-
-
 if __name__ == '__main__':
-    run_news_loader_job()
+    run_news_loader()
