@@ -6,9 +6,10 @@ from varboxes import VarBox
 
 
 from tolino_news.models.cloud_connectors import CloudConnectorException
-from tolino_news.models.cloud_connectors import cloud_connectors
 from tolino_news.models.configurators import Configurator, ConfiguratorError
 from tolino_news.models.epub_creators import EpubCreator, EpubCreatorError
+from tolino_news.models import interfaces
+from tolino_news import APP_NAME
 
 
 class NewsCreatorJob(object):
@@ -16,9 +17,17 @@ class NewsCreatorJob(object):
     """class to start the job to fetch news and upload them"""
 
     def __init__(self):
-        news_loader_configuration = NewsLoaderConfiguration()
-        config_dict = news_loader_configuration.load_config()
-        self.news_creator = NewsCreator(config_dict)
+        config = Configurator()
+        resp = config.load_cloud_credentials()
+        cloud_connector_cls, cloud_credentials = resp
+        cloud_connector: interfaces.CloudConnector = cloud_connector_cls(
+                **cloud_credentials)
+        epub_creator = EpubCreator()
+        varbox = VarBox(APP_NAME, cloud_connector_cls.__name__)
+
+        self._configurator = config
+        self._cloud_connector = cloud_connector
+        self._epub_creator = epub_creator
 
     def run(self):
         logging.info('run job news loader...')
