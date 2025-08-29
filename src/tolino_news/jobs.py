@@ -5,11 +5,10 @@ import sys
 from varboxes import VarBox
 
 
-from tolino_news.models.cloud_connectors import CloudConnectorException
-from tolino_news.models.configurators import Configurator, ConfiguratorError
+from tolino_news.models.configurators import Configurator
 from tolino_news.models.epub_creators import EpubCreator, EpubCreatorError
 from tolino_news.models import interfaces
-from tolino_news import APP_NAME
+from tolino_news import APP_NAME, LOG_FP
 
 
 class NewsCreatorJob(object):
@@ -42,46 +41,43 @@ class NewsCreatorJob(object):
         epub_fps = list()
         for recipe_fp, username, password in zip(
                 recipe_fps, usernames, passwords):
-            epub_fp = self._epub_creator.download_news(
-                    recipe_fp, username, password)
-            epub_fps.append(epub_fp)
+            try:
+                epub_fp = self._epub_creator.download_news(
+                        recipe_fp, username, password)
+            except EpubCreatorError as e:
+                print(e)
+            else:
+                epub_fps.append(epub_fp)
+        if not epub_fps:
+            print('no news to upload!')
+        else:
+            logging.info('merge epubs')
+            title = self._configurator.load_epub_title()
+            merged_epub_fp = self._epub_creator.merge_epubs(title, epub_fps)
 
-        logging.info('merge epubs')
-        title = self._configurator.load_epub_title()
-        merged_epub_fp = self._epub_creator.merge_epubs('a', epub_fps)
-
-        with self._cloud_connector_cls(**self._cloud_credentials) as cc:
-            cc: interfaces.CloudConnector
-            if self._last_uploaded_file:
-                logging.info('delete last uploaded file')
-                cc.delete_file(self._last_uploaded_file)
-            logging.info('upload news')
-            epub_id = cc.upload(merged_epub_fp)
-            self._last_uploaded_file = epub_id
-        logging.info('job finished')
+            with self._cloud_connector_cls(**self._cloud_credentials) as cc:
+                cc: interfaces.CloudConnector
+                if self._last_uploaded_file:
+                    logging.info('delete last uploaded file')
+                    cc.delete_file(self._last_uploaded_file)
+                logging.info('upload news')
+                epub_id = cc.upload(merged_epub_fp)
+                self._last_uploaded_file = epub_id
+            logging.info('job finished')
 
 
-# def run_news_loader_job():
-    # directory = os.path.join(
-            # xdg.xdg_state_home(),
-            # 'tolino_news',
-            # )
-    # if not os.path.exists(directory):
-        # os.makedirs(directory)
-    # logfile = os.path.join(directory, 'log')
-    # logging.basicConfig(
-            # filename=logfile,
-            # encoding='utf-8',
-            # level=logging.INFO,
-            # format="%(asctime)s %(name)s.%(levelname)s: %(message)s",
-            # datefmt="%Y.%m.%d %H:%M:%S",
-            # )
-    # # logfile = os.path.join(directory, 'errors')
-    # # with open(filename, 'w') as logfile:
-    # sys.stderr = open(logfile, 'a')
-    # job = NewsCreatorJob()
-    # job.run()
-    # sys.stderr = sys.__stderr__
+def run_news_loader_job():
+    logging.basicConfig(
+            filename=LOG_FP,
+            encoding='utf-8',
+            level=logging.INFO,
+            format="%(asctime)s %(name)s.%(levelname)s: %(message)s",
+            datefmt="%Y.%m.%d %H:%M:%S",
+            )
+    sys.stderr = open(LOG_FP, 'a')
+    job = NewsCreatorJob()
+    job.run()
+    sys.stderr = sys.__stderr__
 
 
 def run_news_loader():

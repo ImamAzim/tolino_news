@@ -71,14 +71,6 @@ class CloudConnector(ABC):
         """
         pass
 
-    @abstractmethod
-    def delete_last_uploaded_file(self):
-        """delete (on the cloud) the last file that was uploaded
-        from this computer
-
-        """
-        pass
-
 
 class BaseConfigurator(ABC):
 
