@@ -71,10 +71,11 @@ class TestConfigurator(unittest.TestCase):
                 password=test_password,
                 )
         res = self._configurator2.load_recipes()
-        fps, credentials = res
-        user = credentials[0]['username']
-        password = credentials[0]['password']
-        self.assertEqual(fps[0], recipe_fp)
+        fps, users, passwords = res
+        user = users[0]
+        password = passwords[0]
+        fp = fps[0]
+        self.assertEqual(fp, recipe_fp)
         self.assertEqual(user, test_user)
         self.assertEqual(password, test_password)
 
