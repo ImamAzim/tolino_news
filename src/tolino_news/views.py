@@ -89,7 +89,7 @@ class NewsLoaderMenu(object):
             print(inspect.getdoc(cloud_connector_cls))
             options[str(index)] = cloud_connector
             index += 1
-        answer = input(f'[0-{len(cloud_connectors)}]?: ')
+        answer = input(f'[0-{len(cloud_connectors)-1}]?: ')
         choice = options.get(answer)
         if choice:
             cloud_connector_name = choice
