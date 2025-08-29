@@ -85,6 +85,7 @@ class TestConfigurator(unittest.TestCase):
         title = self._configurator2.load_epub_title()
         self.assertEqual(title, test_title)
 
+
 def check_crontab():
     configurator = Configurator(True)
     try:
@@ -98,17 +99,20 @@ def check_crontab():
     input('check you crontab if task has been deleted')
     configurator.delete_config()
 
+
 def check_print_config():
     configurator = Configurator(True)
     sig = inspect.signature(TolinoCloudConnector)
     test_credentials = dict()
     for arg in sig.parameters:
         test_credentials[arg] = 'dummy'
-    configurator.save_cloud_credentials(TolinoCloudConnector.__name__, test_credentials)
+    configurator.save_cloud_credentials(
+            TolinoCloudConnector.__name__, test_credentials)
     configurator.save_epub_title('title')
     recipe_fp = Path(__file__).parent / TEST_RECIPE_FN
     configurator.save_recipe(recipe_fp)
     print(configurator)
+
 
 if __name__ == '__main__':
     check_print_config()
