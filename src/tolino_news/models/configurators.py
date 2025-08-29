@@ -26,7 +26,6 @@ class Configurator(BaseConfigurator):
     _KEY_USERNAME = 'username'
     _KEY_PASSWORD = 'password'
     _KEY_FP = 'file path'
-    _KEY_CREDENTIALS = 'credentials'
 
     def __init__(self, test=False):
         if test:
