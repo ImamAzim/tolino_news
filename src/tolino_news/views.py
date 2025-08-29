@@ -101,7 +101,7 @@ class NewsLoaderMenu(object):
                 answer = answer if answer else param.default
                 credentials[arg] = answer
             self._configurator.save_cloud_credentials(
-                    cloud_connector_name, **credentials)
+                    cloud_connector_name, credentials)
         else:
             print('invalid choice')
         print('===')
