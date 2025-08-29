@@ -90,3 +90,6 @@ class TolinoCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
         except PytolinoException as e:
             print(e)
             raise CloudConnectorException
+
+    def delete_last_uploaded_file(self):
+        pass
