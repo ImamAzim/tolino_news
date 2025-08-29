@@ -66,18 +66,13 @@ class Configurator(BaseConfigurator):
     def save_recipe(
             self,
             recipe_fp: Path,
-            username=None,
-            password=None):
+            username='',
+            password=''):
         recipes: dict = self._config_dict[self._KEY_RECIPES]
-        if username:
-            credentials = dict()
-            credentials[self._KEY_USERNAME] = username
-            credentials[self._KEY_PASSWORD] = password
-        else:
-            credentials = None
         recipe = dict()
+        recipe[self._KEY_USERNAME] = username
+        recipe[self._KEY_PASSWORD] = password
         recipe[self._KEY_FP] = recipe_fp.as_posix()
-        recipe[self._KEY_CREDENTIALS] = credentials
         recipe_name = recipe_fp.name
         recipes[recipe_name] = recipe
         self._save_config()
@@ -135,15 +130,18 @@ class Configurator(BaseConfigurator):
 
     def load_recipes(
             self,
-            ) -> tuple[list[Path], list[str | None], list[str | None]]:
+            ) -> tuple[list[Path], list[str], list[str]]:
         self._load_config_file()
         recipes: dict = self._config_dict[self._KEY_RECIPES]
         fps = list()
-        credentials = list()
+        usernames = list()
+        passwords = list()
         recipe: dict
         for recipe in recipes.values():
             fp = Path(recipe.get(self._KEY_FP))
-            credential = recipe.get(self._KEY_CREDENTIALS)
+            username = recipe.get(self._KEY_USERNAME)
+            password = recipe.get(self._KEY_PASSWORD)
             fps.append(fp)
-            credentials.append(credential)
-        return fps, credentials
+            usernames.append(username)
+            passwords.append(password)
+        return fps, usernames, passwords
