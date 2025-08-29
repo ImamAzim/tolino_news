@@ -66,10 +66,14 @@ def check_delete_last():
             epub_id = tcc.upload(epub_fp)
         except CloudConnectorException as e:
             print(e)
+            failed = True
         else:
+            failed = False
             input(
                     'check your cloud if a new epub has been created'
                     '!\npress enter')
+    if not failed:
+        with TolinoCloudConnector(**credentials) as tcc:
             try:
                 tcc.delete_last_uploaded_file()
             except CloudConnectorException as e:
