@@ -29,7 +29,7 @@ class NewsCreatorJob(object):
         self._epub_creator = epub_creator
         if not hasattr(varbox, 'last_uploaded_file'):
             varbox.last_uploaded_file = None
-        self._last_uploaded_file = varbox.last_uploaded_file
+        self._varbox = varbox
 
     def run(self):
         logging.info('run job news loader...')
@@ -58,10 +58,10 @@ class NewsCreatorJob(object):
 
             with self._cloud_connector_cls(**self._cloud_credentials) as cc:
                 cc: interfaces.CloudConnector
-                if self._last_uploaded_file:
+                if self._varbox.last_uploaded_file:
                     logging.info('delete last uploaded file')
                     try:
-                        cc.delete_file(self._last_uploaded_file)
+                        cc.delete_file(self._varbox.last_uploaded_file)
                     except CloudConnectorException as e:
                         print(e)
                 logging.info('upload news')
@@ -69,9 +69,10 @@ class NewsCreatorJob(object):
                     epub_id = cc.upload(merged_epub_fp)
                 except CloudConnectorException as e:
                     print(e)
-                    self._last_uploaded_file = None
+                    self._varbox.last_uploaded_file = None
                 else:
-                    self._last_uploaded_file = epub_id
+                    print(epub_id)
+                    self._varbox.last_uploaded_file = epub_id
             logging.info('job finished')
 
 

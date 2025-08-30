@@ -43,6 +43,7 @@ def check_tolino_cloud_connector():
                     'check your cloud if a new epub has been created'
                     '!\npress enter')
             try:
+                print('deleting', epub_id)
                 tcc.delete_file(epub_id)
             except CloudConnectorException as e:
                 print(e)
@@ -61,5 +62,5 @@ def check_cloud_connectors():
 
 
 if __name__ == '__main__':
-    # check_tolino_cloud_connector()
-    check_cloud_connectors()
+    check_tolino_cloud_connector()
+    # check_cloud_connectors()
