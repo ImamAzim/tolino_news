@@ -71,7 +71,6 @@ class NewsCreatorJob(object):
                     print(e)
                     self._varbox.last_uploaded_file = None
                 else:
-                    print(epub_id)
                     self._varbox.last_uploaded_file = epub_id
             logging.info('job finished')
 
