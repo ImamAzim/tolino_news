@@ -7,6 +7,7 @@ from varboxes import VarBox
 
 from tolino_news.models.configurators import Configurator
 from tolino_news.models.epub_creators import EpubCreator, EpubCreatorError
+from tolino_news.models.cloud_connectors import CloudConnectorException
 from tolino_news.models import interfaces
 from tolino_news import APP_NAME, LOG_FP
 
@@ -59,10 +60,18 @@ class NewsCreatorJob(object):
                 cc: interfaces.CloudConnector
                 if self._last_uploaded_file:
                     logging.info('delete last uploaded file')
-                    cc.delete_file(self._last_uploaded_file)
+                    try:
+                        cc.delete_file(self._last_uploaded_file)
+                    except CloudConnectorException as e:
+                        print(e)
                 logging.info('upload news')
-                epub_id = cc.upload(merged_epub_fp)
-                self._last_uploaded_file = epub_id
+                try:
+                    epub_id = cc.upload(merged_epub_fp)
+                except CloudConnectorException as e:
+                    print(e)
+                    self._last_uploaded_file = None
+                else:
+                    self._last_uploaded_file = epub_id
             logging.info('job finished')
 
 
