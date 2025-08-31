@@ -138,12 +138,16 @@ class NextCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
                 print('failed to upload')
                 raise CloudConnectorException
             else:
-                epub_id = 'TODO'
+                epub_id = fp.name
                 return epub_id
 
     def delete_file(self, adress: str):
         try:
-            pass
-        except PytolinoException as e:
+            success = self._client.delete(adress)
+        except nextcloud_client.HTTPResponseError as e:
             print(e)
             raise CloudConnectorException
+        else:
+            if not success:
+                print('failed to delete file')
+                raise CloudConnectorException
