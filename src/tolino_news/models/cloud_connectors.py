@@ -92,5 +92,54 @@ class TolinoCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
             print(e)
             raise CloudConnectorException
 
-    def delete_last_uploaded_file(self):
+
+class NextCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
+
+    """use a nextcloud drive. (with webdav for public folders enabled)"""
+
+    def __init__(
+            self,
+            webdav_link: str,
+            ):
+        """
+
+        :webdav_link: must be shared with public
+
+        """
+        self._webdav_link = webdav_link
+
+    def connect(self):
         pass
+
+    def disconnect(self):
+        pass
+
+    def __enter__(self):
+        try:
+            self.connect()
+        except PytolinoException as e:
+            print('failed to login or register')
+            print(e)
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        try:
+            self.disconnect()
+        except PytolinoException as e:
+            print('failed to unregister or logout')
+            print(e)
+
+    def upload(self, fp: Path) -> str:
+        try:
+            epub_id = 0
+        except PytolinoException as e:
+            print(e)
+            raise CloudConnectorException
+        return epub_id
+
+    def delete_file(self, adress: str):
+        try:
+            pass
+        except PytolinoException as e:
+            print(e)
+            raise CloudConnectorException
