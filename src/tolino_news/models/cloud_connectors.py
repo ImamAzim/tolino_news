@@ -126,14 +126,20 @@ class NextCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
 
     def upload(self, fp: Path) -> str:
         try:
-            epub_id = self._client.drop_file(fp)
+            success = self._client.put_file(fp)
         except (
                 nextcloud_client.HTTPResponseError,
                 nextcloud_client.OCSResponseError,
                 ) as e:
             print(e)
             raise CloudConnectorException
-        return epub_id
+        else:
+            if not success:
+                print('failed to upload')
+                raise CloudConnectorException
+            else:
+                epub_id = 'TODO'
+                return epub_id
 
     def delete_file(self, adress: str):
         try:
