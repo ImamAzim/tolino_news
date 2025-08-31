@@ -3,6 +3,7 @@ from abc import ABCMeta
 
 
 from pytolino.tolino_cloud import PARTNERS, Client, PytolinoException
+import nextcloud_client
 
 
 from tolino_news.models.interfaces import CloudConnector
@@ -106,7 +107,9 @@ class NextCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
         :webdav_link: must be shared with public
 
         """
-        self._webdav_link = webdav_link
+        self._client = nextcloud_client.Client.from_public_link(
+                webdav_link,
+                )
 
     def connect(self):
         pass
@@ -119,16 +122,15 @@ class NextCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        try:
-            self.disconnect()
-        except PytolinoException as e:
-            print('failed to unregister or logout')
-            print(e)
+        self.disconnect()
 
     def upload(self, fp: Path) -> str:
         try:
-            epub_id = 0
-        except PytolinoException as e:
+            epub_id = self._client.drop_file(fp)
+        except (
+                nextcloud_client.HTTPResponseError,
+                nextcloud_client.OCSResponseError,
+                ) as e:
             print(e)
             raise CloudConnectorException
         return epub_id
