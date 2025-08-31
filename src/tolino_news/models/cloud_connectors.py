@@ -126,7 +126,7 @@ class NextCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
 
     def upload(self, fp: Path) -> str:
         try:
-            success = self._client.put_file(fp)
+            success = self._client.drop_file(fp)
         except (
                 nextcloud_client.HTTPResponseError,
                 nextcloud_client.OCSResponseError,
