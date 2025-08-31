@@ -37,6 +37,7 @@ def cloud_connector_test(cloud_connector_name):
         print(cloud_connector_name)
         try:
             epub_id = tcc.upload(epub_fp)
+            print(epub_id)
         except CloudConnectorException as e:
             print(e)
         else:
@@ -68,4 +69,5 @@ def check_cloud_connectors():
 
 
 if __name__ == '__main__':
-    all_cloud_connector_test()
+    # all_cloud_connector_test()
+    cloud_connector_test('NextCloudConnector')
