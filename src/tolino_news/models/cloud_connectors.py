@@ -31,7 +31,8 @@ class MetaCloudConnector(ABCMeta):
 
 class TolinoCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
 
-    """use a tolino cloud (based on pytolino)"""
+    """use cloud provided by Tolino (with tolino API) requires username
+    password and server (ex www.buecher.de)"""
     _COLLECTION = 'news'
 
     def __init__(
