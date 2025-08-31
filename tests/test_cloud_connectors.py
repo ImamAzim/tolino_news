@@ -3,7 +3,6 @@ from pathlib import Path
 import inspect
 
 
-from tolino_news.models.cloud_connectors import TolinoCloudConnector
 from tolino_news.models.cloud_connectors import CloudConnectorException
 from tolino_news.models.cloud_connectors import cloud_connectors
 
@@ -11,12 +10,12 @@ from tolino_news.models.cloud_connectors import cloud_connectors
 TEST_EPUB = 'basic-v3plus2.epub'
 
 
-def get_credentials():
+def get_credentials(cloud_connector_name):
     fp = Path.home() / 'credentials.ini'
     if fp.exists():
         credentials_config = configparser.ConfigParser()
         credentials_config.read(fp)
-        credentials = credentials_config.defaults()
+        credentials = credentials_config[cloud_connector_name]
     else:
         import getpass
         server = input('server:\n')
@@ -30,10 +29,12 @@ def get_credentials():
     return credentials
 
 
-def check_tolino_cloud_connector():
-    credentials = get_credentials()
+def cloud_connector_test(cloud_connector_name):
+    credentials = get_credentials(cloud_connector_name)
     epub_fp = Path(__file__).parent / TEST_EPUB
-    with TolinoCloudConnector(**credentials) as tcc:
+    cloud_connector_cls = cloud_connectors[cloud_connector_name]
+    with cloud_connector_cls(**credentials) as tcc:
+        print(cloud_connector_name)
         try:
             epub_id = tcc.upload(epub_fp)
         except CloudConnectorException as e:
@@ -51,6 +52,11 @@ def check_tolino_cloud_connector():
             input('check your cloud if epub has been deleted!')
 
 
+def all_cloud_connector_test():
+    for cloud_connector_name in cloud_connectors:
+        cloud_connector_test(cloud_connector_name)
+
+
 def check_cloud_connectors():
     for name, cls in cloud_connectors.items():
         print(cls.__name__)
@@ -62,5 +68,4 @@ def check_cloud_connectors():
 
 
 if __name__ == '__main__':
-    check_tolino_cloud_connector()
-    # check_cloud_connectors()
+    all_cloud_connector_test()
