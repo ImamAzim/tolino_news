@@ -115,11 +115,7 @@ class NextCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
         pass
 
     def __enter__(self):
-        try:
-            self.connect()
-        except PytolinoException as e:
-            print('failed to login or register')
-            print(e)
+        self.connect()
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
