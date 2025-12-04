@@ -49,7 +49,7 @@ class EpubCreator(BaseEpubCreator):
             subprocess.run(cmd, stdout=subprocess.DEVNULL)
         except FileNotFoundError as e:
             print(e)
-            raise EpubCreator('failed to convert recipe.is calibre installed?')
+            raise EpubCreatorError('failed to convert recipe.is calibre installed?')
         else:
             return output_fp
 
