@@ -47,11 +47,10 @@ class EpubCreator(BaseEpubCreator):
             cmd.append(f'--password={password}')
         try:
             subprocess.run(cmd, stdout=subprocess.DEVNULL)
-        except Exception as e:
+        except FileNotFoundError as e:
             print(e)
             raise EpubCreatorError(
-                    'failed to convert recipe.'
-                    'is calibre installed? check the recipe!')
+                    'failed to convert recipe. Is calibre installed?')
         else:
             return output_fp
 
