@@ -52,7 +52,11 @@ class EpubCreator(BaseEpubCreator):
             raise EpubCreatorError(
                     'failed to convert recipe. Is calibre installed?')
         else:
-            return output_fp
+            if output_fp.exists():
+                return output_fp
+            else:
+                raise EpubCreatorError(
+                        f'failed to convert recipe at {recipe_fp}')
 
     def merge_epubs(
             self,
