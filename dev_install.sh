@@ -21,5 +21,6 @@ python3 -m venv /usr/local/lib/tolino_news
 source /usr/local/lib/tolino_news/bin/activate
 pip install $path
 ln -fs /usr/local/lib/tolino_news/bin/tolino_news /usr/local/bin
+ln -fs /usr/local/lib/tolino_news/bin/token_update /usr/local/bin
 ln -fs /usr/local/lib/tolino_news/bin/tolino_news_run /usr/local/bin
 

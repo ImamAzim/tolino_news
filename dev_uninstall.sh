@@ -15,6 +15,7 @@ path=`dirname $0`
 rm -rf /usr/local/lib/tolino_news
 rm -f /usr/local/bin/tolino_news
 rm -f /usr/local/bin/tolino_news_run
+rm -f /usr/local/bin/token_update
 echo "if you did not remove the crontab job before, you have to do it manually"
 echo " you can now remove the source files in $path"
 echo "you can remove calibre or epubmerge plugin if you want"
