@@ -15,12 +15,13 @@ class NewsLoaderMenu(object):
     def __init__(self):
         self._menu = {
                 '0': 'install epubmerge plugin (mandatory before first use)',
-                '1': 'add configuration file',
-                '2': 'delete configuration file',
-                '3': 'test the tolino news now',
-                '4': 'add a crontab job to tolino news',
-                '5': 'delete crontab job',
-                '6': 'show configuration file',
+                '1': 'add access token (necessary for tolino cloud)',
+                '2': 'add configuration file',
+                '3': 'delete configuration file',
+                '4': 'test the tolino news now',
+                '5': 'add a crontab job to tolino news',
+                '6': 'delete crontab job',
+                '7': 'show configuration file',
                 'q': 'quit',
                 }
         self._running = True
@@ -59,6 +60,25 @@ class NewsLoaderMenu(object):
         print('===')
 
     def case_1(self):
+        """add an access token
+
+        """
+        cloud_connector_name = 'TolinoCloudConnector'
+        cloud_connector_cls = cloud_connectors[cloud_connector_name]
+        signature = inspect.signature(cloud_connector_cls)
+        credentials = dict()
+        for arg, param in signature.parameters.items():
+            if param.default == param.empty:
+                default_value = ''
+            else:
+                default_value = param.default
+            answer = input(f'{arg} [{default_value}]: ')
+            answer = answer if answer else default_value
+            credentials[arg] = answer
+        print(credentials)
+        print('===')
+
+    def case_2(self):
         """add configuration file
 
         """
@@ -110,7 +130,7 @@ class NewsLoaderMenu(object):
             print('invalid choice')
         print('===')
 
-    def case_2(self):
+    def case_3(self):
         """delete configuration file
 
         """
@@ -120,14 +140,14 @@ class NewsLoaderMenu(object):
             print(e)
         print('===')
 
-    def case_3(self):
+    def case_4(self):
         """test the tolino news now
 
         """
         run_news_loader()
         print('===')
 
-    def case_4(self):
+    def case_5(self):
         """add crontab job
 
         """
@@ -149,7 +169,7 @@ class NewsLoaderMenu(object):
                     print(e)
         print('===')
 
-    def case_5(self):
+    def case_6(self):
         """delete crontab job
 
         """
@@ -161,7 +181,7 @@ class NewsLoaderMenu(object):
             print('cron job deleted. Tolino News will not run daily anymore')
         print('===')
 
-    def case_6(self):
+    def case_7(self):
         """show config file
 
         """
