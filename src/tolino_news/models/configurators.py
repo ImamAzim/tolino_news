@@ -135,7 +135,7 @@ class Configurator(BaseConfigurator):
         command = f'{TOKEN_UPDATE_RUNJOB_FP} -p {partner} > {LOG_TOKEN} 2>&1'
         job = cron.new(
                 command=command,
-                comment=APP_NAME)
+                comment=comment)
         job.minute.every(periodicity)
         cron.write()
 
