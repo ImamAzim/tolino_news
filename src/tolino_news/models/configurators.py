@@ -10,6 +10,7 @@ from crontab import CronTab
 
 from tolino_news.models.interfaces import BaseConfigurator
 from tolino_news import APP_NAME, LOG_FP, RUNJOB_FP, DATA_FOLDER
+from tolino_news import TOKEN_UPDATE_RUNJOB_FP, LOG_TOKEN
 from tolino_news.models.cloud_connectors import cloud_connectors
 
 
@@ -131,11 +132,10 @@ class Configurator(BaseConfigurator):
         comment = APP_NAME + self._TOKEN_UPDATE_COMMENT
         cron.remove_all(comment=comment)
 
+        command = f'{TOKEN_UPDATE_RUNJOB_FP} -p {partner} > {LOG_TOKEN} 2>&1'
         job = cron.new(
-                command=f'{RUNJOB_FP} > {LOG_FP} 2>&1',
+                command=command,
                 comment=APP_NAME)
-        job.hour.on(hour)
-        job.minute.on(minute)
         cron.write()
 
     def del_crontab(self):
