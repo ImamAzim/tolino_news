@@ -115,7 +115,6 @@ def get_new_token_job():
     parser.add_argument('-v', '--verbose',
                         action='store_true',
                         help='ouput in stdout and info log level')
-
     args = parser.parse_args()
 
     if args.verbose:
@@ -133,6 +132,10 @@ def get_new_token_job():
                 datefmt="%Y.%m.%d %H:%M:%S",
                 )
         sys.stderr = open(LOG_TOKEN, 'a')
+
+    partner = args.partner
+    logging.info('get a new acess token...')
+
 
     if not args.verbose:
         sys.stderr = sys.__stderr__
