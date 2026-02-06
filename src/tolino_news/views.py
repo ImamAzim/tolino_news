@@ -2,10 +2,13 @@ import getpass
 import inspect
 
 
+from pytolino.tolino_cloud import Client, PytolinoException
+
 from tolino_news.models.epub_creators import EpubCreator, EpubCreatorError
 from tolino_news.models.configurators import Configurator, ConfiguratorError
 from tolino_news.models.cloud_connectors import cloud_connectors
 from tolino_news.jobs import run_news_loader
+from tolino_news import APP_NAME
 
 
 class NewsLoaderMenu(object):
@@ -63,19 +66,23 @@ class NewsLoaderMenu(object):
         """add an access token
 
         """
-        cloud_connector_name = 'TolinoCloudConnector'
-        cloud_connector_cls = cloud_connectors[cloud_connector_name]
-        signature = inspect.signature(cloud_connector_cls)
-        credentials = dict()
-        for arg, param in signature.parameters.items():
-            if param.default == param.empty:
-                default_value = ''
-            else:
-                default_value = param.default
-            answer = input(f'{arg} [{default_value}]: ')
-            answer = answer if answer else default_value
-            credentials[arg] = answer
-        print(credentials)
+        default_partner = 'orellfuessli'
+        partner = input(f'partner[{default_partner}]:\n')
+        partner = partner if partner else default_partner
+        client = Client(partner)
+
+        print(f'login on your browser at {partner} and get the token.')
+        refresh_token = input('refresh token:\n')
+        expires_in = int(input('expires_in:\n'))
+        hardware_id = input('hardware id:\n')
+        Client.store_token(
+                APP_NAME, refresh_token, expires_in, hardware_id)
+        try:
+            client.get_new_token(ACCOUNT_NAME)
+        except PytolinoException:
+            print('failed to get a new access token')
+        else:
+            print('TODO: create cronjob')
         print('===')
 
     def case_2(self):
