@@ -136,6 +136,7 @@ class Configurator(BaseConfigurator):
         job = cron.new(
                 command=command,
                 comment=APP_NAME)
+        job.minute.every(periodicity)
         cron.write()
 
     def del_crontab(self):
