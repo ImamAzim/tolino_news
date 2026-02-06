@@ -83,6 +83,15 @@ class NewsLoaderMenu(object):
             print('failed to get a new access token')
         else:
             print('TODO: create cronjob')
+            periodicity = expires_in // 60 - 5
+            if periodicity > 0:
+                self._configurator.add_token_update_in_crontab(
+                        partner,
+                        periodicity,
+                        )
+            else:
+                print('expiration time is too short')
+
         print('===')
 
     def case_2(self):
