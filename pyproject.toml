@@ -47,3 +47,4 @@ dev = [
 [project.scripts]
 tolino_news = "tolino_news.apps:start_news_loader_menu"
 tolino_news_run = "tolino_news.jobs:run_news_loader_job"
+token_update = "tolino_news.jobs:get_new_token_job"
