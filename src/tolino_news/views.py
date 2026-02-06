@@ -78,7 +78,7 @@ class NewsLoaderMenu(object):
         Client.store_token(
                 APP_NAME, refresh_token, expires_in, hardware_id)
         try:
-            client.get_new_token(ACCOUNT_NAME)
+            client.get_new_token(APP_NAME)
         except PytolinoException:
             print('failed to get a new access token')
         else:
