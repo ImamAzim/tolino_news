@@ -149,6 +149,20 @@ class BaseConfigurator(ABC):
         pass
 
     @abstractmethod
+    def add_token_update_in_crontab(
+            self,
+            partner: str,
+            periodicity: int,
+            ):
+        """add the token updater job in crontab
+
+        :partner: tolino server
+        :periodicity: minutes between jobs
+
+        """
+        pass
+
+    @abstractmethod
     def del_crontab(self):
         """delete the news loader job in the crontab
 
