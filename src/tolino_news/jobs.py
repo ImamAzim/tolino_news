@@ -4,6 +4,7 @@ import argparse
 
 
 from varboxes import VarBox
+from pytolino.tolino_cloud import Client, PytolinoException
 
 
 from tolino_news.models.configurators import Configurator
@@ -136,9 +137,14 @@ def get_new_token_job():
     partner = args.partner
     logging.info('get a new acess token...')
 
-
-    if not args.verbose:
-        sys.stderr = sys.__stderr__
+    client = Client(partner)
+    try:
+        client.get_new_token(APP_NAME)
+    except PytolinoException:
+        logging.error('failed to get a new access token')
+    finally:
+        if not args.verbose:
+            sys.stderr = sys.__stderr__
 
 
 if __name__ == '__main__':
