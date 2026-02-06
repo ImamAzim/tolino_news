@@ -7,6 +7,7 @@ import nextcloud_client
 
 
 from tolino_news.models.interfaces import CloudConnector
+from tolino_news import APP_NAME
 
 
 DEFAULT_PARTNER = PARTNERS[0]
@@ -32,27 +33,22 @@ class MetaCloudConnector(ABCMeta):
 
 class TolinoCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
 
-    """use cloud provided by Tolino (with tolino API) requires username
-    password and server (ex www.buecher.de)"""
+    """use cloud provided by Tolino (with tolino API) requires
+    partner name (ex orellfuessli). Beforehand, a refresh token must be stored!"""
     _COLLECTION = 'news'
 
     def __init__(
             self,
-            username: str,
-            password: str,
             server: str = DEFAULT_PARTNER):
         """
 
-        :username: credential from tolino cloud
-        :password: credential from tolino cloud
         :server: partner url hosting cloud
 
         """
-        self._username = username
-        self._password = password
         self._client = Client(server_name=server)
 
     def connect(self):
+        self._client.retrieve_token(APP_NAME)
         self._client.login(self._username, self._password)
         self._client.register()
 
