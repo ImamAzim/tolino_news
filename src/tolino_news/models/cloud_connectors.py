@@ -49,27 +49,20 @@ class TolinoCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
 
     def connect(self):
         self._client.retrieve_token(APP_NAME)
-        self._client.login(self._username, self._password)
-        self._client.register()
 
     def disconnect(self):
-        self._client.unregister()
-        self._client.logout()
+        pass
 
     def __enter__(self):
         try:
             self.connect()
         except PytolinoException as e:
-            print('failed to login or register')
+            print('failed to retrieve access token')
             print(e)
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        try:
-            self.disconnect()
-        except PytolinoException as e:
-            print('failed to unregister or logout')
-            print(e)
+        self.disconnect()
 
     def upload(self, fp: Path) -> str:
         try:
