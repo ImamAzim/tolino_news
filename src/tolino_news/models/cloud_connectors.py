@@ -10,7 +10,7 @@ from tolino_news.models.interfaces import CloudConnector
 from tolino_news import APP_NAME
 
 
-DEFAULT_PARTNER = PARTNERS[0]
+DEFAULT_PARTNER = list(PARTNERS)[0]
 DEFAULT_EPUB_NAME = 'news'
 
 
