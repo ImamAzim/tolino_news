@@ -1,5 +1,6 @@
 import logging
 import sys
+import argparse
 
 
 from varboxes import VarBox
@@ -9,7 +10,7 @@ from tolino_news.models.configurators import Configurator
 from tolino_news.models.epub_creators import EpubCreator, EpubCreatorError
 from tolino_news.models.cloud_connectors import CloudConnectorException
 from tolino_news.models import interfaces
-from tolino_news import APP_NAME, LOG_FP
+from tolino_news import APP_NAME, LOG_FP, LOG_TOKEN
 
 
 class NewsCreatorJob(object):
@@ -98,6 +99,43 @@ def run_news_loader():
             )
     job = NewsCreatorJob()
     job.run()
+
+
+def get_new_token_job():
+    """get a new access token from refresh token. intended to be called
+    by crontab every hours
+
+    """
+    parser = argparse.ArgumentParser(
+            prog='token updater',
+            description='get a new access token',
+            )
+
+    parser.add_argument('-p', '--partner', help='name of tolino partner')
+    parser.add_argument('-v', '--verbose',
+                        action='store_true',
+                        help='ouput in stdout and info log level')
+
+    args = parser.parse_args()
+
+    if args.verbose:
+        logging.basicConfig(
+                encoding='utf-8',
+                level=logging.INFO,
+                format="%(asctime)s %(name)s.%(levelname)s: %(message)s",
+                datefmt="%Y.%m.%d %H:%M:%S",
+                )
+    else:
+        logging.basicConfig(
+                filename=LOG_TOKEN,
+                encoding='utf-8',
+                format="%(asctime)s %(name)s.%(levelname)s: %(message)s",
+                datefmt="%Y.%m.%d %H:%M:%S",
+                )
+        sys.stderr = open(LOG_TOKEN, 'a')
+
+    if not args.verbose:
+        sys.stderr = sys.__stderr__
 
 
 if __name__ == '__main__':
