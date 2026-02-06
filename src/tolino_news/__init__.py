@@ -13,6 +13,10 @@ LOG_TOKEN = log_folder / 'token_updater'
 
 exec_fn = 'tolino_news_run'  # must match script in pyproject
 RUNJOB_FP = Path('/usr', 'local', 'bin', exec_fn)  # created at install
+exec_fn = 'token_update'
+TOKEN_UPDATE_RUNJOB_FP = Path(
+'/usr', 'local', 'bin', exec_fn)  # created at install
+
 
 DATA_FOLDER = xdg_base_dirs.xdg_data_home() / APP_NAME
 DATA_FOLDER.mkdir(parents=True, exist_ok=True)

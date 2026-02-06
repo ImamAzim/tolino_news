@@ -26,6 +26,7 @@ class Configurator(BaseConfigurator):
     _KEY_USERNAME = 'username'
     _KEY_PASSWORD = 'password'
     _KEY_FP = 'file path'
+    _TOKEN_UPDATE_COMMENT = ' update access token'
 
     def __init__(self, test=False):
         if test:
@@ -121,9 +122,27 @@ class Configurator(BaseConfigurator):
         job.minute.on(minute)
         cron.write()
 
+    def add_token_update_in_crontab(
+            self,
+            partner: str,
+            periodicity: int,
+            ):
+        cron = CronTab(user=getpass.getuser())
+        comment = APP_NAME + self._TOKEN_UPDATE_COMMENT
+        cron.remove_all(comment=comment)
+
+        job = cron.new(
+                command=f'{RUNJOB_FP} > {LOG_FP} 2>&1',
+                comment=APP_NAME)
+        job.hour.on(hour)
+        job.minute.on(minute)
+        cron.write()
+
     def del_crontab(self):
         cron = CronTab(user=getpass.getuser())
         cron.remove_all(comment=APP_NAME)
+        comment = APP_NAME + self._TOKEN_UPDATE_COMMENT
+        cron.remove_all(comment=comment)
         cron.write()
 
     def load_cloud_credentials(
