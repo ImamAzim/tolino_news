@@ -132,7 +132,7 @@ class Configurator(BaseConfigurator):
         comment = APP_NAME + self._TOKEN_UPDATE_COMMENT
         cron.remove_all(comment=comment)
 
-        command = f'{TOKEN_UPDATE_RUNJOB_FP} -p {partner} > {LOG_TOKEN} 2>&1'
+        command = f'{TOKEN_UPDATE_RUNJOB_FP} -p {partner} >> {LOG_TOKEN} 2>&1'
         job = cron.new(
                 command=command,
                 comment=comment)
