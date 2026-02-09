@@ -127,6 +127,7 @@ def get_new_token_job():
                 )
     else:
         logging.basicConfig(
+                level=logging.INFO,
                 filename=LOG_TOKEN,
                 encoding='utf-8',
                 format="%(asctime)s %(name)s.%(levelname)s: %(message)s",
