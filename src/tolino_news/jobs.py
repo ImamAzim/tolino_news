@@ -140,7 +140,8 @@ def get_new_token_job():
     client = Client(partner)
     try:
         client.get_new_token(APP_NAME)
-    except PytolinoException:
+    except PytolinoException as e:
+        logging.error(e)
         logging.error('failed to get a new access token')
     finally:
         if not args.verbose:
