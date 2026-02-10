@@ -60,20 +60,23 @@ class NewsCreatorJob(object):
 
             with self._cloud_connector_cls(**self._cloud_credentials) as cc:
                 cc: interfaces.CloudConnector
-                if self._varbox.last_uploaded_file:
-                    logging.info('delete last uploaded file')
+                if cc.connected:
+                    if self._varbox.last_uploaded_file:
+                        logging.info('delete last uploaded file')
+                        try:
+                            cc.delete_file(self._varbox.last_uploaded_file)
+                        except CloudConnectorException as e:
+                            print(e)
+                    logging.info('upload news')
                     try:
-                        cc.delete_file(self._varbox.last_uploaded_file)
+                        epub_id = cc.upload(merged_epub_fp)
                     except CloudConnectorException as e:
                         print(e)
-                logging.info('upload news')
-                try:
-                    epub_id = cc.upload(merged_epub_fp)
-                except CloudConnectorException as e:
-                    print(e)
-                    self._varbox.last_uploaded_file = None
+                        self._varbox.last_uploaded_file = None
+                    else:
+                        self._varbox.last_uploaded_file = epub_id
                 else:
-                    self._varbox.last_uploaded_file = epub_id
+                    logging.error('do nothing because not connected')
             logging.info('job finished')
 
 
