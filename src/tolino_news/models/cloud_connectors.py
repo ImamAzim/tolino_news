@@ -50,6 +50,7 @@ class TolinoCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
 
     def connect(self):
         self._client.retrieve_token(APP_NAME)
+        self._client.raise_for_access_expiration()
 
     def disconnect(self):
         pass
