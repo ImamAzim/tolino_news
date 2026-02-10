@@ -6,6 +6,12 @@ class CloudConnector(ABC):
 
     """class to connect to a cloud for file upload and folder cleaning"""
 
+
+    @property
+    def connected(self) -> bool:
+        """True of it is connected to cloud"""
+        return self._connected
+
     def __init__(self, credentials: dict):
         """
 
@@ -15,6 +21,7 @@ class CloudConnector(ABC):
         ABC.__init__(self)
 
         self._credentials = credentials
+        self._connected = False
 
     @abstractmethod
     def connect(self):
