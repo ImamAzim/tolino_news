@@ -1,5 +1,6 @@
 from pathlib import Path
 from abc import ABCMeta
+import logging
 
 
 from pytolino.tolino_cloud import PARTNERS, Client, PytolinoException
@@ -57,8 +58,8 @@ class TolinoCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
         try:
             self.connect()
         except PytolinoException as e:
-            print('failed to retrieve access token')
-            print(e)
+            logging.error('failed to retrieve access token')
+            logging.error(e)
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
