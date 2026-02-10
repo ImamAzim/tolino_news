@@ -82,8 +82,9 @@ class NewsLoaderMenu(object):
         except PytolinoException:
             print('failed to get a new access token')
         else:
-            periodicity = expires_in // 60 - 5
-            if periodicity > 0:
+            max_periodicity = expires_in // 60
+            periodicity = 30
+            if periodicity < max_periodicity:
                 self._configurator.add_token_update_in_crontab(
                         partner,
                         periodicity,
