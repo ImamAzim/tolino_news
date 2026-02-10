@@ -60,10 +60,14 @@ class TolinoCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
         except PytolinoException as e:
             logging.error('failed to retrieve access token')
             logging.error(e)
+            self._connected = False
+        else:
+            self._connected = True
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.disconnect()
+        self._connected = False
 
     def upload(self, fp: Path) -> str:
         try:
@@ -109,10 +113,12 @@ class NextCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
 
     def __enter__(self):
         self.connect()
+        self._connected = True
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.disconnect()
+        self._connected = False
 
     def upload(self, fp: Path) -> str:
         try:
