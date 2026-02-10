@@ -74,9 +74,12 @@ class NewsLoaderMenu(object):
         print(f'login on your browser at {partner} and get the token.')
         refresh_token = input('refresh token:\n')
         expires_in = int(input('expires_in:\n'))
+        refresh_expires_in = int(input('refresh_expires_in:\n'))
         hardware_id = input('hardware id:\n')
         Client.store_token(
-                APP_NAME, refresh_token, expires_in, hardware_id)
+                APP_NAME,
+                refresh_token,
+                expires_in, refresh_expires_in, hardware_id)
         try:
             client.get_new_token(APP_NAME)
         except PytolinoException:
