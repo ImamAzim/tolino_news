@@ -156,7 +156,6 @@ def get_new_token_job():
         job.refresh_login()
     except NewsCreatorJobException as e:
         logging.error(e)
-        logging.error('failed to get a new access token')
     finally:
         if not args.verbose:
             sys.stderr = sys.__stderr__
