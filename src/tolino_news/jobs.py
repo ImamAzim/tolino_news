@@ -150,7 +150,6 @@ def get_new_token_job():
                 )
         sys.stderr = open(LOG_TOKEN, 'a')
 
-    logging.info('get a new acess token...')
     job = NewsCreatorJob()
 
     try:
