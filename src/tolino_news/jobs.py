@@ -14,6 +14,10 @@ from tolino_news.models import interfaces
 from tolino_news import APP_NAME, LOG_FP, LOG_TOKEN
 
 
+class NewsCreatorJobException(Exception):
+    pass
+
+
 class NewsCreatorJob(object):
 
     """class to start the job to fetch news and upload them"""
@@ -83,13 +87,10 @@ class NewsCreatorJob(object):
         """login only. can be used regularely if there is a need to refresh the token
 
         """
-        logging.info('refresh login...')
         with self._cloud_connector_cls(**self._cloud_credentials) as cc:
             cc: interfaces.CloudConnector
-            if cc.connected:
-                logging.info('')
-            else:
-                logging.error('failed to refresh login')
+            if not cc.connected:
+                raise NewsCreatorJobException()
 
 
 def run_news_loader_job():
@@ -127,7 +128,6 @@ def get_new_token_job():
             description='get a new access token',
             )
 
-    parser.add_argument('-p', '--partner', help='name of tolino partner')
     parser.add_argument('-v', '--verbose',
                         action='store_true',
                         help='ouput in stdout and info log level')
@@ -150,13 +150,12 @@ def get_new_token_job():
                 )
         sys.stderr = open(LOG_TOKEN, 'a')
 
-    partner = args.partner
     logging.info('get a new acess token...')
+    job = NewsCreatorJob()
 
-    client = Client(partner)
     try:
-        client.get_new_token(APP_NAME)
-    except PytolinoException as e:
+        job.refresh_login()
+    except NewsCreatorJobException as e:
         logging.error(e)
         logging.error('failed to get a new access token')
     finally:
