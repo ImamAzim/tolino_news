@@ -79,6 +79,18 @@ class NewsCreatorJob(object):
                     logging.error('do nothing because not connected')
             logging.info('job finished')
 
+    def refresh_login(self):
+        """login only. can be used regularely if there is a need to refresh the token
+
+        """
+        logging.info('refresh login...')
+        with self._cloud_connector_cls(**self._cloud_credentials) as cc:
+            cc: interfaces.CloudConnector
+            if cc.connected:
+                logging.info('')
+            else:
+                logging.error('failed to refresh login')
+
 
 def run_news_loader_job():
     logging.basicConfig(
