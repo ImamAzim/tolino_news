@@ -40,13 +40,18 @@ class TolinoCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
 
     def __init__(
             self,
+            username: str,
+            password: str,
             server: str = DEFAULT_PARTNER):
         """
 
         :server: partner url hosting cloud
+        :username: to login to server
+        :password: to login to server
 
         """
-        self._client = Client(server_name=server)
+        self._client = Client(server_name=server, username=username)
+        self._password = password
 
     def connect(self):
         self._client.retrieve_token(APP_NAME)
