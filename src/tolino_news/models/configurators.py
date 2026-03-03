@@ -125,7 +125,6 @@ class Configurator(BaseConfigurator):
 
     def add_token_update_in_crontab(
             self,
-            partner: str,
             periodicity: int,
             ):
         cron = CronTab(user=getpass.getuser())

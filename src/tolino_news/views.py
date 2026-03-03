@@ -78,6 +78,10 @@ class NewsLoaderMenu(object):
               'of a patch request for example')
         hardware_id = input('hardware id: ')
         client.import_token(refresh_token, hardware_id)
+        self._configurator.add_token_update_in_crontab(
+                partner,
+                periodicity,
+                )
 
         print('===')
 
