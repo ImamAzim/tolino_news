@@ -2,13 +2,12 @@ import getpass
 import inspect
 
 
-from pytolino.tolino_cloud import Client, PytolinoException
+from pytolino.tolino_cloud import Client
 
 from tolino_news.models.epub_creators import EpubCreator, EpubCreatorError
 from tolino_news.models.configurators import Configurator, ConfiguratorError
 from tolino_news.models.cloud_connectors import cloud_connectors
 from tolino_news.jobs import run_news_loader
-from tolino_news import APP_NAME
 
 
 class NewsLoaderMenu(object):
@@ -69,31 +68,16 @@ class NewsLoaderMenu(object):
         default_partner = 'orellfuessli'
         partner = input(f'partner[{default_partner}]:\n')
         partner = partner if partner else default_partner
-        client = Client(partner)
+        username = input('username: ')
+        client = Client(username, partner)
 
-        print(f'login on your browser at {partner} and get the token.')
-        refresh_token = input('refresh token:\n')
-        expires_in = int(input('expires_in:\n'))
-        refresh_expires_in = int(input('refresh_expires_in:\n'))
-        hardware_id = input('hardware id:\n')
-        Client.store_token(
-                APP_NAME,
-                refresh_token,
-                expires_in, refresh_expires_in, hardware_id)
-        try:
-            client.get_new_token(APP_NAME)
-        except PytolinoException:
-            print('failed to get a new access token')
-        else:
-            max_periodicity = expires_in // 60
-            periodicity = 30
-            if periodicity < max_periodicity:
-                self._configurator.add_token_update_in_crontab(
-                        partner,
-                        periodicity,
-                        )
-            else:
-                print('expiration time is too short')
+        print('please login manually and use inspector tool to find'
+              'refresh token in a token request')
+        refresh_token = input('refresh login: ')
+        print('find the hardware id in the request header '
+              'of a patch request for example')
+        hardware_id = input('hardware id: ')
+        client.import_token(refresh_token, hardware_id)
 
         print('===')
 
