@@ -54,8 +54,7 @@ class TolinoCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
         self._password = password
 
     def connect(self):
-        self._client.retrieve_token(APP_NAME)
-        self._client.raise_for_access_expiration()
+        self._client.login(self._password, False)
 
     def disconnect(self):
         pass
@@ -64,7 +63,7 @@ class TolinoCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
         try:
             self.connect()
         except PytolinoException as e:
-            logging.error('failed to retrieve access token')
+            logging.error('failed to be logged in')
             logging.error(e)
             self._connected = False
         else:
