@@ -17,6 +17,8 @@ apt install -y python3-venv
 apt install -y libxkbcommon0
 apt install -y libglx0
 apt install -y libopengl0
+apt install -y xvfb
+apt install -y chromium-browser
 python3 -m venv /usr/local/lib/tolino_news
 source /usr/local/lib/tolino_news/bin/activate
 pip install $path
