@@ -136,7 +136,16 @@ class NewsLoaderMenu(object):
                 if isinstance(default_value, str):
                     answer = answer if answer else default_value
                 elif isinstance(default_value, bool):
-                    pass
+                    if not answer:
+                        answer = default_value
+                    else:
+                        if answer.lower() == 'true':
+                            answer = True
+                        elif answer.lower() == 'false':
+                            answer = False
+                        else:
+                            warnings.warn('i dont understant. I take default value')
+                            answer = default_value
                 else:
                     warnings.warn('type of arg is not supported. check cloud connector class')
                     answer = default_value
