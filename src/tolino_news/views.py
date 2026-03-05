@@ -1,5 +1,6 @@
 import getpass
 import inspect
+import warnings
 
 
 from pytolino.tolino_cloud import Client
@@ -132,7 +133,13 @@ class NewsLoaderMenu(object):
                 else:
                     default_value = param.default
                 answer = input(f'{arg} [{default_value}]: ')
-                answer = answer if answer else default_value
+                if isinstance(default_value, str):
+                    answer = answer if answer else default_value
+                elif isinstance(default_value, bool):
+                    pass
+                else:
+                    warnings.warn('type of arg is not supported. check cloud connector class')
+                    answer = default_value
                 credentials[arg] = answer
             self._configurator.save_cloud_credentials(
                     cloud_connector_name, credentials)
