@@ -17,7 +17,7 @@ class NewsLoaderMenu(object):
     def __init__(self):
         self._menu = {
                 '0': 'install epubmerge plugin (mandatory before first use)',
-                '1': 'add access token (necessary for tolino cloud)',
+                '1': 'add access token (for tolino cloud with a rpi zero)',
                 '2': 'add configuration file',
                 '3': 'delete configuration file',
                 '4': 'test the tolino news now',
