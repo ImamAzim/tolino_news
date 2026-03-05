@@ -82,6 +82,9 @@ class NewsLoaderMenu(object):
         self._configurator.add_token_update_in_crontab(
                 periodicity,
                 )
+        print('a crontab job has been programmed to refresh token'
+              ' every 30mn. However it will eventually expires after'
+              ' 10 hours')
 
         print('===')
 
