@@ -8,7 +8,6 @@ import nextcloud_client
 
 
 from tolino_news.models.interfaces import CloudConnector
-from tolino_news import APP_NAME
 
 
 DEFAULT_PARTNER = list(PARTNERS)[0]
@@ -35,26 +34,32 @@ class MetaCloudConnector(ABCMeta):
 class TolinoCloudConnector(CloudConnector, metaclass=MetaCloudConnector):
 
     """use cloud provided by Tolino (with tolino API) requires
-    partner name (ex orellfuessli). Beforehand, a refresh token must be stored!"""
+    partner name (ex orellfuessli)."""
     _COLLECTION = 'news'
 
     def __init__(
             self,
             username: str,
             password: str,
-            server: str = DEFAULT_PARTNER):
+            server: str = DEFAULT_PARTNER,
+            login_with_chromium=False,
+            ):
         """
 
         :server: partner url hosting cloud
         :username: to login to server
         :password: to login to server
+        :login_with_chromim: use seleniumbase, chromium-browser
+        (and xvfb on headless device) to login. will not work with a rpi
+        zero
 
         """
         self._client = Client(server_name=server, username=username)
         self._password = password
+        self._login_with_chromium = login_with_chromium
 
     def connect(self):
-        self._client.login(self._password, False)
+        self._client.login(self._password, self._login_with_chromium)
 
     def disconnect(self):
         pass
