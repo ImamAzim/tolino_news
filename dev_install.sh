@@ -25,4 +25,6 @@ pip install $path
 ln -fs /usr/local/lib/tolino_news/bin/tolino_news /usr/local/bin
 ln -fs /usr/local/lib/tolino_news/bin/token_update /usr/local/bin
 ln -fs /usr/local/lib/tolino_news/bin/tolino_news_run /usr/local/bin
-
+echo "install complete!"
+echo "you need to install now calibre if it is not present"
+echo "then you can run tolino_news from any user and configure"
