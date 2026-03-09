@@ -19,6 +19,7 @@ apt install -y libglx0
 apt install -y libopengl0
 apt install -y xvfb
 apt install -y chromium
+apt install -y chromium-driver
 python3 -m venv /usr/local/lib/tolino_news
 source /usr/local/lib/tolino_news/bin/activate
 pip install $path
