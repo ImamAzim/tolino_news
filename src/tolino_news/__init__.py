@@ -1,4 +1,5 @@
 from pathlib import Path
+import shutil
 
 
 import xdg_base_dirs
@@ -12,7 +13,7 @@ LOG_FP = log_folder / 'log'
 LOG_TOKEN = log_folder / 'token_updater'
 
 exec_fn = "tolino_news_run"  # must match script in pyproject
-RUNJOB_FP = Path(exec_fn).resolve()
+RUNJOB_FP = Path(shutil.which(exec_fn))
 TOKEN_UPDATE_RUNJOB_FP = 'token_update'
 
 DATA_FOLDER = xdg_base_dirs.xdg_data_home() / APP_NAME
