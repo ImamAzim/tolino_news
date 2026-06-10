@@ -1,4 +1,5 @@
 from pathlib import Path
+import shutil
 import tomllib
 import getpass
 
@@ -9,7 +10,7 @@ from crontab import CronTab
 
 
 from tolino_news.models.interfaces import BaseConfigurator
-from tolino_news import APP_NAME, LOG_FP, RUNJOB_FP, DATA_FOLDER
+from tolino_news import APP_NAME, LOG_FP, JOB_SCRIPT_NAME, DATA_FOLDER
 from tolino_news import TOKEN_UPDATE_RUNJOB_FP, LOG_TOKEN
 from tolino_news.models.cloud_connectors import cloud_connectors
 
@@ -116,8 +117,9 @@ class Configurator(BaseConfigurator):
         if [el for el in cron.find_comment(APP_NAME)]:
             raise ConfiguratorError('there is already a crontab job')
 
+        runjob_fp = shutil.which(JOB_SCRIPT_NAME)
         job = cron.new(
-                command=f'{RUNJOB_FP} > {LOG_FP} 2>&1',
+                command=f'{runjob_fp} > {LOG_FP} 2>&1',
                 comment=APP_NAME)
         job.hour.on(hour)
         job.minute.on(minute)
