@@ -11,7 +11,8 @@ log_folder.mkdir(parents=True, exist_ok=True)
 LOG_FP = log_folder / 'log'
 LOG_TOKEN = log_folder / 'token_updater'
 
-RUNJOB_FP = 'tolino_news_run'  # must match script in pyproject
+exec_fn = "tolino_news_run"  # must match script in pyproject
+RUNJOB_FP = Path.home() / ".local" / "bin" / exec_fn
 TOKEN_UPDATE_RUNJOB_FP = 'token_update'
 
 DATA_FOLDER = xdg_base_dirs.xdg_data_home() / APP_NAME
@@ -21,3 +22,5 @@ cache_folder = xdg_base_dirs.xdg_cache_home() / APP_NAME
 cache_folder.mkdir(parents=True, exist_ok=True)
 
 PLUGIN_FP = Path(__file__).parent / 'plugins' / 'EpubMerge.zip'
+
+print(RUNJOB_FP)
