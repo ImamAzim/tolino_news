@@ -70,4 +70,5 @@ def check_cloud_connectors():
 
 if __name__ == '__main__':
     # all_cloud_connector_test()
-    cloud_connector_test('NextCloudConnector')
+    # cloud_connector_test('NextCloudConnector')
+    cloud_connector_test('TolinoCloudConnector')
